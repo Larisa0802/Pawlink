@@ -3,9 +3,20 @@ import path from "path";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import { initializeApp } from "firebase/app";
 import userRoutes from "./routes/user_routes.mjs";
 
 
+const firebaseConfig = {
+  apiKey:  process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID
+};
+
+const firebase = initializeApp(firebaseConfig);
 
 const PORT = 3000
 const app = express()
@@ -13,6 +24,9 @@ const app = express()
 const actualRoute = path.resolve(".")
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
+
 
 //session config
 app.use(session({

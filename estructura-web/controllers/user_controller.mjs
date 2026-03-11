@@ -1,6 +1,17 @@
 import { getAllUsers } from "../../estructura-api/repositories/user_repository.mjs";
 import { FIREBASE_API_KEY } from "../config/keys.mjs";
 import axios from "axios";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+  verifyBeforeUpdateEmail,
+  createUserWithEmailAndPassword,
+  signOut,
+  deleteUser as deleteFirebaseUser,
+} from "firebase/auth";
 
 class UserController {
   constructor() {
@@ -87,7 +98,7 @@ class UserController {
   submitLogin = async (req, res) => {
     const { email, password } = req.body;
 
-    console.log("Recibo del front: ", req.body);
+    console.log("Recibo del front: ", req.body.email);
 
     try {
       //Autenticar en Firebase (enviamos los datos email y contraseña)
@@ -135,7 +146,10 @@ class UserController {
           },
           { maxAge: 3600000 },
         );
-        console.log("Cookie de inicio de sesión: ", req.cookies["datosUsuario"])
+        console.log(
+          "Cookie de inicio de sesión: ",
+          req.cookies["datosUsuario"],
+        );
         //Redirige
         res.render("completes/provisional"); //Aqui iria el index
       } else {
@@ -158,7 +172,7 @@ class UserController {
 
       const usuarios = response.data;
 
-      return res.render("completes/provisional", { usuarios }); 
+      return res.render("completes/provisional", { usuarios });
     } catch (err) {
       console.error("Error en getAllUsersFront:", err.message);
       console.error(err.message);
@@ -188,7 +202,7 @@ class UserController {
         fecha: userData.fecha,
       });
 
-      console.log("Cookie actualizada al actualizar el nombre: ", userData)
+      console.log("Cookie actualizada al actualizar el nombre: ", userData);
 
       res.json({ mensaje: "Nombre actualizado correctamente" });
     } catch (err) {
@@ -202,12 +216,91 @@ class UserController {
   };
 
   //Actualizar email
-  updateEmail = async (req,res) => {
-    const userData = req.cookies['datosUsuario']
+  updateEmail = async (req, res) => {
+    try {
+      const userData = req.cookies["datosUsuario"];
+      if (!userData) return res.status(401).json({ error: "No logueado" });
+
+      const auth = getAuth();
+
+      // Login para sesión válida con Firebase
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        userData.email,
+        req.body.pass,
+      );
+
+      const user = userCredential.user;
+
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        req.body.pass,
+      );
+
+      // Re-autenticación necesaria para cambiar el email en Firebase
+      await reauthenticateWithCredential(user, credential);
+      
+      // Comprobar si el nuevo email ya existe en nuestra base de datos
+      let existentEmail = await this.client.post("/usuarios/check-email", {
+        email: req.body.email,
+      });
+
+      if (existentEmail.data.exists) {
+        return res.status(409).json({ message: "Ese email ya está registrado en el sistema" });
+      }
+
+      // Cambiar email en Firebase (envía un correo de verificación)
+      await verifyBeforeUpdateEmail(user, req.body.email);
+
+      // Actualizar email en nuestra base de datos (PostgreSQL)
+      await this.client.post("/usuarios/email", {
+        id: userData.id,
+        email: req.body.email,
+      });
+
+      // Actualizar la cookie con el nuevo email
+      res.cookie("datosUsuario", {
+        ...userData,
+        email: req.body.email,
+      });
+
+      res.json({ mensaje: "Email actualizado correctamente. Se ha enviado un correo de verificación al nuevo email." });
+    } catch (error) {
+      console.error("Error al actualizar email:", error.message);
+      res.status(500).send("Error al cambiar el email: " + error.message);
+    }
+  };
 
 
 
-  }
+ updatePassword = async (req, res) => {
+    try {
+      const userData = req.cookies["datosUsuario"];
+
+      if (!userData) { 
+        return res.json({ error: "No estas logueado" });
+      }
+
+      const auth = getAuth();
+
+      // Re-login para verificar contraseña
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        userData.email,
+        req.body.oldPass
+      );
+
+      const user = userCredential.user;
+
+      await updatePassword(user, req.body.newPass);
+
+      res.json({ mensaje: "Contraseña actualizada" });
+    } catch (error) {
+      if (error.code === "auth/invalid-credential") {
+        return res.status(400).json({ error: "Contraseña incorrecta" });
+      }
+      console.error("Error al consumir la API:", error.message);
+    }
+  };
 }
-
 export default new UserController();

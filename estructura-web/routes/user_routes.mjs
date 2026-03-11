@@ -2,8 +2,6 @@ import { Router } from "express";
 import userController from "../controllers/user_controller.mjs";
 
 const router = Router();
-console.log(">>> user_routes.mjs CARGADO");
-
 
 router.get("/usuarios", userController.getAllUsersFront)
 
@@ -13,7 +11,10 @@ router.post("/register", userController.submitRegister); //Valida
 router.get("/login", userController.showLoginForm); //Muestra
 router.post("/login", userController.submitLogin); //Valida
 
+//UPDATES
 router.post("/usuarios/nombre", userController.updateName)
+router.post("/usuarios/email", userController.updateEmail)
+router.post("/usuarios/password", userController.updatePassword)
 
 
 export default router;

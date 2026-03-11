@@ -49,7 +49,7 @@ export const updateUserNameById = async (userData) => {
     }
 };
 
-//Actualizar el email por id
+//--Actualizar el email por id
 export const updateUserEmailById = async (userData) => {
     const query = "UPDATE usuarios set email = $1 WHERE id = $2;"
     const values = [userData.email, userData.id]
@@ -63,7 +63,7 @@ export const updateUserEmailById = async (userData) => {
 
 }
 
-//Borrar usuario x id
+//--Borrar usuario x id
 export const deleteUserById = async (id) => {
     const query = "DELETE FROM usuarios WHERE id = $1";
     const values = [id];
