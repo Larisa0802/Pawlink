@@ -142,13 +142,22 @@ class UserController {
             email: data.user.email,
             id: data.user.id,
             admin: data.user.admin,
-            fecha: data.user.fecha,
+            fecha: data.user.fecha_registro,
           },
           { maxAge: 3600000 },
         );
+        //Depuracion
+        req.cookies["datosUsuario"] = {
+            nombre: data.user.nombre,
+            email: data.user.email,
+            id: data.user.id,
+            admin: data.user.admin,
+            fecha: data.user.fecha_registro,
+        };
+
         console.log(
           "Cookie de inicio de sesión: ",
-          req.cookies["datosUsuario"],
+          req.cookies["datosUsuario"]
         );
         //Redirige
         res.render("completes/provisional"); //Aqui iria el index
@@ -202,7 +211,11 @@ class UserController {
         fecha: userData.fecha,
       });
 
-      console.log("Cookie actualizada al actualizar el nombre: ", userData);
+      // Opcional: Actualizamos también el objeto local para que tu console.log funcione
+      userData.nombre = req.body.name;
+      req.cookies["datosUsuario"] = userData;
+
+      console.log("Cookie actualizada al actualizar el nombre: ", req.cookies["datosUsuario"]);
 
       res.json({ mensaje: "Nombre actualizado correctamente" });
     } catch (err) {
