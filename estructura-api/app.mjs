@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/user_routes.mjs";
+import animalesRoutes from "./routes/animal_routes.mjs";
 
 const PORT = 3001
 const app = express();
@@ -14,5 +15,6 @@ const cors_config = {
  }
 app.use(cors(cors_config))
 app.use(userRoutes);
+app.use(animalesRoutes);
 
 app.listen(PORT, () => console.log("API ESCUCHANDO EN", PORT))
