@@ -51,6 +51,7 @@ class UserController {
       if (firebaseData.error) {
         let mensaje = "Error al registrar";
         const errorMsg = firebaseData.error.message;
+
         if (errorMsg === "EMAIL_EXISTS") {
           mensaje = "Ese email ya está en uso";
         } else if (errorMsg.includes("WEAK_PASSWORD")) {
@@ -59,31 +60,43 @@ class UserController {
           mensaje = "El formato del email no es válido";
         }
 
-        //Enviamos el error directamente a la vista sin redirigir
         return res.render("completes/register", { errorL: { mensaje } });
       }
 
-      const uid = firebaseData.localId;
+      const id = firebaseData.localId;
+      const idToken = firebaseData.idToken;
 
       //Registro en la API (envia los datos puestos en el register)
       const response = await fetch("http://localhost:3001/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: uid, nombre, email }),
+        body: JSON.stringify({ id: id, nombre, email }),
       });
 
       const data = await response.json();
 
       //Registro exitoso
       if (response.ok) {
-        return res.redirect("/login");
+        return res.render("completes/login", {
+          errorL: { mensaje: null }, mensaje : "Registro exitoso",
+        });
       } else {
+        //Borrar si no es exitoso
+        await fetch(
+          `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${FIREBASE_API_KEY}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idToken }),
+          },
+        );
         return res.render("completes/register", {
-          errorL: { mensaje: data.message },
+          errorL: { mensaje: "Error en el registro" },
         });
       }
     } catch (error) {
       console.error("Error en registro:", error);
+
       return res.render("completes/register", {
         errorL: { mensaje: "Error de conexión con el servidor" },
       });
@@ -91,7 +104,7 @@ class UserController {
   };
 
   showLoginForm = async (req, res) => {
-    res.render("completes/login", { errorL: null });
+    res.render("completes/login", { errorL: null,  mensaje: null});
   };
 
   //Enviar login a firebase para autentificarnos y traer los datos.
@@ -120,7 +133,7 @@ class UserController {
       //Si no es correcta la autentificacion
       if (firebaseData.error) {
         return res.render("completes/login", {
-          errorL: { mensaje: "Credenciales incorrectas" },
+          errorL: { mensaje: "Credenciales incorrectas" }, mensaje:null,
         });
       }
 
@@ -148,28 +161,32 @@ class UserController {
         );
         //Depuracion
         req.cookies["datosUsuario"] = {
-            nombre: data.user.nombre,
-            email: data.user.email,
-            id: data.user.id,
-            admin: data.user.admin,
-            fecha: data.user.fecha_registro,
+          nombre: data.user.nombre,
+          email: data.user.email,
+          id: data.user.id,
+          admin: data.user.admin,
+          fecha: data.user.fecha_registro,
         };
 
         console.log(
           "Cookie de inicio de sesión: ",
-          req.cookies["datosUsuario"]
+          req.cookies["datosUsuario"],
         );
+
         //Redirige
-        res.render("completes/provisional"); //Aqui iria el index
+        return res.redirect("/provisional");
+
+
       } else {
         return res.render("completes/login", {
-          errorL: { mensaje: "Error al recuperar datos: " + data.message },
+          errorL: { mensaje: "Error al recuperar datos: " + data.message }, mensaje: null,
         });
       }
+
     } catch (error) {
       console.error("Error en login:", error);
       return res.render("completes/login", {
-        errorL: { mensaje: "Error de conexión" },
+        errorL: { mensaje: "Error de conexión" }, mensaje:null,
       });
     }
   };
@@ -192,9 +209,9 @@ class UserController {
   updateName = async (req, res) => {
     const userData = req.cookies["datosUsuario"];
     try {
-      if (!userData) {
-        return res.status(401).json({ error: "No estas logueado" });
-      }
+       if (!userData) {
+        return res.status(401).render("completes/login", {errorL : { mensaje: "No logueado" }, mensaje: null});
+      } 
 
       console.log(userData);
       let datos = await this.client.post("/usuarios/nombre", {
@@ -211,20 +228,25 @@ class UserController {
         fecha: userData.fecha,
       });
 
-      // Opcional: Actualizamos también el objeto local para que tu console.log funcione
       userData.nombre = req.body.name;
       req.cookies["datosUsuario"] = userData;
 
-      console.log("Cookie actualizada al actualizar el nombre: ", req.cookies["datosUsuario"]);
+      console.log(
+        "Cookie actualizada al actualizar el nombre: ",
+        req.cookies["datosUsuario"],
+      );
 
-      res.json({ mensaje: "Nombre actualizado correctamente" });
+      return res.render("completes/provisional", { errorL: {mensaje: null},
+        mensaje:
+          "Nombre de usuario cambiado con exito",
+      });
     } catch (err) {
       console.error("Error al consumir la API:", err.message);
-      res.render("completes/provisional", {
-        error: {
-          mensaje: "Error al cambiar el nombre",
-        },
-      });
+
+      if (err.status === 400) {
+        res.render("completes/provisional", {errorL: { mensaje: "Error al cambiar el nombre"},mensaje: null,}
+        );
+      }
     }
   };
 
@@ -232,11 +254,14 @@ class UserController {
   updateEmail = async (req, res) => {
     try {
       const userData = req.cookies["datosUsuario"];
-      if (!userData) return res.status(401).json({ error: "No logueado" });
+
+      if (!userData) {
+        return res.status(401).render("completes/login", {errorL : { mensaje: "No logueado" }, mensaje: null});
+      } 
 
       const auth = getAuth();
 
-      // Login para sesión válida con Firebase
+      //Login para sesión válida con Firebase
       const userCredential = await signInWithEmailAndPassword(
         auth,
         userData.email,
@@ -250,49 +275,64 @@ class UserController {
         req.body.pass,
       );
 
-      // Re-autenticación necesaria para cambiar el email en Firebase
+      //Re-autenticación necesaria para cambiar el email en Firebase
       await reauthenticateWithCredential(user, credential);
-      
-      // Comprobar si el nuevo email ya existe en nuestra base de datos
+
+      //Comprobar si el nuevo email ya existe en nuestra base de datos
       let existentEmail = await this.client.post("/usuarios/check-email", {
         email: req.body.email,
       });
 
       if (existentEmail.data.exists) {
-        return res.status(409).json({ message: "Ese email ya está registrado en el sistema" });
+        return res
+          .status(409)
+          .render("completes/provisional",{errorL: {mensaje:"Ese email ya está registrado en el sistema" }, mensaje:null});
       }
 
-      // Cambiar email en Firebase (envía un correo de verificación)
+      //Cambiar email en Firebase (envía un correo de verificación)
       await verifyBeforeUpdateEmail(user, req.body.email);
 
-      // Actualizar email en nuestra base de datos (PostgreSQL)
+      //Actualizar email en nuestra base de datos (PostgreSQL)
       await this.client.post("/usuarios/email", {
         id: userData.id,
         email: req.body.email,
       });
 
-      // Actualizar la cookie con el nuevo email
+      //Actualizar la cookie con el nuevo email
       res.cookie("datosUsuario", {
         ...userData,
         email: req.body.email,
       });
-
-      res.json({ mensaje: "Email actualizado correctamente. Se ha enviado un correo de verificación al nuevo email." });
+      return res.render("completes/login", {
+        mensaje:
+          "Email actualizado correctamente. Se ha enviado un correo de verificación al nuevo email.",
+      });
     } catch (error) {
+
+      if (error.code === "auth/missing-password" || error.status === 400) {
+        return res.render("completes/provisional", {
+          errorL: { mensaje: "Rellene los campos" }, mensaje: null,
+        });
+      }
+
+      if (error.code === "auth/invalid-credential") {
+        return res.render("completes/provisional", {
+          errorL: { mensaje: "Contraseña incorrecta" }, mensaje: null,
+        });
+      }
+
       console.error("Error al actualizar email:", error.message);
       res.status(500).send("Error al cambiar el email: " + error.message);
     }
   };
 
-
-
- updatePassword = async (req, res) => {
+  updatePassword = async (req, res) => {
     try {
       const userData = req.cookies["datosUsuario"];
 
-      if (!userData) { 
-        return res.json({ error: "No estas logueado" });
-      }
+      if (!userData) {
+        return res.status(401).render("completes/login", {errorL : { mensaje: "No logueado" }, mensaje: null});
+      } 
 
       const auth = getAuth();
 
@@ -300,18 +340,41 @@ class UserController {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         userData.email,
-        req.body.oldPass
+        req.body.oldPass,
       );
 
       const user = userCredential.user;
 
       await updatePassword(user, req.body.newPass);
 
-      res.json({ mensaje: "Contraseña actualizada" });
+      return res.render("completes/login", {
+        errorL: {
+          mensaje:
+            "Contraseña actualizada correctamente. Vuelva a iniciar sesión.",
+        }, mensaje: null
+      });
     } catch (error) {
+      //Comprobaciones
       if (error.code === "auth/invalid-credential") {
-        return res.status(400).json({ error: "Contraseña incorrecta" });
+        return res.render("completes/provisional", {
+          errorL: { mensaje: "Contraseña incorrecta" } ,mensaje : null
+        });
       }
+
+      if (error.code === "auth/missing-password") {
+        return res.render("completes/provisional", {
+          errorL: { mensaje: "Rellene los campos" }, mensaje:null
+        });
+      }
+
+      if (error.code === "auth/weak-password") {
+        return res.render("completes/provisional", {
+          errorL: {
+            mensaje: "La contraseña debe contener más de 6 caracteres",
+          }, mensaje: null
+        });
+      }
+
       console.error("Error al consumir la API:", error.message);
     }
   };

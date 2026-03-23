@@ -10,23 +10,45 @@
 
 
 
-<!-- 
-<form action="/usuarios/password" method="post">
+
+<!-- <form action="/usuarios/password" method="post">
   <input type="password" name="oldPass" placeholder="Contraseña actual">
     <input type="password" name="newPass" placeholder="Contraseña nueva">
   <button type="submit">Actualizar</button>
 </form>
  -->
-<!-- form action="/usuarios/nombre" method="post">
+
+<!-- <form action="/usuarios/nombre" method="post">
   <input type="text" name="name" placeholder="Nuevo nombre">
   <button type="submit">Actualizar</button>
 </form> -->
+
 <!-- <form action="/usuarios/email" method="post">
   <input type="text" name="email" placeholder="Nuevo email">
     <input type="password" name="pass" placeholder="Contraseña actual">
   <button type="submit">Actualizar</button>
 </form>
  -->
+
+    <% if(errorL){ %>
+                    <h3 id="error">
+                        <%= errorL.mensaje %>
+                    </h3>
+    <% } %>
+     <% if(mensaje){ %>
+                    <h3 id="mensaje">
+                        <%= mensaje %>
+                    </h3>
+    <% } %>
+
+<script>
+  window.addEventListener("beforeunload", () => {
+    const error = document.getElementById("error");
+    const mensaje = document.getElementById("mensaje");
+    if (error) error.remove();
+    if (mensaje) mensaje.remove();
+  });
+</script>
 
 </body>
 </html>

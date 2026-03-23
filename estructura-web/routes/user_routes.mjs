@@ -4,11 +4,17 @@ import userController from "../controllers/user_controller.mjs";
 const router = Router();
 
 router.get("/usuarios", userController.getAllUsersFront)
+router.get("/provisional", (req, res) => {
+  res.render("completes/provisional", {
+    errorL: null,
+    mensaje: null
+  });
+});
 
 router.get("/register", userController.showRegisterForm); //Muestra
 router.post("/register", userController.submitRegister); //Valida
 
-router.get("/login", userController.showLoginForm); //Muestra
+router.get("/", userController.showLoginForm); //Muestra
 router.post("/login", userController.submitLogin); //Valida
 
 //UPDATES
