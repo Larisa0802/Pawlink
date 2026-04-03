@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+
+  <form action="/login" method="POST">
+
+    <label>Email:</label>
+    <input type="email" name="email" required><br><br>
+
+    <label>Contraseña:</label>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">Iniciar Sesión</button>
+
+    <% if(errorL){ %>
+                    <h3 id="error">
+                        <%= errorL.mensaje %>
+                    </h3>
+    <% } %>
+  </form>
+
+              <p><a href="/register">¿No tienes cuenta? Registrate aquí</a></p>
+
+
+
+</body>
+</html>

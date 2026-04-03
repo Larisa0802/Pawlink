@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro</title>
+</head>
+<body>
+  <h1>Registro de usuario</h1>
+
+  <form action="/register" method="POST">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" required><br><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" required><br><br>
+
+    <label>Contraseña:</label>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">Registrarse</button>
+
+    <% if(errorL){ %>
+      <h3 id="error" style="color: red;">
+          <%= errorL.mensaje %>
+      </h3>
+    <% } %>
+  </form>
+</body>
+</html>
