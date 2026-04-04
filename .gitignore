@@ -5,4 +5,5 @@
 **/keys.mjs
 **/node_modules
 **/package-lock.json
-**/package.json
+**/package.json.DS_Store
+package.json
