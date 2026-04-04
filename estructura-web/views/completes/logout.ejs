@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/favicon.ico">
+    <title>Logout</title>
+</head>
+
+<body>
+
+    <%if(userData){%>
+    <h1 id="titC">¿Deseas cerrar sesión?</h1>
+    <main class="logOutDiv">
+        <form action="/signOutUser" method="post">
+        <input type="submit" value="Cerrar sesión" id="cerrarSesion">
+    </form>
+    </main>
+    <%}else{%>
+        <h3 id="error">Debes estar logueado</h3>
+    <%}%>
+
+</body>
+
+</html>

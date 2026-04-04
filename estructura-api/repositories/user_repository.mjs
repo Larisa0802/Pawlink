@@ -11,14 +11,14 @@ export const getUserByEmail = async (email) => {
 };
 
 //Crea el usuario
-export const createUser = async ({ id, nombre, email }) => {
+export const createUser = async ({ id, username, email }) => {
   const query = `
-    INSERT INTO usuarios (id, nombre, email, fecha_registro)
+    INSERT INTO usuarios (id, username, email, fecha_registro)
     VALUES ($1, $2, $3, NOW())
-    RETURNING id, nombre, email
+    RETURNING id, username, email
   `;
 
-  const values = [id, nombre, email];
+  const values = [id, username, email];
 
   const result = await db.query(query, values);
   return result.rows[0];
@@ -39,7 +39,7 @@ export const selectUserById = async (id) => {
 
 //Actualizar nombre de usuario por id
 export const updateUserNameById = async (userData) => {
-    const query = "UPDATE usuarios SET nombre = $1 WHERE id = $2";
+    const query = "UPDATE usuarios SET username = $1 WHERE id = $2";
     const values = [userData.nombre, userData.id];
     try {
         return await db.query(query, values);

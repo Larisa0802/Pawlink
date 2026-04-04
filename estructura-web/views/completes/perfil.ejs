@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+    <%if(userData) { %>
+      
+        <aside class="w-64 h-screen fixed left-0 top-0 bg-gray-900 text-white flex flex-col p-4">
+            <h2 class="text-xl font-bold mb-6">PawLink</h2>
+
+            <nav class="flex flex-col gap-3">
+
+                <a href="/index" class="px-3 py-2 rounded-lg transition
+           <%= active === 'inicio' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Inicio
+                </a>
+
+                <a href="/#" class="px-3 py-2 rounded-lg transition
+           <%= active === 'adopciones' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Adopciones
+                </a>
+
+                <a href="/perfil" class="px-3 py-2 rounded-lg transition
+           <%= active === 'perfil' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Perfil
+                </a>
+
+                <a href="/#" class="px-3 py-2 rounded-lg transition
+           <%= active === 'procesos' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Procesos
+                </a>
+
+                <a href="/#" class="px-3 py-2 rounded-lg transition
+           <%= active === 'contacto' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Contacto
+                </a>
+
+                <%if(userData.admin) {%>
+                    <a href="/#" class="px-3 py-2 rounded-lg transition
+           <%= active === 'administración' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                        Administración
+                    </a>
+
+                    <%}%>
+
+                        <a href="/logout" class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition mt-auto">
+                            Cerrar sesión
+                        </a>
+
+            </nav>
+        </aside>
+
+        <main class="ml-64 p-6">
+
+            <h1 class="text-xl font-bold">Bienvenido a tu perfil
+                <%=userData.nombre %>
+            </h1>
+
+            <div class="flex gap-20">
+                <img src="/img/avatar-default.webp" class="w-32 h-32 rounded-full object-cover" />
+
+                <div class="block">
+                    <span>
+                        <p class="font-bold">Nombre</p>
+                        <%=userData.nombre %>
+                    </span>
+
+                    <span>
+                        <p class="font-bold">Email</p>
+                        <%=userData.email %>
+                    </span>
+                    <span>
+                        <p class="font-bold">Fecha de registro: </p>
+                        <%= new Date(userData.fecha).toLocaleDateString("es-ES") %>
+                            <%= new Date(userData.fecha).toLocaleTimeString("es-ES", { hour: "2-digit" ,
+                                minute: "2-digit" }) %>
+                    </span>
+                </div>
+            </div> <br>
+
+            <div class="flex gap-10">
+
+                <button onclick="openModal('modalPass')"
+                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
+                    Cambiar de contraseña
+                </button>
+
+                <button onclick="openModal('modalEmail')"
+                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
+                    Cambiar de email
+                </button>
+
+                <button onclick="openModal('modalNombre')"
+                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
+                    Cambiar de nombre
+                </button>
+
+                <button onclick="openModal('modalDelete')"
+                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
+                    Eliminar cuenta
+                </button>
+
+            </div><br>
+
+            <button onclick="openModal('modalLogout')"
+                class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
+                Cerrar sesión
+            </button>
+
+            <%}else{%>
+
+                <h1>No estas logueado</h1>
+
+                <%}%>
+        </main>
+        <!--MODALES DE PERFIL-->
+        <div id="modalDelete"
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center hidden">
+            <div class="bg-white p-6 rounded-xl shadow-xl w-96">
+                <h2 class="text-xl font-bold mb-4">¿Estas segur@ de eliminar tu
+                    cuenta?</h2>
+                <p class="text-gray-700 mb-6">No podrás recuperar tu cuenta
+                    después</p>
+
+                <div class="flex gap-3">
+
+                    <form action="/usuarios/delete" method="POST">
+
+                        <div class="justify-center">
+                            <label class="block">Introduce tu
+                                contraseña</label>
+                            <input
+                                class="w-full p-3 rounded-lg bg-white/30 placeholder-white/70 focus:outline-none border"
+                                type="password" name="password">
+
+                            <% if(errorD){ %>
+                                <h3 id="error" style="color: red;">
+                                    <%= errorD.mensaje %>
+                                </h3>
+                                <% } %>
+                        </div> <br>
+
+                        <div class="justify-end">
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Eliminar
+                                cuenta</button>
+
+                            <button type="button" onclick="closeModal('modalDelete')"
+                                class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="modalPass" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center hidden">
+            <div class="bg-white p-6 rounded-xl shadow-xl w-96">
+                <h2 class="text-xl font-bold mb-4">Cambio de contraseña</h2>
+                <p class="text-gray-700 mb-6">Tendras que volver a iniciar
+                    sesión una vez cambiada</p>
+
+                <div class="flex gap-3">
+
+                    <form action="/usuarios/password" method="post">
+                        <label class="block">Introduce tu contraseña
+                            actual</label>
+                        <input type="password" name="oldPass" placeholder="Contraseña actual"
+                            class="w-full p-3 rounded-lg bg-white/30  focus:outline-none border">
+                        <label class="block">Introduce tu nueva
+                            contraseña</label>
+                        <input type="password" name="newPass" placeholder="Contraseña nueva"
+                            class="w-full p-3 rounded-lg bg-white/30 focus:outline-none border"><br><br>
+                        <% if(errorP){ %>
+                            <h3 id="error" style="color: red;">
+                                <%= errorP.mensaje %>
+                            </h3>
+                            <% } %>
+                                <button type="submit"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Actualizar
+                                    contraseña</button>
+                                <button type="button" onclick="closeModal('modalPass')"
+                                    class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition">
+                                    Cancelar
+                                </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="modalEmail" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center hidden">
+            <div class="bg-white p-6 rounded-xl shadow-xl w-96">
+                <h2 class="text-xl font-bold mb-4">Cambio de email</h2>
+                <p class="text-gray-700 mb-6">Una vez pulsado el botón, se
+                    enviará un email a tu bandeja de entrada, si no lo
+                    encuentras, busca en spam</p>
+
+                <div class="flex gap-3">
+                    <form action="/usuarios/email" method="post">
+                        <label class="block">Introduce el nuevo email</label>
+                        <input type="text" name="email" placeholder="Nuevo email"
+                            class="w-full p-3 rounded-lg bg-white/30 focus:outline-none border">
+                        <label class="block">Introduce tu contraseña
+                            actual</label>
+                        <input type="password" name="pass" placeholder="Contraseña actual"
+                            class="w-full p-3 rounded-lg bg-white/30 focus:outline-none border"><br><br>
+                        <% if(errorE){ %>
+                            <h3 id="error" style="color: red;">
+                                <%= errorE.mensaje %>
+                            </h3>
+                            <% } %>
+                                <button type="submit"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Actualizar</button>
+                                <button type="button" onclick="closeModal('modalEmail')"
+                                    class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition">
+                                    Cancelar
+                                </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="modalNombre"
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center hidden">
+            <div class="bg-white p-6 rounded-xl shadow-xl w-96">
+                <h2 class="text-xl font-bold mb-4">Cambio de nombre</h2>
+
+                <div class="flex gap-3">
+                    <form action="/usuarios/nombre" method="post">
+                        <input type="text" name="name" placeholder="Nuevo nombre"
+                            class="w-full p-3 rounded-lg bg-white/30 focus:outline-none border">
+                        <br><br>
+
+                        <% if(errorN){ %>
+                            <h3 id="error" style="color: red;">
+                                <%= errorN.mensaje %>
+                            </h3>
+                            <% } %>
+
+                                <% if(mensaje) { %>
+                                    <h3 id="mensaje" style="color:green">
+                                        <%= mensaje %>
+                                    </h3>
+                                    <%}%>
+                                        <button type="submit"
+                                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Actualizar</button>
+                                        <button type="button" onclick="closeModal('modalNombre')"
+                                            class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition">
+                                            Cancelar
+                                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div id="modalLogout"
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center hidden">
+            <div class="bg-white p-6 rounded-xl shadow-xl w-96">
+                <h2 class="text-xl font-bold mb-4">¿Deseas cerrar sesión?</h2>
+
+                <div class="flex gap-3">
+                    <form action="/signOutUser" method="post">
+
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Cerrar
+                            sesión</button>
+                        <button type="button" onclick="closeModal('modalLogout')"
+                            class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition">
+                            Cancelar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            function openModal(modal) {
+                document.getElementById(modal).classList.remove("hidden");
+                sessionStorage.setItem("modalAbierto", modal);
+
+                switch (modal) {
+                    case "modalDelete": document.getElementById(modal).classList.remove("hidden"); break;
+                    case "modalPass": document.getElementById(modal).classList.remove("hidden"); break;
+                    case "modalEmail": document.getElementById(modal).classList.remove("hidden"); break;
+                    case "modalNombre": document.getElementById(modal).classList.remove("hidden"); break;
+                    case "modalLogout": document.getElementById(modal).classList.remove("hidden"); break;
+                }
+
+            }
+
+            function closeModal(modal) {
+                document.getElementById(modal).classList.add("hidden");
+                // limpiar mensajes previos
+                const msg = document.getElementById("mensaje");
+                const err = document.getElementById("error");
+
+                if (msg) msg.remove();
+                if (err) err.remove();
+                sessionStorage.removeItem("modalAbierto");
+                switch (modal) {
+                    case "modalDelete": document.getElementById(modal).classList.add("hidden"); break;
+                    case "modalPass": document.getElementById(modal).classList.add("hidden"); break;
+                    case "modalEmail": document.getElementById(modal).classList.add("hidden"); break;
+                    case "modalNombre": document.getElementById(modal).classList.add("hidden"); break;
+                    case "modalLogout": document.getElementById(modal).classList.add("hidden"); break;
+
+                }
+            }
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const modal = sessionStorage.getItem("modalAbierto");
+                if (modal) {
+                    openModal(modal);
+                }
+            });
+
+        </script>
+
+
+</body>
+
+</html>

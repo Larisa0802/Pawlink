@@ -21,7 +21,7 @@ export const register = async (req, res) => {
   try {
     await userRepository.createUser({
       id,
-      nombre,
+      username: nombre,
       email,
     });
   } catch (error) {
@@ -53,19 +53,15 @@ export const login = async (req, res) => {
         .status(404)
         .json({ message: "Usuario no encontrado en la base de datos" });
     }
-    console.log(user);
     //Devolver los datos del usuario (en formato json)
     res.status(200).json({
       message: "Usuario verificado",
       user: {
         id: user.id,
-        nombre: user.nombre,
+        username: user.username,
         email: user.email,
         admin: user.admin,
-        apellidos: user.apellidos,
-        direccion: user.direccion,
-        telefono: user.telefono,
-        fecha_registro: user.fecha,
+        fecha_registro: user.fecha_registro,
       },
     });
   } catch (error) {
@@ -78,6 +74,7 @@ export const getAllUsersControl = async (req, res) => {
   try {
     const users = await userRepository.getAllUsers();
     return res.status(200).json(users);
+    console.log(users)
   } catch (err) {
     console.error(
       "Error en el controlador de obtencion de usuarios: ",
@@ -144,6 +141,16 @@ export const updateEmail = async (req, res) => {
     );
   }
 };
+
+export const deleteUser = async (req,res) => {
+      try{
+          await userRepository.deleteUserById(req.body.id)
+      }catch(error){
+          console.log(error)
+          res.send(error).status(500)
+      }
+      res.sendStatus(200)
+}
 
 //Obtener datos de usuario
 export const getUserData = async (req, res) => {
