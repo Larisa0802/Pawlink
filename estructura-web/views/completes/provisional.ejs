@@ -6,49 +6,85 @@
     <title>Document</title>
 </head>
 <body>
+<%if(userData){%> <!--IMPORTANTE PARA SABER SI ESTA LOGUEADO-->
     <h1>Te has logueado</h1>
 
+    <% if(userData.admin) { %> <!--PARA SABER SI ES ADMIN-->
+        <!--Tabla para admin de gestión de usuarios-->
+        <table border="1">
+          <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Fecha de registro</th>
+            <th>Acciones</th>
+          </tr>
+          <tbody>
+            <% if(usuarios && usuarios.length > 0) { %>
+              <% usuarios.forEach(usuario => { %>
+                <tr>
+                  <td><%= usuario.id %></td>
+                  <td><%= usuario.username %></td>
+                  <td><%= usuario.email %></td>
+                  <td><%= usuario.fecha_registro %></td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="4">No hay usuarios registrados</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+    <% } %>
 
-
-
+<!--UPDATE PASS-->
 <!-- <form action="/usuarios/password" method="post">
   <input type="password" name="oldPass" placeholder="Contraseña actual">
     <input type="password" name="newPass" placeholder="Contraseña nueva">
   <button type="submit">Actualizar</button>
-</form>
- -->
+</form> -->
 
+<!--UPDATE USERNAME-->
 <!-- <form action="/usuarios/nombre" method="post">
   <input type="text" name="name" placeholder="Nuevo nombre">
   <button type="submit">Actualizar</button>
 </form> -->
 
+<!--Eliminar cuenta-->
+<!-- <form action="/usuarios/delete" method="post">
+  <fieldset style="width:20%;">
+  <h4>¿Estas seguro de borrar tu cuenta? No podras recuperarla</h4>
+  <label for="contraseña">Introduce tu contraseña</label>
+  <input type="password" name="password"><br><br>
+  <button type="submit">Borrar</button>
+  </fieldset>
+</form> -->
+
+<!--UPDATE EMAIL-->
 <!-- <form action="/usuarios/email" method="post">
   <input type="text" name="email" placeholder="Nuevo email">
     <input type="password" name="pass" placeholder="Contraseña actual">
   <button type="submit">Actualizar</button>
-</form>
- -->
+</form> -->
+
 
     <% if(errorL){ %>
                     <h3 id="error">
                         <%= errorL.mensaje %>
                     </h3>
     <% } %>
+    
      <% if(mensaje){ %>
                     <h3 id="mensaje">
                         <%= mensaje %>
                     </h3>
     <% } %>
+                  <%}else{%>
 
-<script>
-  window.addEventListener("beforeunload", () => {
-    const error = document.getElementById("error");
-    const mensaje = document.getElementById("mensaje");
-    if (error) error.remove();
-    if (mensaje) mensaje.remove();
-  });
-</script>
+<h2>No estas logueado</h2>
+
+<%}%>
 
 </body>
 </html>

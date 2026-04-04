@@ -27,7 +27,6 @@ const __dirname = path.dirname(__filename);
 
 
 
-
 //session config
 app.use(session({
   secret: process.env.SESSION_SECRET || 'tu-secreto',
@@ -46,6 +45,11 @@ app.use(express.static(path.join(actualRoute, "public")));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+app.use((req, res, next) => {
+  res.locals.userData = req.cookies["datosUsuario"] || null;
+  next();
+});
 
 app.use("/", userRoutes);
 
