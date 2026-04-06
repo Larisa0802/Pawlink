@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animales - PawLink</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f4f4f4; }
+    a { color: #0066cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .error { color: red; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Animales</h1>
+
+  <% if (animales && animales.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Especie</th>
+          <th>Raza</th>
+          <th>Sexo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% animales.forEach(animal => { %>
+          <tr>
+            <td><%= animal.nombre %></td>
+            <td><%= animal.especie %></td>
+            <td><%= animal.raza %></td>
+            <td><%= animal.sexo %></td>
+            <td><a href="/animales/<%= animal.id %>">Ver detalle</a></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else if (!error) { %>
+    <p>No hay animales registrados.</p>
+  <% } %>
+
+  <p><a href="/">Volver al inicio</a></p>
+</body>
+</html>

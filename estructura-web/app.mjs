@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import { initializeApp } from "firebase/app";
 import userRoutes from "./routes/user_routes.mjs";
+import animalRoutes from "./routes/animal_routes.mjs";
 
 
 const firebaseConfig = {
@@ -48,6 +49,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use("/", userRoutes);
+app.use("/", animalRoutes);
 
 
 app.listen(PORT, ()=>{
