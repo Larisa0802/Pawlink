@@ -1,4 +1,5 @@
 import user_repository, * as userRepository from "../repositories/user_repository.mjs";
+import { updateUserById } from "../repositories/user_repository.mjs";
 
 //Registro
 export const register = async (req, res) => {
@@ -141,6 +142,27 @@ export const updateEmail = async (req, res) => {
     );
   }
 };
+
+export const updateUserAdmin = async (req, res) => {
+    try {
+        const { id, name, email, admin } = req.body;
+
+        await updateUserById({
+            id,
+            name,
+            email,
+            admin
+        });
+
+        return res.json({ ok: true });
+
+    } catch (err) {
+        console.error("Error en updateUserAdmin:", err.message);
+        return res.status(500).json({ error: "Error al actualizar usuario" });
+    }
+};
+
+
 
 export const deleteUser = async (req,res) => {
       try{

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,270 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
+
 <body>
     <%if(userData) { %>
-   <%}else{%>
+        <aside class="w-64 h-screen fixed left-0 top-0 bg-gray-900 text-white flex flex-col p-4">
+            <h2 class="text-xl font-bold mb-6">PawLink</h2>
 
-                    <h1>No estas logueado</h1>
+            <nav class="flex flex-col gap-3">
+
+                <a href="/index" class="px-3 py-2 rounded-lg transition
+           <%= active === 'inicio' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Inicio
+                </a>
+
+                <a href="/#" class="px-3 py-2 rounded-lg transition
+           <%= active === 'adopciones' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Adopciones
+                </a>
+
+                <a href="/perfil" class="px-3 py-2 rounded-lg transition
+           <%= active === 'perfil' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Perfil
+                </a>
+
+                <a href="/#" class="px-3 py-2 rounded-lg transition
+           <%= active === 'procesos' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Procesos
+                </a>
+
+                <a href="/contacto" class="px-3 py-2 rounded-lg transition
+           <%= active === 'contacto' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                    Contacto
+                </a>
+
+                <%if(userData.admin) {%>
+                    <a href="/adm" class="px-3 py-2 rounded-lg transition
+           <%= active === 'administracion' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
+                        Administración
+                    </a>
 
                     <%}%>
+
+                        <a href="/logout" class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition mt-auto">
+                            Cerrar sesión
+                        </a>
+
+            </nav>
+        </aside>
+
+        <main class="ml-64 p-6">
+            <h2 class="text-4xl font-bold text-center bg-gray-100 p-10">
+                Formulario de contacto
+            </h2>
+
+            <div class="w-full text-center px-4 py-6 bg-gray-50">
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">
+                    ¡Estamos aquí para ayudarte!
+                </h2>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    ¡Hola! Si has llegado hasta aquí es porque algo quieres contarnos, y eso nos encanta.
+                    Cuéntanos tu duda, tu idea o tu queja con cariño. Nosotros prometemos leerlo con una sonrisa
+                    y responderte sin ladrar ni maullar.
+                </p>
+            </div>
+
+
+            <section id="formulario">
+
+                <form class="w-full max-w-md mx-auto bg-white p-6 rounded-xl shadow-md flex flex-col gap-4 mt-10">
+
+
+                    <div class="flex flex-col gap-1">
+                        <div class="flex justify-end text-right mb-4">
+                            <div class="text-sm text-gray-600">
+                                <p>pawlink@support.com</p>
+                                <p>+34 654 214 562</p>
+                                <p>Fuenlabrada, Madrid</p>
+                            </div>
+                        </div>
+                        <label for="nombre" class="font-semibold text-gray-700">Introduce tu nombre</label>
+                        <input id="nombre" type="text"
+                            class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label for="email" class="font-semibold text-gray-700">Email</label>
+                        <input id="email" type="email"
+                            class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label for="motivoC" class="font-semibold text-gray-700">Motivo de contacto</label>
+                        <select id="motivoC"
+                            class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="adopciones">Adopciones</option>
+                            <option value="donaciones">Donaciones</option>
+                            <option value="problemas">Problemas con la plataforma</option>
+                            <option value="otros">Otros</option>
+                        </select>
+
+                        <textarea id="comentario"
+                            class="hidden resize-none border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                            placeholder="Escribe aquí"></textarea>
+
+                    </div>
+
+                    <button type="submit" class="border p-5" id="enviar">Enviar formulario</button>
+                    <h3 style="color:green" class="hidden" id="mensaje"> ¡Se ha enviado tu formulario con éxito!</h3>
+                    <h3 style="color:red" class="hidden" id="error"> Debes rellenar los campos</h3>
+
+
+                </form>
+
+                <script>
+
+                    const select = document.getElementById("motivoC")
+
+                    select.addEventListener("change", () => {
+                        if (select.value === "otros") {
+                            document.getElementById("comentario").classList.remove("hidden")
+                        } else {
+                            document.getElementById("comentario").classList.add("hidden")
+                        }
+                    })
+
+                    const form = document.getElementById("formulario")
+                    const n = document.getElementById("nombre")
+                    const e = document.getElementById("email")
+                    const m = document.getElementById("motivoC")
+                    const er = document.getElementById("error")
+                    const msg = document.getElementById("mensaje")
+                    const btn = document.getElementById("enviar")
+
+                    form.addEventListener("submit", () => {
+                        event.preventDefault()
+                        if (n.value.trim() === "" || e.value.trim() === "" || m.value.trim() === "") {
+                            er.classList.remove("hidden")
+                            msg.classList.add("hidden")
+                        } else {
+                            msg.classList.remove("hidden")
+                            er.classList.add("hidden")
+                        }
+                    })
+
+                </script>
+
+
+            </section>
+
+            <!--Seccion de FAQ-->
+            <section class="py-12 bg-gray-50 mt-6">
+                <div class="max-w-3xl mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center mb-8">Dudas Frecuentes (FAQ)</h2>
+                    <div class="space-y-4">
+
+                        <!-- FAQ item -->
+                        <div class="border rounded-lg overflow-hidden">
+                            <button class="w-full flex justify-between items-center p-4 text-left faq-btn">
+                                <span class="font-semibold text-gray-800">¿Cómo puedo adoptar un animal?</span>
+                                <span class="text-xl transition-transform faq-icon">+</span>
+                            </button>
+                            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                                <p class="p-4 text-gray-600">
+                                    Adoptar un animal en PawLink es un proceso sencillo y pensado para que encuentres a
+                                    tu compañero ideal. <br><br>Primero, explora los perfiles de los animales
+                                    disponibles y
+                                    elige aquel con el que sientas conexión. Después, rellena el formulario de adopción
+                                    para que podamos conocerte un poco mejor. Nuestro equipo revisará tu solicitud y se
+                                    pondrá en contacto contigo para una breve entrevista y resolver cualquier duda que
+                                    tenga la protectora asociada a tu futuro compañero peludo. Si
+                                    todo encaja, coordinaremos una visita para que conozcas al animal en persona.
+                                    Finalmente, si ambos hacéis ‘match’, podrás completar la adopción y llevarlo a su
+                                    nuevo hogar. Nuestro objetivo es asegurar que cada animal encuentre una familia
+                                    responsable y adecuada. </p>
+                            </div>
+                        </div>
+
+                        <!-- FAQ item -->
+                        <div class="border rounded-lg overflow-hidden">
+                            <button class="w-full flex justify-between items-center p-4 text-left faq-btn">
+                                <span class="font-semibold text-gray-800">¿Qué hago si tengo problemas con la
+                                    plataforma?</span>
+                                <span class="text-xl transition-transform faq-icon">+</span>
+                            </button>
+                            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                                <p class="p-4 text-gray-600">
+                                    Si tienes problemas con la plataforma, lo primero es comprobar si puedes actualizar
+                                    la página o cerrar sesión y volver a entrar. Si el error continúa, revisa que tu
+                                    conexión a internet esté funcionando correctamente. También puedes probar desde otro
+                                    navegador o dispositivo para descartar fallos puntuales.<br><br> Si nada de esto
+                                    funciona,
+                                    ponte en contacto con nuestro equipo a través del formulario de soporte. Cuéntanos
+                                    qué estabas intentando hacer y, si puedes, incluye una captura del error enviandola
+                                    a nuestro correo de soporte. Con esa
+                                    información podremos ayudarte más rápido y darte una solución personalizada
+                                    <br><br>
+                                    pawlink@support.com
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- FAQ item -->
+                        <div class="border rounded-lg overflow-hidden">
+                            <button class="w-full flex justify-between items-center p-4 text-left faq-btn">
+                                <span class="font-semibold text-gray-800">¿Puedo colaborar con PawLink?</span>
+                                <span class="text-xl transition-transform faq-icon">+</span>
+                            </button>
+                            <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                                <p class="p-4 text-gray-600">
+                                    Aquí iría la respuesta sobre voluntariado o donaciones.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <script>
+                const buttons = document.querySelectorAll(".faq-btn");
+
+                buttons.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        const content = btn.nextElementSibling;
+                        const icon = btn.querySelector(".faq-icon");
+
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                            icon.style.transform = "rotate(0deg)";
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            icon.style.transform = "rotate(45deg)";
+                        }
+                    });
+                });
+            </script>
+
+            <button><a href="/">Ir a la página de iniciar sesión</a></button>
+
+
+        </main>
+
+
+
+        <%}else{%>
+
+            <div
+                class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-3">
+                    ¡Ups! Parece que no estás logueado
+                </h2>
+
+                <p class="text-gray-600 mb-6">
+                    Para acceder a esta sección necesitas iniciar sesión.
+                    No te preocupes, te llevamos de vuelta a la página principal.
+                </p>
+
+                <a href="/"
+                    class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+                    Volver al inicio
+                </a>
+            </div>
+
+
+            <%}%>
 </body>
+
 </html>

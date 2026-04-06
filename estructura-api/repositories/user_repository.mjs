@@ -49,7 +49,7 @@ export const updateUserNameById = async (userData) => {
     }
 };
 
-//--Actualizar el email por id
+//Actualizar el email por id
 export const updateUserEmailById = async (userData) => {
     const query = "UPDATE usuarios set email = $1 WHERE id = $2;"
     const values = [userData.email, userData.id]
@@ -62,6 +62,33 @@ export const updateUserEmailById = async (userData) => {
     }
 
 }
+
+
+//F(X)-ADM-Actualizar usuario completo por id 
+export const updateUserById = async (userData) => {
+    const query = `
+        UPDATE usuarios
+        SET username = $1,
+            email = $2,
+            admin = $3
+        WHERE id = $4;
+    `;
+
+    const values = [
+        userData.name,
+        userData.email,
+        userData.admin,
+        userData.id
+    ];
+
+    try {
+        return await db.query(query, values);
+    } catch (err) {
+        console.error("Error al actualizar el usuario:", err.message);
+        throw err;
+    }
+};
+
 
 //--Borrar usuario x id
 export const deleteUserById = async (id) => {
@@ -98,4 +125,5 @@ export default {
     deleteUserById,
     getAllUsers,
     updateUserEmailById,
+    updateUserById,
 };

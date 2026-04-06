@@ -15,6 +15,8 @@ router.post("/usuarios/nombre", userController.updateName); //Actualiza nombre
 router.post("/usuarios/delete",userController.deleteUser)
 router.post("/usuarios/email", userController.updateEmail); //Actualiza email
 router.post("/usuarios/check-email", userController.checkEmail); //Comprueba existencia email
+router.post("/usuarios/update-admin", userController.updateUserAdmin); //Actualiza datos como adm
+
 /* router.post("/usuarios/delete",userController.deleteUser)
 router.post("/login-google", async (req, res) => {
   const { email, nombre } = req.body;
