@@ -1,5 +1,6 @@
 import { getAllUsers } from "../../estructura-api/repositories/user_repository.mjs";
 import { FIREBASE_API_KEY } from "../config/keys.mjs";
+import admin from "../config/firebaseAdmin.mjs";
 import axios from "axios";
 import {
   getAuth,
@@ -224,11 +225,12 @@ class UserController {
         usuarios = response.data;
       }
 
-      return res.render("completes/index", {
+      return res.render("completes/administracion", {
         usuarios,
         userData: req.cookies["datosUsuario"],
         errorL: null,
         mensaje: null,
+        active: "administracion",
       });
     } catch (err) {
       console.error("Error en getAllUsersFront:", err.message);
@@ -499,6 +501,123 @@ class UserController {
     }
   };
 
+  updateUserAsAdmin = async (req, res) => {
+  try {
+    const { name, email, admin } = req.body;
+    const id = req.params.id;
+
+    //Validar campos
+    if (!name || !email) {
+      return res.status(400).json({ 
+        ok: false, 
+        message: "El nombre y email son obligatorios" 
+      });
+    }
+
+    //Comprobar si el email ya existe
+    const existingUser = await this.client.post("/usuarios/check-email", { 
+      email: email 
+    });
+
+    if (existingUser.data.exists) {
+      // Verificar que el email existente no sea del mismo usuario
+      const userWithEmail = await this.client.get("/usuarios");
+      const isDifferentUser = userWithEmail.data.some(u => u.email === email && u.id !== id);
+      
+      if (isDifferentUser) {
+        return res.status(409).json({ 
+          ok: false, 
+          message: "Este email ya está registrado por otro usuario" 
+        });
+      }
+    }
+
+    await this.client.post("/usuarios/update-admin", {
+      id,
+      name,
+      email,
+      admin: admin === "true"
+    });
+
+    return res.json({ ok: true });
+
+  } catch (error) {
+    console.error("Error actualizando usuario como admin:", error);
+    return res.status(500).json({ ok: false, error: "Error al actualizar usuario" });
+  }
+};
+
+  createUserAsAdmin = async (req, res) => {
+    try {
+      const { name, email, password, admin: isAdmin } = req.body;
+
+      //Validar
+      if (!name || !email || !password) {
+        return res.status(400).json({ 
+          ok: false, 
+          message: "Faltan campos obligatorios" 
+        });
+      }
+
+      //Crear usuario en Firebase
+      const firebaseUser = await admin.auth().createUser({
+        email: email,
+        password: password,
+        displayName: name,
+      });
+
+      const userId = firebaseUser.uid;
+
+      //Registrar el usuario en la API
+      const response = await this.client.post("/register", {
+        id: userId,
+        nombre: name,
+        email: email,
+      });
+
+      // Si el usuario es admin, actualizar en la BD
+      if (isAdmin === "true" || isAdmin === true) {
+        await this.client.post("/usuarios/update-admin", {
+          id: userId,
+          name,
+          email,
+          admin: true
+        });
+      }
+
+      return res.json({ ok: true, message: "Usuario creado correctamente" });
+
+    } catch (error) {
+      console.error("Error creando usuario como admin:", error);
+      
+      if (error.code === 'auth/email-already-exists') {
+        return res.status(409).json({ 
+          ok: false, 
+          message: "Este email ya esta registrado" 
+        });
+      }
+      
+      if (error.code === 'auth/invalid-email') {
+        return res.status(400).json({ 
+          ok: false, 
+          message: "El email no es valido" 
+        });
+      }
+
+      if (error.code === 'auth/weak-password') {
+        return res.status(400).json({ 
+          ok: false, 
+          message: "La contraseña debe tener 6 caracteres o más" 
+        });
+      }
+
+      return res.status(500).json({ 
+        ok: false, 
+        message: "Error al crear el usuario: " + error.message 
+      });
+    }
+  };
+
   /** DELETES **/
   //Borrar usuario
   deleteUser = async (req, res) => {
@@ -569,6 +688,26 @@ class UserController {
       return res.status(500).json({ error: "Error al eliminar el usuario" });
     }
   };
+
+   deleteUserAsAdmin = async (req, res) => {
+    try {
+      const userId = req.params.id;
+
+      //Borrar usuario en Firebase
+      await admin.auth().deleteUser(userId);
+
+      //Borrar usuario en DB
+      await this.client.post("/usuarios/delete", { id: userId });
+
+      console.log("Usuario eliminado correctamente, id del usuario: ",userId)
+return res.json({ ok: true });
+
+    } catch (error) {
+      console.error("Error eliminando usuario como admin:", error);
+      return res.status(500).json({ error: "Error al eliminar usuario" });
+    }
+  };
+
 
   /** AUTH**/
   //Login con google (no implementado)

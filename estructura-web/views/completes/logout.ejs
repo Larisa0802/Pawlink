@@ -7,20 +7,40 @@
     <link rel="stylesheet" href="/estilos.css">
     <link rel="icon" href="/favicon.ico">
     <title>Logout</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body>
 
     <%if(userData){%>
-    <h1 id="titC">¿Deseas cerrar sesión?</h1>
-    <main class="logOutDiv">
-        <form action="/signOutUser" method="post">
-        <input type="submit" value="Cerrar sesión" id="cerrarSesion">
-    </form>
-    </main>
-    <%}else{%>
-        <h3 id="error">Debes estar logueado</h3>
-    <%}%>
+         <div
+                class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
+        <h1 id="titC" class="text-2xl font-bold text-gray-800 mb-3">¿Deseas cerrar sesión?</h1><br>
+        <main class="logOutDiv">
+            <form action="/signOutUser" method="post">
+                <input  class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition" type="submit" value="Cerrar sesión" id="cerrarSesion">
+            </form>
+        </main>
+        </div>
+        <%}else{%>
+            <div
+                class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-3">
+                    ¡Ups! Parece que no estás logueado
+                </h2>
+
+                <p class="text-gray-600 mb-6">
+                    Para acceder a esta sección necesitas iniciar sesión.
+                    No te preocupes, te llevamos de vuelta a la página principal.
+                </p>
+
+                <a href="/"
+                    class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+                    Volver al inicio
+                </a>
+            </div>
+            <%}%>
 
 </body>
 

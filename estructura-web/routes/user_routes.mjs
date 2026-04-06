@@ -3,7 +3,15 @@ import userController from "../controllers/user_controller.mjs";
 
 const router = Router();
 
-router.get("/usuarios", userController.getAllUsersFront)
+
+router.get("/contacto", (req,res) => {
+        const userData = req.cookies["datosUsuario"] || null;
+
+    if (!userData) {
+        return res.redirect("/login");
+    }
+    res.render("completes/contactos", {active:"contacto"})})
+router.get("/adm", userController.getAllUsersFront)
 router.get("/index", (req, res) => {
 
     const userData = req.cookies["datosUsuario"] || null;
@@ -40,9 +48,14 @@ router.post("/login", userController.submitLogin); //Valida
 router.post("/usuarios/nombre", userController.updateName)
 router.post("/usuarios/email", userController.updateEmail)
 router.post("/usuarios/password", userController.updatePassword)
+router.post("/adm/users", userController.createUserAsAdmin);
+router.post("/adm/users/:id", userController.updateUserAsAdmin);
+
 
 //DELETE
 router.post("/usuarios/delete" , userController.deleteUser)
+router.delete("/adm/users/:id", userController.deleteUserAsAdmin);
+
 
 //CERRAR SESION
 router.get("/logout", (req, res) => {

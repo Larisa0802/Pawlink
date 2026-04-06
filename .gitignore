@@ -4,6 +4,8 @@
 **/*.png
 **/keys.mjs
 **/node_modules
+**/serviceAccountKey.json
+**/firebaseAdmin.mjs
 **/package-lock.json
 **/package.json.DS_Store
 package.json
