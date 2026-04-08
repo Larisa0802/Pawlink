@@ -114,7 +114,7 @@ class UserController {
 
   //Enviar login a firebase para autentificarnos y traer los datos.
   submitLogin = async (req, res) => {
-    const { email, password } = req.body;
+    const { email ,password} = req.body;
     console.log("Recibo del front: ", req.body.email);
 
     try {
@@ -125,8 +125,7 @@ class UserController {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            email,
-            password,
+            email,password,
             returnSecureToken: true,
           }),
         },
