@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle Animal - PawLink</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .detail { max-width: 400px; }
+    .detail p { margin: 8px 0; border-bottom: 1px solid #eee; padding: 4px 0; }
+    .detail strong { display: inline-block; width: 160px; }
+    .error { color: red; }
+    a { color: #0066cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Detalle del Animal</h1>
+
+  <% if (animal) { %>
+    <div class="detail">
+      <% if (animal.foto) { %>
+        <img src="<%= animal.foto %>" alt="<%= animal.nombre %>" style="max-width:100%; height:auto; margin-bottom:12px; border-radius:8px;">
+      <% } %>
+      <p><strong>Nombre:</strong> <%= animal.nombre %></p>
+      <p><strong>Chip:</strong> <%= animal.chip %></p>
+      <p><strong>Especie:</strong> <%= animal.especie %></p>
+      <p><strong>Raza:</strong> <%= animal.raza %></p>
+      <p><strong>Sexo:</strong> <%= animal.sexo %></p>
+      <p><strong>Fecha nacimiento:</strong> <%= animal.fecha_nacimiento %></p>
+      <p><strong>Color:</strong> <%= animal.color %></p>
+      <p><strong>Pelaje:</strong> <%= animal.pelaje %></p>
+      <p><strong>Vacunas:</strong> <%= animal.vacunas %></p>
+      <p><strong>Esterilizado:</strong> <%= animal.esterilizado %></p>
+      <p><strong>Desparasitado:</strong> <%= animal.desparasitado %></p>
+    </div>
+  <% } %>
+
+  <p><a href="/animales">Volver a la lista</a></p>
+</body>
+</html>
