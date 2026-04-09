@@ -10,20 +10,20 @@ class AnimalController {
   getAllAnimales = async (req, res) => {
     try {
       const response = await this.client.get("/animales");
-      res.render("animales/catalogoAdopciones", { animales: response.data });
+      res.render("completes/catalogoAdopciones", { animales: response.data });
     } catch (error) {
       console.error("Error al obtener animales:", error.message);
-      res.render("animales/catalogoAdopciones", { animales: [], error: "No se pudieron cargar los animales" });
+      res.render("completes/catalogoAdopciones", { animales: [], error: "No se pudieron cargar los animales" });
     }
   };
 
   getAnimalById = async (req, res) => {
     try {
       const response = await this.client.get(`/animales/${req.params.id}`);
-      res.render("animales/detalle", { animal: response.data });
+      res.render("completes/detalle", { animal: response.data });
     } catch (error) {
       console.error("Error al obtener animal:", error.message);
-      res.status(404).render("animales/detalle", { animal: null, error: "Animal no encontrado" });
+      res.status(404).render("completes/detalle", { animal: null, error: "Animal no encontrado" });
     }
   };
 }
