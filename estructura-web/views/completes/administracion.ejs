@@ -5,58 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
-    <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
 <body>
     <%if(userData) { %>
         <%if(userData.admin) { %>
-            <aside class="w-64 h-screen fixed left-0 top-0 bg-gray-900 text-white flex flex-col p-4">
-                <h2 class="text-xl font-bold mb-6">PawLink</h2>
+                  <%- include("../partials/sidebar") %>
 
-                <nav class="flex flex-col gap-3">
-
-                    <a href="/index" class="px-3 py-2 rounded-lg transition
-           <%= active === 'inicio' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                        Inicio
-                    </a>
-
-                    <a href="/#" class="px-3 py-2 rounded-lg transition
-           <%= active === 'adopciones' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                        Adopciones
-                    </a>
-
-                    <a href="/perfil" class="px-3 py-2 rounded-lg transition
-           <%= active === 'perfil' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                        Perfil
-                    </a>
-
-                    <a href="/#" class="px-3 py-2 rounded-lg transition
-           <%= active === 'procesos' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                        Procesos
-                    </a>
-
-                    <a href="/contacto" class="px-3 py-2 rounded-lg transition
-           <%= active === 'contacto' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                        Contacto
-                    </a>
-
-                    <%if(userData.admin) {%>
-                        <a href="/adm" class="px-3 py-2 rounded-lg transition
-           <%= active === 'administracion' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                            Administración
-                        </a>
-
-                        <%}%>
-
-                            <a href="/logout"
-                                class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition mt-auto">
-                                Cerrar sesión
-                            </a>
-
-                </nav>
-            </aside>
             <main class="ml-64 p-6">
 
                 <nav class="bg-white shadow px-6 py-4 flex gap-6 text-gray-700 font-medium">
@@ -250,7 +206,7 @@
 
             <!--MODAL PARA EDITAR USUARIOS-->
             <div id="editUserModal"
-                class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                class="hidden fixed inset-0  bg-black/50 backdrop-blur-sm  bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded shadow-lg w-96">
                     <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
 
@@ -282,7 +238,7 @@
             </div>
 
             <!--Modal PARA AÑADIR USUARIOS-->
-            <div id="newUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div id="newUserModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm   bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded shadow-lg w-96">
                     <h2 class="text-xl font-bold mb-4">Añadir nuevo usuario</h2>
 

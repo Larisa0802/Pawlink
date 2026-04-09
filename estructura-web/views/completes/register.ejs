@@ -29,98 +29,142 @@
         animation: float 6s ease-in-out infinite;
       }
     }
+
+    * { font-family: 'DM Sans', sans-serif; }
+    body { background: #E5531C; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeUp { animation: fadeUp 0.55s cubic-bezier(.22,1,.36,1) both; }
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+    .delay-3 { animation-delay: 0.24s; }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+    .mascot { animation: floatY 4s ease-in-out infinite; }
+
+    @keyframes driftPaw {
+      0%   { transform: translateY(0) rotate(var(--r)); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(calc(var(--r) + 20deg)); opacity: 0; }
+    }
+    .paw-drift { animation: driftPaw var(--dur) linear var(--delay) infinite; }
+
+    input:focus { outline: none; box-shadow: 0 0 0 2px #E5531C; }
+
+    .btn-main { transition: transform 0.15s ease, box-shadow 0.15s ease; background: #E5531C; }
+    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(229,83,28,0.35); }
+    .btn-main:active { transform: translateY(0); box-shadow: none; }
+
+    .tab-active   { border-bottom: 2px solid #000000; color: #000000; }
+    .tab-inactive { border-bottom: 2px solid transparent; color: #9CA3AF; }
+
+    .social-btn { border: 1px solid #DDCCE6; transition: border-color 0.15s, background 0.15s; }
+    .social-btn:hover { border-color: #E5531C; background: #fff5f2; }
   </style>
 </head>
 
 <body
   class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#E5531C] to-[#CCE2ED] relative overflow-hidden">
-  <!-- Arriba izquierda -->
+
+  <!-- Burbujas decorativas -->
   <div class="absolute top-5 left-5 w-48 h-48 bg-[#E5531C]/60 rounded-full blur-2xl bubble"
     style="animation-duration: 5s;"></div>
 
-  <!-- Arriba centro -->
   <div class="absolute top-10 left-1/2 w-40 h-40 bg-[#F7A97B]/50 rounded-full blur-xl bubble"
     style="animation-duration: 5s;"></div>
 
-  <!-- Arriba derecha -->
   <div class="absolute top-1/4 right-10 w-44 h-44 bg-[#CCE2ED]/60 rounded-full blur-3xl bubble"
     style="animation-duration: 5s;"></div>
 
-  <!-- Centro izquierda -->
   <div class="absolute top-1/2 left-10 w-36 h-36 bg-[#FFE3C2]/70 rounded-full blur-xl bubble"
     style="animation-duration: 5s;"></div>
 
-  <!-- Centro derecha -->
   <div class="absolute top-1/2 right-1/4 w-32 h-32 bg-[#E5531C]/50 rounded-full blur-xl bubble"
     style="animation-duration: 5s;"></div>
 
-  <!-- Abajo izquierda -->
   <div class="absolute bottom-10 left-1/4 w-52 h-52 bg-[#E5531C]/50 rounded-full blur-2xl bubble"
     style="animation-duration: 5s;"></div>
 
-  <!-- Abajo centro -->
   <div class="absolute bottom-5 left-1/2 w-28 h-28 bg-[#F7A97B]/60 rounded-full blur-xl bubble"
     style="animation-duration: 5s;"></div>
 
-  <div class="absolute top-5 left-5 w-48 h-48 bg-[#E5531C]/60 rounded-full blur-2xl bubble"
-    style="animation-duration: 5s;"></div>
 
-  <!-- Arriba centro -->
-  <div class="absolute top-10 left-1/2 w-40 h-40 bg-[#F7A97B]/50 rounded-full blur-xl bubble"
-    style="animation-duration: 5s;"></div>
+  <div class="relative z-10  mx-4 flex rounded-3xl overflow-hidden shadow-2xl" style="background:#FFFFFF">
 
-  <!-- Arriba derecha -->
-  <div class="absolute top-1/4 right-10 w-44 h-44 bg-[#CCE2ED]/60 rounded-full blur-3xl bubble"
-    style="animation-duration: 5s;"></div>
+    <!-- REGISTER -->
+    <div class="space-y-4 w-[500px] p-6">
 
-  <!-- Centro izquierda -->
-  <div class="absolute top-1/2 left-10 w-36 h-36 bg-[#FFE3C2]/70 rounded-full blur-xl bubble"
-    style="animation-duration: 5s;"></div>
+      <div class="self-start animate-fadeUp delay-1">
+        <h1 class="text-xl font-bold mb-1 tracking-wide uppercase" style="color:#E5531C; opacity:0.85;">
+          Regístrate para unirte a nuestra familia peluda
+        </h1>
+      </div>
 
-  <!-- Centro derecha -->
-  <div class="absolute top-1/2 right-1/4 w-32 h-32 bg-[#E5531C]/50 rounded-full blur-xl bubble"
-    style="animation-duration: 5s;"></div>
+      <form action="/register" method="POST" class="space-y-4">
 
-  <!-- Abajo izquierda -->
-  <div class="absolute bottom-10 left-1/4 w-52 h-52 bg-[#E5531C]/50 rounded-full blur-2xl bubble"
-    style="animation-duration: 5s;"></div>
-
-  <!-- Abajo centro -->
-  <div class="absolute bottom-5 left-1/2 w-28 h-28 bg-[#F7A97B]/60 rounded-full blur-xl bubble"
-    style="animation-duration: 5s;"></div>
-
-  <div class="bg-white/20 backdrop-blur-xl p-10 rounded-2xl shadow-2xl w-80 text-white relative z-10">
-
-    <h1 class="text-3xl font-bold mb-6 text-center">Registro de usuario</h1>
-
-    <form action="/register" method="POST" class="space-y-4">
-      <label class="block mb-1">Nombre:</label>
-      <input type="text" name="nombre" required
-        class="w-full p-3 rounded-lg bg-white/30 placeholder-white/70 focus:outline-none">
-
-      <label class="block mb-1">Email:</label>
-      <input type="email" name="email" required
-        class="w-full p-3 rounded-lg bg-white/30 placeholder-white/70 focus:outline-none">
-
-      <label class="block mb-1">Contraseña:</label>
-      <input type="password" name="password" required
-        class="w-full p-3 rounded-lg bg-white/30 placeholder-white/70 focus:outline-none">
-
-      <button type="submit"
-        class="w-full bg-white text-indigo-700 font-semibold py-3 rounded-lg hover:bg-gray-200 transition">Registrarse</button>
-
-<a href="/" class="block mx-auto w-fit px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg shadow-sm hover:bg-gray-100 transition">
-  Volver atrás
-</a>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
+              style="color:#9CA3AF">Nombre</label>
+            <input type="text" name="nombre" placeholder="Luna" class="w-full rounded-xl px-4 py-3 text-sm transition" required
+              style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
+          </div>
 
 
-      <% if(errorL){ %>
-        <h3 id="error" style="color: red;">
-          <%= errorL.mensaje %>
-        </h3>
-        <% } %>
-    </form>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
+            style="color:#9CA3AF">Email</label>
+          <input type="email" name="email" placeholder="hola@pawzone.com"
+            class="w-full rounded-xl px-4 py-3 text-sm transition" required
+            style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
+            style="color:#9CA3AF">Contraseña</label>
+          <input type="password" name="password" placeholder="••••••••" required
+            class="w-full rounded-xl px-4 py-3 text-sm transition"
+            style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
+        </div>
+
+        <% if(errorL){ %>
+          <h3 id="error" style="color: red;">
+            <%= errorL.mensaje %>
+          </h3>
+          <% } %>
+
+            <button type="submit"
+              class="btn-main w-full text-white text-sm font-semibold py-3.5 rounded-xl tracking-wide"
+              style="background:#E5531C">
+              Crear cuenta →
+            </button>
+
+            <a href="/"
+              class="flex justify-center text-white text-sm font-semibold py-3.5 rounded-xl tracking-wide mt-6"
+              style="background:#e5521cda">
+              Volver atrás →
+            </a>
+
+            <p class="text-[11px] text-center leading-relaxed" style="color:#9CA3AF">
+              Al registrarte aceptas nuestros
+              <a href="#" class="underline" style="color:#E5531C">Términos</a> y
+              <a href="#" class="underline" style="color:#E5531C">Privacidad</a>.
+            </p>
+
+      </form>
+
+    </div>
   </div>
+
 </body>
 
 </html>
