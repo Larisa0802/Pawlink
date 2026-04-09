@@ -30,6 +30,8 @@ class UserController {
   submitRegister = async (req, res) => {
     let { nombre, email, password } = req.body;
 
+
+    
     console.log("WEB RECIBE:", req.body);
 
     try {
