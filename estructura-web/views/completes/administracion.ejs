@@ -5,14 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
 <body>
     <%if(userData) { %>
         <%if(userData.admin) { %>
+<<<<<<< HEAD
             <%- include("../partials/sidebar") %>
+=======
+                  <%- include("../partials/sidebar") %>
+
+>>>>>>> Alba
             <main class="ml-64 p-6">
 
                 <nav class="bg-white shadow px-6 py-4 flex gap-6 text-gray-700 font-medium">
@@ -206,7 +211,7 @@
 
             <!--MODAL PARA EDITAR USUARIOS-->
             <div id="editUserModal"
-                class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                class="hidden fixed inset-0  bg-black/50 backdrop-blur-sm  bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded shadow-lg w-96">
                     <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
 
@@ -238,7 +243,7 @@
             </div>
 
             <!--Modal PARA AÑADIR USUARIOS-->
-            <div id="newUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div id="newUserModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm   bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-6 rounded shadow-lg w-96">
                     <h2 class="text-xl font-bold mb-4">Añadir nuevo usuario</h2>
 
