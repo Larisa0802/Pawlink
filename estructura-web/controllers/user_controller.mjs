@@ -114,7 +114,7 @@ class UserController {
 
   //Enviar login a firebase para autentificarnos y traer los datos.
   submitLogin = async (req, res) => {
-    const { email ,password} = req.body;
+    const { email, password } = req.body;
     console.log("Recibo del front: ", req.body.email);
 
     try {
@@ -125,7 +125,7 @@ class UserController {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            email,password,
+            email, password,
             returnSecureToken: true,
           }),
         },
@@ -160,6 +160,7 @@ class UserController {
             id: data.user.id,
             admin: data.user.admin,
             fecha: data.user.fecha_registro,
+            encuesta_realizada: data.user.encuesta_realizada
           },
           { maxAge: 3600000 },
         );
@@ -171,6 +172,7 @@ class UserController {
           id: data.user.id,
           admin: data.user.admin,
           fecha: data.user.fecha_registro,
+          encuesta_realizada: data.user.encuesta_realizada
         };
 
         console.log(
@@ -283,7 +285,7 @@ class UserController {
         errorN: { mensaje: null },
         errorD: null,
         errorP: null,
-        errorE:null,
+        errorE: null,
         active: "perfil",
         mensaje: "Nombre de usuario cambiado con exito",
       });
@@ -295,11 +297,11 @@ class UserController {
           active: "perfil",
           userData: req.cookies["datosUsuario"],
           openDeleteModal: true,
-          mensaje:null,
+          mensaje: null,
           errorN: { mensaje: "Error al cambiar el nombre" },
           errorD: null,
-          errorP:null,
-          errorE:null,
+          errorP: null,
+          errorE: null,
         });
       }
     }
@@ -350,7 +352,7 @@ class UserController {
           errorP: null,
           errorD: null,
           errorN: null,
-          errorE: {mensaje: "El email introducido ya esta en uso"}
+          errorE: { mensaje: "El email introducido ya esta en uso" }
         });
       }
 
@@ -376,40 +378,40 @@ class UserController {
     } catch (error) {
       if (error.code === "auth/missing-password" || error.status === 400) {
         return res.render("completes/perfil", {
-           active: "perfil",
+          active: "perfil",
           userData: req.cookies["datosUsuario"],
           openDeleteModal: true,
           mensaje: null,
           errorP: null,
           errorD: null,
           errorN: null,
-          errorE: {mensaje: "Los campos no pueden estar vacios"}
+          errorE: { mensaje: "Los campos no pueden estar vacios" }
         });
       }
 
       if (error.code === "auth/invalid-credential") {
         return res.render("completes/perfil", {
-           active: "perfil",
+          active: "perfil",
           userData: req.cookies["datosUsuario"],
           openDeleteModal: true,
           mensaje: null,
           errorP: null,
           errorD: null,
           errorN: null,
-          errorE: {mensaje: "Contraseña incorrecta"}
+          errorE: { mensaje: "Contraseña incorrecta" }
         });
       }
 
       if (error.code === "auth/email-already-in-use") {
         return res.render("completes/perfil", {
-           active: "perfil",
+          active: "perfil",
           userData: req.cookies["datosUsuario"],
           openDeleteModal: true,
           mensaje: null,
           errorP: null,
           errorD: null,
           errorN: null,
-          errorE: {mensaje: "El email introducido ya esta en uso"}
+          errorE: { mensaje: "El email introducido ya esta en uso" }
         });
       }
 
@@ -459,92 +461,92 @@ class UserController {
       //Comprobaciones
       if (error.code === "auth/invalid-credential") {
         return res.render("completes/perfil", {
-            active: "perfil",
+          active: "perfil",
           userData: req.cookies["datosUsuario"],
           openDeleteModal: true,
-          mensaje:null,
+          mensaje: null,
           errorP: { mensaje: "Contraseña incorrecta" },
           errorD: null,
           errorN: null,
-          errorE:null,
+          errorE: null,
         });
       }
 
       if (error.code === "auth/missing-password") {
         return res.render("completes/perfil", {
-            active: "perfil",
+          active: "perfil",
           userData: req.cookies["datosUsuario"],
           openDeleteModal: true,
-          mensaje:null,
+          mensaje: null,
           errorP: { mensaje: "Los campos deben estar rellenos" },
           errorD: null,
-          errorN:null,
-          errorE:null,
+          errorN: null,
+          errorE: null,
         });
       }
 
       if (error.code === "auth/weak-password") {
         return res.render("completes/perfil", {
-         active: "perfil",
+          active: "perfil",
           userData: req.cookies["datosUsuario"],
           openDeleteModal: true,
-          mensaje:null,
+          mensaje: null,
           errorP: { mensaje: "La contraseña debe ser mayor a 6 caracteres" },
           errorD: null,
-          errorN:null,
-          errorE:null,
-      })
-    }
+          errorN: null,
+          errorE: null,
+        })
+      }
 
       console.error("Error al consumir la API:", error.message);
     }
   };
 
   updateUserAsAdmin = async (req, res) => {
-  try {
-    const { name, email, admin } = req.body;
-    const id = req.params.id;
+    try {
+      const { name, email, admin } = req.body;
+      const id = req.params.id;
 
-    //Validar campos
-    if (!name || !email) {
-      return res.status(400).json({ 
-        ok: false, 
-        message: "El nombre y email son obligatorios" 
-      });
-    }
-
-    //Comprobar si el email ya existe
-    const existingUser = await this.client.post("/usuarios/check-email", { 
-      email: email 
-    });
-
-    if (existingUser.data.exists) {
-      // Verificar que el email existente no sea del mismo usuario
-      const userWithEmail = await this.client.get("/usuarios");
-      const isDifferentUser = userWithEmail.data.some(u => u.email === email && u.id !== id);
-      
-      if (isDifferentUser) {
-        return res.status(409).json({ 
-          ok: false, 
-          message: "Este email ya está registrado por otro usuario" 
+      //Validar campos
+      if (!name || !email) {
+        return res.status(400).json({
+          ok: false,
+          message: "El nombre y email son obligatorios"
         });
       }
+
+      //Comprobar si el email ya existe
+      const existingUser = await this.client.post("/usuarios/check-email", {
+        email: email
+      });
+
+      if (existingUser.data.exists) {
+        // Verificar que el email existente no sea del mismo usuario
+        const userWithEmail = await this.client.get("/usuarios");
+        const isDifferentUser = userWithEmail.data.some(u => u.email === email && u.id !== id);
+
+        if (isDifferentUser) {
+          return res.status(409).json({
+            ok: false,
+            message: "Este email ya está registrado por otro usuario"
+          });
+        }
+      }
+
+      await this.client.post("/usuarios/update-admin", {
+        id,
+        name,
+        email,
+        admin: admin === "true"
+      });
+
+      return res.json({ ok: true });
+
+    } catch (error) {
+      console.error("Error actualizando usuario como admin:", error);
+      return res.status(500).json({ ok: false, error: "Error al actualizar usuario" });
     }
-
-    await this.client.post("/usuarios/update-admin", {
-      id,
-      name,
-      email,
-      admin: admin === "true"
-    });
-
-    return res.json({ ok: true });
-
-  } catch (error) {
-    console.error("Error actualizando usuario como admin:", error);
-    return res.status(500).json({ ok: false, error: "Error al actualizar usuario" });
-  }
-};
+  };
 
   createUserAsAdmin = async (req, res) => {
     try {
@@ -552,9 +554,9 @@ class UserController {
 
       //Validar
       if (!name || !email || !password) {
-        return res.status(400).json({ 
-          ok: false, 
-          message: "Faltan campos obligatorios" 
+        return res.status(400).json({
+          ok: false,
+          message: "Faltan campos obligatorios"
         });
       }
 
@@ -588,31 +590,31 @@ class UserController {
 
     } catch (error) {
       console.error("Error creando usuario como admin:", error);
-      
+
       if (error.code === 'auth/email-already-exists') {
-        return res.status(409).json({ 
-          ok: false, 
-          message: "Este email ya esta registrado" 
+        return res.status(409).json({
+          ok: false,
+          message: "Este email ya esta registrado"
         });
       }
-      
+
       if (error.code === 'auth/invalid-email') {
-        return res.status(400).json({ 
-          ok: false, 
-          message: "El email no es valido" 
+        return res.status(400).json({
+          ok: false,
+          message: "El email no es valido"
         });
       }
 
       if (error.code === 'auth/weak-password') {
-        return res.status(400).json({ 
-          ok: false, 
-          message: "La contraseña debe tener 6 caracteres o más" 
+        return res.status(400).json({
+          ok: false,
+          message: "La contraseña debe tener 6 caracteres o más"
         });
       }
 
-      return res.status(500).json({ 
-        ok: false, 
-        message: "Error al crear el usuario: " + error.message 
+      return res.status(500).json({
+        ok: false,
+        message: "Error al crear el usuario: " + error.message
       });
     }
   };
@@ -662,10 +664,10 @@ class UserController {
           errorD: {
             mensaje: "Contraseña incorrecta",
           },
-          errorP:null,
-          errorE:null,
-          errorN:null,
-          mensaje:null,
+          errorP: null,
+          errorE: null,
+          errorN: null,
+          mensaje: null,
         });
       }
 
@@ -677,10 +679,10 @@ class UserController {
           errorD: {
             mensaje: "Introduzca la contraseña",
           },
-            errorP:null,
-          errorE:null,
-          errorN:null,
-          mensaje:null,
+          errorP: null,
+          errorE: null,
+          errorN: null,
+          mensaje: null,
         });
       }
       console.error("Error:", error.message);
@@ -688,7 +690,7 @@ class UserController {
     }
   };
 
-   deleteUserAsAdmin = async (req, res) => {
+  deleteUserAsAdmin = async (req, res) => {
     try {
       const userId = req.params.id;
 
@@ -698,8 +700,8 @@ class UserController {
       //Borrar usuario en DB
       await this.client.post("/usuarios/delete", { id: userId });
 
-      console.log("Usuario eliminado correctamente, id del usuario: ",userId)
-return res.json({ ok: true });
+      console.log("Usuario eliminado correctamente, id del usuario: ", userId)
+      return res.json({ ok: true });
 
     } catch (error) {
       console.error("Error eliminando usuario como admin:", error);
