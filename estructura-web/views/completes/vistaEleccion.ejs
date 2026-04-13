@@ -1,13 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>Document</title>
 </head>
-<body>
-    <%if(userData) { %>
-     <%- include("../partials/sidebar") %>
-     <h1>hola</h1>
+
+<body class="min-h-screen">
+    <%- include("../partials/sidebar") %>
+        <main class="ml-64 p-8 min-h-screen">
+            <% if(userData) { %>
+                <h1 class="text-3xl font-bold mb-8text-gray-800">¿Qué tipo de compañero buscas?</h1>
+
+                <!-- Botones de elección -->
+                <div class="flex gap-4 mb-10">
+                    <button onclick="handleEleccion('perros')"
+                        class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Perros</button>
+                    <button onclick="handleEleccion('gatos')"
+                        class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Gatos</button>
+                    <button onclick="handleEleccion('ambos')"
+                        class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Ambos</button>
+                </div>
+
+                <!-- MODAL ENCUESTA -->
+                <div id="modalEncuesta"
+                    class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center hidden z-50">
+                    <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
+                        <h2 class="text-2xl font-bold mb-2">¡Ayúdanos a encontrar tu match ideal! 🐾</h2>
+                        <p class="text-gray-600 mb-6">Responde estas breves preguntas para que podamos recomendarte a
+                            los animales que mejor conectarán contigo.</p>
+
+                        <form action="/encuesta" method="POST" class="flex flex-col gap-4">
+                            <!-- Este input oculto guarda si eligió perros, gatos o ambos -->
+                            <input type="hidden" id="tipoEleccion" name="tipo" value="">
+
+                            <div>
+                                <label class="block font-semibold mb-1">¿Qué tamaño prefieres?</label>
+                                <select name="tamano"
+                                    class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="Indiferente">Me es indiferente</option>
+                                    <option value="Pequeño">Pequeño</option>
+                                    <option value="Mediano">Mediano</option>
+                                    <option value="Grande">Grande</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-1">Nivel de energía deseado</label>
+                                <select name="nivel_energia"
+                                    class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="Indiferente">Me es indiferente</option>
+                                    <option value="Bajo">Tranquilo (Paseos cortos)</option>
+                                    <option value="Medio">Activo (Juegos diarios)</option>
+                                    <option value="Alto">Muy activo (Deporte y correr)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-1">Edad preferida</label>
+                                <select name="edad"
+                                    class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="Indiferente">Me es indiferente</option>
+                                    <option value="Cachorro">Cachorro (< 1 año)</option>
+                                    <option value="Adulto">Adulto (1 a 7 años)</option>
+                                    <option value="Senior">Senior (> 7 años)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-1">Preferencia de sexo</label>
+                                <select name="sexo"
+                                    class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="Indiferente">Me es indiferente</option>
+                                    <option value="Macho">Macho</option>
+                                    <option value="Hembra">Hembra</option>
+                                </select>
+                            </div>
+
+                            <div class="flex justify-end gap-3 mt-6">
+                                <button type="submit"
+                                    class="w-full px-4 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+                                    Encontrar a mi compañero
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--MODAL DE MATCHES -->
+                <% if (typeof matches !=='undefined' && matches) { %>
+                    <div id="modalMatches" class="fixed inset-0 bg-black/80 flex justify-center items-center z-50">
+                        <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-3xl font-bold text-blue-600">Estos son tus matches!💖</h2>
+                                <a href="/adopciones?tipo<%=tipoElegido %>"
+                                    class="text-gray-500 hover:text-red-500 font-bold text-2xl transition">
+                                    &times;
+                                </a>
+                            </div>
+
+                            <% if (matches.length> 0){ %>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <% matches.forEach(animal=> { %>
+                                        <div
+                                            class="border rounded-lg p-4 shadow-sm hover:shadow-md transition text-center bg-gray-50">
+                                            <!-- Si tienes fotos, podrías poner <img src="animal.foto"> aquí -->
+                                            <h3 class="text-xl font-bold text-gray-800 uppercase">
+                                                <%= animal.nombre %>
+                                            </h3>
+                                            <p class="text-gray-600">
+                                                <%= animal.raza %> | <%= animal.sexo %>
+                                            </p>
+
+                                            <a href="/animales/<%= animal.id %>"
+                                                class="mt-4 inline-block px-4 py-2 bg-blue-500 text-white font-medium rounded hover:bg-blue-600 w-full">
+                                                Ver Ficha
+                                            </a>
+                                        </div>
+                                        <% }) %>
+                                </div>
+                                <% } else { %>
+                                    <div class="text-center py-10">
+                                        <p class="text-xl text-gray-700">Por ahora no tenemos un animal que cumpla el
+                                            100% de tus características.</p>
+                                        <p class="text-gray-500 mt-2">¡Pero el amor a primera vista no entiende de
+                                            filtros!</p>
+                                    </div>
+                                    <% } %>
+                                        <div class="mt-8 text-center border-t pt-6">
+                                            <p class="text-sm text-gray-500 mb-3">Si no ves a tu compañero ideal aquí,
+                                                hay muchos más esperándote.</p>
+                                            <a href="/adopciones?tipo=<%= tipoElegido %>"
+                                                class="px-6 py-3 bg-gray-800 text-white font-bold rounded-lg hover:bg-gray-900 transition">
+                                                Explorar Catálogo Completo
+                                            </a>
+                                        </div>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <!--LÓGICA -->
+                        <script>
+                            // Leemos si el usuario ya hizo la encuesta
+                            const encuestaRealizada = "<%= userData.encuesta_realizada %>" === "true";
+
+                            function handleEleccion(tipo) {
+                                if (encuestaRealizada) {
+                                    // Si ya la hizo, llevamos al usuario directo al match
+                                    window.location.href = `/adopciones?tipo=${tipo}`;
+                                } else {
+                                    // Si no la ha hecho, abrimos modal y guardamos en el form la elección
+                                    document.getElementById('tipoEleccion').value = tipo;
+                                    document.getElementById('modalEncuesta').classList.remove('hidden');
+                                }
+                            }
+                        </script>
+
+
+
+                        <% } %>
+        </main>
 </body>
+
 </html>
