@@ -5,15 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
 <body>
 
     <% if (userData) { %>
+        <%- include("../partials/sidebar") %>
 
+<<<<<<< HEAD
           <%- include("../partials/sidebar") %>
+=======
+>>>>>>> Alba
 
             <main class="ml-64 p-6">
         <h1 class="text-xl font-bold">Bienvenido <%=userData.nombre%>
