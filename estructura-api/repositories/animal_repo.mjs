@@ -69,9 +69,62 @@ const getByRaza = async (raza) => {
   return result.rows;
 };
 
+//FILTRO POR PREFERENCIAS
+const getMatches = async (preferencias, tipoElegido) => {
+  let queryArgs = [];
+  let queryConditions = [];
+  let query = "SELECT * FROM animales WHERE 1=1";
+
+  //filtro especie
+  if (tipoElegido === "perros") {
+    queryArgs.push("Canina");
+    queryConditions.push(`especie = $${queryArgs.length}`);
+  } else if (tipoElegido === "gatos") {
+    queryArgs.push("Felina");
+    queryConditions.push(`especie = $${queryArgs.length}`);
+  }
+
+  //filtro tamaño
+  if (preferencias.tamano && preferencias.tamano !== "Indiferente") {
+    queryArgs.push(preferencias.tamano);
+    queryConditions.push(`tamano = $${queryArgs.length}`);
+  }
+
+  //filtro sexo
+  if (preferencias.sexo && preferencias.sexo !== "Indiferente") {
+    queryArgs.push(preferencias.sexo);
+    queryConditions.push(`sexo = $${queryArgs.length}`);
+  }
+
+  //filtro energía
+  if (preferencias.nivel_energia && preferencias.nivel_energia !== "Indiferente") {
+    queryArgs.push(preferencias.nivel_energia);
+    queryConditions.push(`nivel_energia = $${queryArgs.length}`);
+  }
+
+  //filtro edad
+  if (preferencias.edad === "Cachorro") {
+    queryConditions.push(`fecha_nacimiento >= NOW() - INTERVAL '1 YEAR'`);
+  } else if (preferencias.edad === "Adulto") {
+    queryConditions.push(`fecha_nacimiento < NOW() - INTERVAL '1 YEAR' AND fecha_nacimiento >= NOW() - INTERVAL '7 YEARS'`);
+  } else if (preferencias.edad === "Senior") {
+    queryConditions.push(`fecha_nacimiento < NOW() - INTERVAL '7 YEARS'`);
+  }
+
+  //unir todas las condiciones
+  if (queryConditions.length > 0) {
+    query += " AND " + queryConditions.join(" AND ");
+  }
+
+  const result = await pool.query(query, queryArgs);
+  return result.rows;
+};
+
+
 export default {
   getAllAnimales,
   getAnimalById,
   getByEspecie,
-  getByRaza
+  getByRaza,
+  getMatches
 };
