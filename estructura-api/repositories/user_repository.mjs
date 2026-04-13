@@ -3,25 +3,25 @@ import db from "../config/database.mjs";
 
 //Obtiene el user por email
 export const getUserByEmail = async (email) => {
-  const query = "SELECT * FROM usuarios WHERE email = $1";
-  const values = [email];
+    const query = "SELECT * FROM usuarios WHERE email = $1";
+    const values = [email];
 
-  const result = await db.query(query, values);
-  return result.rows[0];
+    const result = await db.query(query, values);
+    return result.rows[0];
 };
 
 //Crea el usuario
 export const createUser = async ({ id, username, email }) => {
-  const query = `
+    const query = `
     INSERT INTO usuarios (id, username, email, fecha_registro)
     VALUES ($1, $2, $3, NOW())
     RETURNING id, username, email
   `;
 
-  const values = [id, username, email];
+    const values = [id, username, email];
 
-  const result = await db.query(query, values);
-  return result.rows[0];
+    const result = await db.query(query, values);
+    return result.rows[0];
 };
 
 //Seleccionar usuario por id
@@ -54,10 +54,10 @@ export const updateUserEmailById = async (userData) => {
     const query = "UPDATE usuarios set email = $1 WHERE id = $2;"
     const values = [userData.email, userData.id]
 
-    try{
-        return await db.query(query,values)
-    }catch(err) {
-        console.error("Error al actualizar el email:",err.message)
+    try {
+        return await db.query(query, values)
+    } catch (err) {
+        console.error("Error al actualizar el email:", err.message)
         throw err
     }
 
@@ -107,14 +107,41 @@ export const deleteUserById = async (id) => {
 export const getAllUsers = async () => {
     const query = "SELECT * FROM usuarios"
 
-    try{
+    try {
         const result = await db.query(query)
         return result.rows
-    }catch(err){
+    } catch (err) {
         console.error("Error al obtener los usuarios: ", err.message)
         throw err
     }
-} 
+}
+
+//FILTRO POR PREFERENCIAS
+export const guardarEncuesta = async (userId, preferencias) => {
+    try {
+        //marca al usuario como que ya ha hecho la encuesta
+        await db.query("UPDATE usuarios SET encuesta_realizada = true WHERE id = $1", [userId]);
+
+        //insertar sus preferencias
+        const query = `
+            INSERT INTO preferencias_adopcion (user_id, tamano, nivel_energia, edad, sexo) 
+            VALUES ($1, $2, $3, $4, $5)
+        `;
+        const values = [
+            userId,
+            preferencias.tamano,
+            preferencias.nivel_energia,
+            preferencias.edad,
+            preferencias.sexo
+        ];
+
+        await db.query(query, values);
+    } catch (err) {
+        console.error("Error al guardar encuesta:", err.message);
+        throw err;
+    }
+};
+
 
 
 export default {
@@ -126,4 +153,5 @@ export default {
     getAllUsers,
     updateUserEmailById,
     updateUserById,
+    guardarEncuesta
 };

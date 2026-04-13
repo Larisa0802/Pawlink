@@ -1,5 +1,6 @@
 import user_repository, * as userRepository from "../repositories/user_repository.mjs";
 import { updateUserById } from "../repositories/user_repository.mjs";
+import animalRepository from "../repositories/animal_repo.mjs";
 
 //Registro
 export const register = async (req, res) => {
@@ -63,6 +64,7 @@ export const login = async (req, res) => {
         email: user.email,
         admin: user.admin,
         fecha_registro: user.fecha_registro,
+        encuesta_realizada: user.encuesta_realizada
       },
     });
   } catch (error) {
@@ -144,34 +146,34 @@ export const updateEmail = async (req, res) => {
 };
 
 export const updateUserAdmin = async (req, res) => {
-    try {
-        const { id, name, email, admin } = req.body;
+  try {
+    const { id, name, email, admin } = req.body;
 
-        await updateUserById({
-            id,
-            name,
-            email,
-            admin
-        });
+    await updateUserById({
+      id,
+      name,
+      email,
+      admin
+    });
 
-        return res.json({ ok: true });
+    return res.json({ ok: true });
 
-    } catch (err) {
-        console.error("Error en updateUserAdmin:", err.message);
-        return res.status(500).json({ error: "Error al actualizar usuario" });
-    }
+  } catch (err) {
+    console.error("Error en updateUserAdmin:", err.message);
+    return res.status(500).json({ error: "Error al actualizar usuario" });
+  }
 };
 
 
 
-export const deleteUser = async (req,res) => {
-      try{
-          await userRepository.deleteUserById(req.body.id)
-      }catch(error){
-          console.log(error)
-          res.send(error).status(500)
-      }
-      res.sendStatus(200)
+export const deleteUser = async (req, res) => {
+  try {
+    await userRepository.deleteUserById(req.body.id)
+  } catch (error) {
+    console.log(error)
+    res.send(error).status(500)
+  }
+  res.sendStatus(200)
 }
 
 //Obtener datos de usuario
@@ -202,3 +204,28 @@ export const checkEmail = async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor" });
   }
 };
+
+
+// Controlador de filtro por preferencias
+export const enviarEncuesta = async (req, res) => {
+  try {
+    const { userId, tamano, nivel_energia, edad, sexo, tipo } = req.body;
+
+    //guarda en BD
+    await userRepository.guardarEncuesta(userId, { tamano, nivel_energia, edad, sexo });
+
+    //busca los matches 
+    const matches = await animalRepository.getMatches({ tamano, nivel_energia, edad, sexo }, tipo);
+
+    //devuelve los animales al Web
+    res.json({ ok: true, matches });
+
+  } catch (error) {
+    console.error("Error procesando la encuesta:", error.message);
+    res.status(500).json({ ok: false, error: "Fallo al hacer el match" });
+  }
+};
+
+
+
+
