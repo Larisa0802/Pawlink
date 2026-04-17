@@ -27,7 +27,11 @@
                 <!-- MODAL ENCUESTA -->
                 <div id="modalEncuesta"
                     class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center hidden z-50">
-                    <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
+                    <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md relative">
+                        <button type="button" onclick="saltarEncuesta()"
+                            class="absolute top-4 right-4 text-gray-400 hover:text-red-500 font-bold text-3xl leading-none transition">
+                            &times;
+                        </button>
                         <h2 class="text-2xl font-bold mb-2">¡Ayúdanos a encontrar tu match ideal! 🐾</h2>
                         <p class="text-gray-600 mb-6">Responde estas breves preguntas para que podamos recomendarte a
                             los animales que mejor conectarán contigo.</p>
@@ -38,10 +42,10 @@
 
                             <div>
                                 <label class="block font-semibold mb-1">¿Qué tamaño prefieres?</label>
-                                <select name="tamano"
+                                <select name="tamano" id="selectTamano"
                                     class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option value="Indiferente">Me es indiferente</option>
-                                    <option value="Pequeño">Pequeño</option>
+                                    <option id="opcionPequeno" value="Pequeño">Pequeño</option>
                                     <option value="Mediano">Mediano</option>
                                     <option value="Grande">Grande</option>
                                 </select>
@@ -63,7 +67,6 @@
                                 <select name="edad"
                                     class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option value="Indiferente">Me es indiferente</option>
-                                    <option value="Cachorro">Cachorro (< 1 año)</option>
                                     <option value="Adulto">Adulto (1 a 7 años)</option>
                                     <option value="Senior">Senior (> 7 años)</option>
                                 </select>
@@ -144,18 +147,38 @@
                         <!--LÓGICA -->
                         <script>
                             // Leemos si el usuario ya hizo la encuesta
-                            const encuestaRealizada = "<%= userData.encuesta_realizada %>" === "true";
+                            // const encuestaRealizada = "<%= userData.encuesta_realizada %>" === "true";
+                            const encuestaRealizada = false; // <-- TRUCAJE TEMPORAL: Siempre salta el modal para estilar y control de errores, se quitara mas adelante
+
 
                             function handleEleccion(tipo) {
                                 if (encuestaRealizada) {
-                                    // Si ya la hizo, llevamos al usuario directo al match
                                     window.location.href = `/adopciones?tipo=${tipo}`;
                                 } else {
-                                    // Si no la ha hecho, abrimos modal y guardamos en el form la elección
                                     document.getElementById('tipoEleccion').value = tipo;
+                                    const opcionPequeno = document.getElementById('opcionPequeno');
+
+                                    if (tipo === "gatos") {
+                                        opcionPequeno.hidden = true;
+
+                                        const selectTamano = document.getElementById('selectTamano');
+                                        if (selectTamano.value === "Pequeño") {
+                                            selectTamano.value = "Indiferente";
+                                        }
+                                    } else {
+                                        opcionPequeno.hidden = false;
+                                    }
+
                                     document.getElementById('modalEncuesta').classList.remove('hidden');
                                 }
                             }
+
+
+                            function saltarEncuesta() {
+                                const tipo = document.getElementById('tipoEleccion').value;
+                                window.location.href = `/adopciones?tipo=${tipo}`;
+                            }
+
                         </script>
 
 
