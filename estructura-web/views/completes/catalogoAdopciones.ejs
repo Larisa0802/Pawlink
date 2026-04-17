@@ -98,8 +98,7 @@
                     data-especie="<%= animal.especie || '—' %>" data-raza="<%= animal.raza || '—' %>"
                     data-sexo="<%= animal.sexo || '—' %>"
                     data-nacimiento="<%= new Date(animal.fecha_nacimiento).toLocaleDateString('es-ES') || '—' %>"
-                    data-color="<%= animal.color || '—' %>" data-pelaje="<%= animal.pelaje || '—' %>"
-                    data-vacunas="<%= animal.vacunas || '—' %>"
+                    data-pelaje="<%= animal.pelaje || '—' %>" data-vacunas="<%= animal.vacunas || '—' %>"
                     data-esterilizado="<%= animal.esterilizado ? 'Sí' : 'No' %>"
                     data-desparasitado="<%= animal.desparasitado ? 'Sí' : 'No' %>" data-foto="<%= animal.foto || '' %>">
                     Más información
@@ -141,7 +140,6 @@
           <p><span class="font-semibold text-gray-500 block">Sexo</span><span id="modal-sexo"></span></p>
           <p><span class="font-semibold text-gray-500 block">Fecha nacimiento</span><span id="modal-nacimiento"></span>
           </p>
-          <p><span class="font-semibold text-gray-500 block">Color</span><span id="modal-color"></span></p>
           <p><span class="font-semibold text-gray-500 block">Pelaje</span><span id="modal-pelaje"></span></p>
           <p><span class="font-semibold text-gray-500 block">Vacunas</span><span id="modal-vacunas"></span></p>
           <p><span class="font-semibold text-gray-500 block">Esterilizado</span><span id="modal-esterilizado"></span>
@@ -168,7 +166,6 @@
           document.getElementById('modal-raza').textContent = d.raza;
           document.getElementById('modal-sexo').textContent = d.sexo;
           document.getElementById('modal-nacimiento').textContent = d.nacimiento;
-          document.getElementById('modal-color').textContent = d.color;
           document.getElementById('modal-pelaje').textContent = d.pelaje;
           document.getElementById('modal-vacunas').textContent = d.vacunas;
           document.getElementById('modal-esterilizado').textContent = d.esterilizado;
