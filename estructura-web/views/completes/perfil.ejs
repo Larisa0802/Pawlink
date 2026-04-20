@@ -28,27 +28,36 @@
 
 
                 <div class="flex gap-20">
-                    <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/avatar-default.webp" class="w-32 h-32 rounded-full object-cover" />
+                    <% let
+                        img="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/default.png"
+                        ; if (userData.animal==="cat" ) {
+                        img="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png"
+                        ; } else if (userData.animal==="dog" ) {
+                        img="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dog.png"
+                        ; } %>
 
-                    <div class="block">
-                        <span>
-                            <p class="font-bold">Nombre</p>
-                            <%=userData.nombre %>
-                        </span>
-
-                        <span>
-                            <p class="font-bold">Email</p>
-                            <%=userData.email %>
-                        </span>
-                        <span>
-                            <p class="font-bold">Fecha de registro: </p>
-                            <%= new Date(userData.fecha).toLocaleDateString("es-ES") %>
-                                <%= new Date(userData.fecha).toLocaleTimeString("es-ES", { hour: "2-digit" ,
-                                    minute: "2-digit" }) %>
-                        </span>
+                        <img src="<%= img %>" class="w-32 h-32 rounded-full object-cover">
 
 
-                    </div>
+                        <div class="block">
+                            <span>
+                                <p class="font-bold">Nombre</p>
+                                <%=userData.nombre %>
+                            </span>
+
+                            <span>
+                                <p class="font-bold">Email</p>
+                                <%=userData.email %>
+                            </span>
+                            <span>
+                                <p class="font-bold">Fecha de registro: </p>
+                                <%= new Date(userData.fecha).toLocaleDateString("es-ES") %>
+                                    <%= new Date(userData.fecha).toLocaleTimeString("es-ES", { hour: "2-digit" ,
+                                        minute: "2-digit" }) %>
+                            </span>
+
+
+                        </div>
 
                 </div> <br>
 
@@ -296,12 +305,14 @@
 
             <script>
                 document.addEventListener("DOMContentLoaded", () => {
+                    const tieneError = document.getElementById("error");
                     const modal = sessionStorage.getItem("modalAbierto");
-                    if (modal) {
+
+                    if (modal && tieneError) {
                         openModal(modal);
                     }
-                });
-
+                    sessionStorage.removeItem("modalAbierto");
+                })
             </script>
 
 
