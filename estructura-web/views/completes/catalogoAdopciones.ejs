@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Animales - PawLink</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
@@ -98,8 +99,7 @@
                     data-especie="<%= animal.especie || '—' %>" data-raza="<%= animal.raza || '—' %>"
                     data-sexo="<%= animal.sexo || '—' %>"
                     data-nacimiento="<%= new Date(animal.fecha_nacimiento).toLocaleDateString('es-ES') || '—' %>"
-                    data-color="<%= animal.color || '—' %>" data-pelaje="<%= animal.pelaje || '—' %>"
-                    data-vacunas="<%= animal.vacunas || '—' %>"
+                    data-pelaje="<%= animal.pelaje || '—' %>" data-vacunas="<%= animal.vacunas || '—' %>"
                     data-esterilizado="<%= animal.esterilizado ? 'Sí' : 'No' %>"
                     data-desparasitado="<%= animal.desparasitado ? 'Sí' : 'No' %>" data-foto="<%= animal.foto || '' %>">
                     Más información
@@ -141,7 +141,6 @@
           <p><span class="font-semibold text-gray-500 block">Sexo</span><span id="modal-sexo"></span></p>
           <p><span class="font-semibold text-gray-500 block">Fecha nacimiento</span><span id="modal-nacimiento"></span>
           </p>
-          <p><span class="font-semibold text-gray-500 block">Color</span><span id="modal-color"></span></p>
           <p><span class="font-semibold text-gray-500 block">Pelaje</span><span id="modal-pelaje"></span></p>
           <p><span class="font-semibold text-gray-500 block">Vacunas</span><span id="modal-vacunas"></span></p>
           <p><span class="font-semibold text-gray-500 block">Esterilizado</span><span id="modal-esterilizado"></span>
@@ -154,51 +153,54 @@
       </div>
     </div>
 
-    <script>
-      const modal = document.getElementById('editModal');
+    <%- include("../partials/footer") %>
 
-      // Rellenar y abrir modal con los datos del botón pulsado
-      document.querySelectorAll('.masInfo1').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const d = btn.dataset;
+      <script>
+        const modal = document.getElementById('editModal');
 
-          document.getElementById('modal-nombre').textContent = d.nombre;
-          document.getElementById('modal-chip').textContent = d.chip;
-          document.getElementById('modal-especie').textContent = d.especie;
-          document.getElementById('modal-raza').textContent = d.raza;
-          document.getElementById('modal-sexo').textContent = d.sexo;
-          document.getElementById('modal-nacimiento').textContent = d.nacimiento;
-          document.getElementById('modal-color').textContent = d.color;
-          document.getElementById('modal-pelaje').textContent = d.pelaje;
-          document.getElementById('modal-vacunas').textContent = d.vacunas;
-          document.getElementById('modal-esterilizado').textContent = d.esterilizado;
-          document.getElementById('modal-desparasitado').textContent = d.desparasitado;
+        // Rellenar y abrir modal con los datos del botón pulsado
+        document.querySelectorAll('.masInfo1').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const d = btn.dataset;
 
-          // Foto opcional
-          const fotoWrap = document.getElementById('modal-foto-wrap');
-          const fotoImg = document.getElementById('modal-foto');
-          if (d.foto) {
-            fotoImg.src = d.foto;
-            fotoImg.alt = d.nombre;
-            fotoWrap.classList.remove('hidden');
-          } else {
-            fotoWrap.classList.add('hidden');
-          }
+            document.getElementById('modal-nombre').textContent = d.nombre;
+            document.getElementById('modal-chip').textContent = d.chip;
+            document.getElementById('modal-especie').textContent = d.especie;
+            document.getElementById('modal-raza').textContent = d.raza;
+            document.getElementById('modal-sexo').textContent = d.sexo;
+            document.getElementById('modal-nacimiento').textContent = d.nacimiento;
+            document.getElementById('modal-pelaje').textContent = d.pelaje;
+            document.getElementById('modal-vacunas').textContent = d.vacunas;
+            document.getElementById('modal-esterilizado').textContent = d.esterilizado;
+            document.getElementById('modal-desparasitado').textContent = d.desparasitado;
 
-          modal.style.display = 'flex';
+            // Foto opcional
+            const fotoWrap = document.getElementById('modal-foto-wrap');
+            const fotoImg = document.getElementById('modal-foto');
+            if (d.foto) {
+              fotoImg.src = d.foto;
+              fotoImg.alt = d.nombre;
+              fotoWrap.classList.remove('hidden');
+            } else {
+              fotoWrap.classList.add('hidden');
+            }
+
+            modal.style.display = 'flex';
+          });
         });
-      });
 
-      // Cerrar con el botón ✕
-      document.getElementById('cerrarModal').addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
+        // Cerrar con el botón ✕
+        document.getElementById('cerrarModal').addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
 
-      // Cerrar al hacer clic en el fondo
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.style.display = 'none';
-      });
-    </script>
+        // Cerrar al hacer clic en el fondo
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.style.display = 'none';
+        });
+      </script>
+
+
 
 </body>
 
