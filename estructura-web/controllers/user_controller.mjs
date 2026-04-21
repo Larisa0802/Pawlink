@@ -23,15 +23,15 @@ class UserController {
   }
   /** REGISTER **/
   showRegisterForm = async (req, res) => {
-    res.render("completes/register", { errorL: null });
+    res.render("completes/login", {
+      errorL: { mensaje: null }, mensaje: null, activeTab: 'register', errorR: { mensaje: null }
+    });
   };
 
   //Enviar registro
   submitRegister = async (req, res) => {
     let { nombre, email, password } = req.body;
 
-
-    
     console.log("WEB RECIBE:", req.body);
 
     try {
@@ -65,7 +65,7 @@ class UserController {
           mensaje = "El formato del email no es válido";
         }
 
-        return res.render("completes/register", { errorL: { mensaje } });
+        return res.render("completes/login", { errorL: { mensaje: null }, errorR: { mensaje: mensaje }, mensaje: null, activeTab: 'register' });
       }
 
       const id = firebaseData.localId;
@@ -84,7 +84,9 @@ class UserController {
       if (response.ok) {
         return res.render("completes/login", {
           errorL: { mensaje: null },
+          errorR: { mensaje: null },
           mensaje: "Registro exitoso",
+          activeTab: 'login',
         });
       } else {
         //Borrar si no es exitoso
@@ -96,27 +98,31 @@ class UserController {
             body: JSON.stringify({ idToken }),
           },
         );
-        return res.render("completes/register", {
-          errorL: { mensaje: "Error en el registro" },
+        return res.render("completes/login", {
+          errorR: { mensaje: "Error en el registro" },
+          errorL: { mensaje: null },
+          mensaje: null,
+          activeTab: 'register',
         });
       }
     } catch (error) {
       console.error("Error en registro:", error);
 
-      return res.render("completes/register", {
-        errorL: { mensaje: "Error de conexión con el servidor" },
+      return res.render("completes/login", {
+        errorL: { mensaje: "Error de conexión con el servidor" }, errorR: { mensaje: null }, mensaje: null, activeTab: 'register',
       });
     }
   };
 
   //**LOGIN **/
   showLoginForm = async (req, res) => {
-    res.render("completes/login", { errorL: null, mensaje: null });
+    res.render("completes/login", { errorL: null, errorR: null, mensaje: null, activeTab: 'login ' },
+    );
   };
 
   //Enviar login a firebase para autentificarnos y traer los datos.
   submitLogin = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, especie } = req.body;
     console.log("Recibo del front: ", req.body.email);
 
     try {
@@ -138,8 +144,10 @@ class UserController {
       //Si no es correcta la autentificacion
       if (firebaseData.error) {
         return res.render("completes/login", {
-          errorL: { mensaje: "Credenciales incorrectas" },
+          errorL: { mensaje: "Credenciales incorrectas" }, errorR: { mensaje: null },
           mensaje: null,
+          activeTab: 'login',
+
         });
       }
 
@@ -162,7 +170,8 @@ class UserController {
             id: data.user.id,
             admin: data.user.admin,
             fecha: data.user.fecha_registro,
-            encuesta_realizada: data.user.encuesta_realizada
+            encuesta_realizada: data.user.encuesta_realizada,
+            animal: req.body.especie,
           },
           { maxAge: 3600000 },
         );
@@ -174,7 +183,9 @@ class UserController {
           id: data.user.id,
           admin: data.user.admin,
           fecha: data.user.fecha_registro,
-          encuesta_realizada: data.user.encuesta_realizada
+          encuesta_realizada: data.user.encuesta_realizada,
+          animal: req.body.especie,
+
         };
 
         console.log(
@@ -188,6 +199,9 @@ class UserController {
         return res.render("completes/login", {
           errorL: { mensaje: "Error al recuperar datos: " + data.message },
           mensaje: null,
+          errorR: null,
+          activeTab: 'login',
+
         });
       }
     } catch (error) {
@@ -195,6 +209,9 @@ class UserController {
       return res.render("completes/login", {
         errorL: { mensaje: "Error de conexión" },
         mensaje: null,
+        errorR: null,
+        activeTab: 'login',
+
       });
     }
   };
@@ -255,6 +272,7 @@ class UserController {
         return res.status(401).render("completes/login", {
           errorL: { mensaje: "No logueado" },
           mensaje: null,
+          errorR: { mensaje: null }, activeTab: "login",
         });
       }
 
@@ -271,7 +289,11 @@ class UserController {
         nombre: req.body.name,
         admin: userData.admin,
         fecha: userData.fecha,
+          encuesta_realizada: userData.encuesta_realizada,
+            animal: userData.animal,
       });
+
+  
 
       userData.nombre = req.body.name;
       req.cookies["datosUsuario"] = userData;
@@ -318,6 +340,8 @@ class UserController {
         return res.status(401).render("completes/login", {
           errorL: { mensaje: "No logueado" },
           mensaje: null,
+          errorR: { mensaje: null },
+          activeTab: "login",
         });
       }
 
@@ -375,7 +399,7 @@ class UserController {
       return res.render("completes/login", {
         mensaje:
           "Email actualizado correctamente. Se ha enviado un correo de verificación al nuevo email.",
-        errorL: { mensaje: null },
+        errorL: { mensaje: null }, errorR: { mensaje: null }, activeTab: "login",
       });
     } catch (error) {
       if (error.code === "auth/missing-password" || error.status === 400) {
@@ -432,6 +456,8 @@ class UserController {
         return res.status(401).render("completes/login", {
           errorL: { mensaje: "No logueado" },
           mensaje: null,
+          errorR: { mensaje: null },
+          activeTab: "login",
         });
       }
       if (userData && userData.admin) {
@@ -454,10 +480,11 @@ class UserController {
 
       return res.render("completes/login", {
         errorL: {
-          mensaje:
-            "Contraseña actualizada correctamente. Vuelva a iniciar sesión.",
+          mensaje:null,
         },
-        mensaje: null,
+        mensaje: "Contraseña actualizada correctamente. Vuelva a iniciar sesión.",
+        errorR: { mensaje: null }, activeTab: "login",
+
       });
     } catch (error) {
       //Comprobaciones
@@ -654,7 +681,7 @@ class UserController {
 
         return res.render("completes/login", {
           mensaje: "Cuenta eliminada correctamente",
-          errorL: { mensaje: null },
+          errorL: { mensaje: null }, errorR: { mensaje: null }, activeTab: "login",
         });
       }
     } catch (error) {
@@ -662,7 +689,7 @@ class UserController {
         return res.render("completes/perfil", {
           userData,
           openDeleteModal: true,
-          active: "perfil",
+          activeTab: "perfil",
           errorD: {
             mensaje: "Contraseña incorrecta",
           },
@@ -677,7 +704,7 @@ class UserController {
         return res.render("completes/perfil", {
           userData,
           openDeleteModal: true,
-          active: "perfil",
+          activeTab: "perfil",
           errorD: {
             mensaje: "Introduzca la contraseña",
           },
