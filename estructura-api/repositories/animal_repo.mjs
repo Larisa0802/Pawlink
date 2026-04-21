@@ -73,7 +73,10 @@ const getByRaza = async (raza) => {
 const getMatches = async (preferencias, tipoElegido) => {
   let queryArgs = [];
   let queryConditions = [];
-  let query = "SELECT * FROM animales WHERE 1=1";
+  let query = `SELECT animales.*, protectoras.nombre AS protectora_nombre 
+    FROM animales 
+    LEFT JOIN protectoras ON animales.protectora_id = protectoras.id 
+    WHERE 1=1`;
 
   //filtro especie
   if (tipoElegido === "perros") {
@@ -103,12 +106,10 @@ const getMatches = async (preferencias, tipoElegido) => {
   }
 
   //filtro edad
-  if (preferencias.edad === "Cachorro") {
-    queryConditions.push(`fecha_nacimiento >= NOW() - INTERVAL '1 YEAR'`);
+  if (preferencias.edad === "Senior") {
+    queryConditions.push(`fecha_nacimiento < NOW() - INTERVAL '7 YEARS'`);
   } else if (preferencias.edad === "Adulto") {
     queryConditions.push(`fecha_nacimiento < NOW() - INTERVAL '1 YEAR' AND fecha_nacimiento >= NOW() - INTERVAL '7 YEARS'`);
-  } else if (preferencias.edad === "Senior") {
-    queryConditions.push(`fecha_nacimiento < NOW() - INTERVAL '7 YEARS'`);
   }
 
   //unir todas las condiciones

@@ -4,49 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Inicio</title>
 
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen bg-gray-50">
+
 
     <% if (userData) { %>
         <%- include("../partials/sidebar") %>
 
 
-            <main class="ml-64 p-6">
-        <h1 class="text-xl font-bold">Bienvenido <%=userData.nombre%>
-        </h1>
-        <%if(userData.admin) { %>
-            <h1 class="text-xl font-bold">Eres admin</h1>
-            <%}%>
-                <br>
-                <a href="/perfil"
-                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
-                    Ir a perfil
-                </a>
+            <main class="ml-64 p-6 flex-grow">
+                <h1 class="text-xl font-bold">Bienvenido <%=userData.nombre%>
+                </h1>
+                <%if(userData.admin) { %>
+                    <h1 class="text-xl font-bold">Eres admin</h1>
+                    <%}%><br>
+                        <!-- <a href="/perfil"
+                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
+                            Ir a perfil
+                        </a>-->
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2 mt-6">Quiénes somos</h2>
+                            <p class="text-gray-600 leading-relaxed">
+                                Somos un equipo apasionado por el bienestar animal. PawLink nace del profundo amor por
+                                los peludos y la necesidad de modernizar el proceso de adopción. Nuestra misión es dar
+                                voz a los perros y gatos que esperan en los refugios, conectando a personas y familias
+                                con protectoras de toda España para darles esa ansiada segunda oportunidad.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2 mt-8">Qué hacemos</h2>
+                            <p class="text-gray-600 leading-relaxed">
+                                Hemos revolucionado el sistema tradicional de adopción creando un innovador sistema de
+                                "Match" inteligente. A través de nuestro cuestionario de estilo de vida, analizamos tus
+                                características y preferencias para encontrar a tu compañero ideal, garantizando una
+                                convivencia perfecta. Además, digitalizamos y simplificamos todos los trámites para que
+                                la protectora y tú estéis siempre comunicados.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2 mt-8">Todo sobre PawLink</h2>
+                            <p class="text-gray-600 leading-relaxed">
+                                PawLink es mucho más que un catálogo de animales; es un ecosistema de bienestar. Desde
+                                tu cuenta puedes hacer seguimiento en tiempo real de tus solicitudes, gestionar tus
+                                datos personales y comunicarte fácilmente ante cualquier duda o problema. Trabajamos día
+                                a día con un solo objetivo en mente: que cada "match" sea el principio de una historia
+                                feliz para toda la vida.
+                            </p>
+                        </div>
+
+
+                        <section id="protectoras">
+                            <h2>Protectoras</h2>
+
+                        </section>
 
             </main>
 
-                <%}else{%>
+            <%}else{%>
 
- <div
-                class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
-                <h2 class="text-2xl font-bold text-gray-800 mb-3">
-                    ¡Ups! Parece que no estás logueado
-                </h2>
+                <div
+                    class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">
+                        ¡Ups! Parece que no estás logueado
+                    </h2>
 
-                <p class="text-gray-600 mb-6">
-                    Para acceder a esta sección necesitas iniciar sesión.
-                    No te preocupes, te llevamos de vuelta a la página principal.
-                </p>
+                    <p class="text-gray-600 mb-6">
+                        Para acceder a esta sección necesitas iniciar sesión.
+                        No te preocupes, te llevamos de vuelta a la página principal.
+                    </p>
 
-                <a href="/"
-                    class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
-                    Volver al inicio
-                </a>
-            </div>
-                    <%}%>
+                    <a href="/"
+                        class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+                        Volver al inicio
+                    </a>
+                </div>
+                <%}%>
+
+                    <%- include("../partials/footer") %>
 
 </body>
 
