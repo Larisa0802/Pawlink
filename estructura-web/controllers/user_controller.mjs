@@ -289,7 +289,11 @@ class UserController {
         nombre: req.body.name,
         admin: userData.admin,
         fecha: userData.fecha,
+          encuesta_realizada: userData.encuesta_realizada,
+            animal: userData.animal,
       });
+
+  
 
       userData.nombre = req.body.name;
       req.cookies["datosUsuario"] = userData;
