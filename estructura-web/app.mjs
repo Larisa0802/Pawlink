@@ -6,6 +6,7 @@ import session from "express-session";
 import { initializeApp } from "firebase/app";
 import userRoutes from "./routes/user_routes.mjs";
 import animalRoutes from "./routes/animal_routes.mjs";
+import procesosRoutes from "./routes/procesos_routes.mjs";
 
 
 const firebaseConfig = {
@@ -54,6 +55,7 @@ app.use((req, res, next) => {
 
 app.use("/", userRoutes);
 app.use("/", animalRoutes);
+app.use("/", procesosRoutes);
 
 
 app.listen(PORT, ()=>{
