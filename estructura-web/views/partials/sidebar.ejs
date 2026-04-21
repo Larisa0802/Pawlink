@@ -1,47 +1,90 @@
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
 
 <aside class="w-64 h-screen fixed left-0 top-0 bg-gray-900 text-white flex flex-col p-4">
-            <h2 class="text-xl font-bold mb-6">PawLink</h2>
+    <h2 class="text-xl font-bold mb-6">PawLink</h2>
 
-            <nav class="flex flex-col gap-3">
+    <nav class="flex flex-col gap-3 mt-16">
 
-                <a href="/index" class="px-3 py-2 rounded-lg transition
+        <a href="/index" class="px-3 py-2 rounded-lg transition
            <%= active === 'inicio' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                    Inicio
-                </a>
+            Inicio
+        </a>
 
-                <a href="/vistaEleccion" class="px-3 py-2 rounded-lg transition
+        <a href="/vistaEleccion" class="px-3 py-2 rounded-lg transition
            <%= active === 'vistaEleccion' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                    Adopciones
-                </a>
+            Adopciones
+        </a>
 
-                <a href="/perfil" class="px-3 py-2 rounded-lg transition
+        <a href="/perfil" class="px-3 py-2 rounded-lg transition
            <%= active === 'perfil' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                    Perfil
-                </a>
+            Perfil
+        </a>
 
-                <a href="/#" class="px-3 py-2 rounded-lg transition
+        <a href="/procesos" class="px-3 py-2 rounded-lg transition
            <%= active === 'procesos' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                    Procesos
-                </a>
+            Procesos
+        </a>
 
-                <a href="/contacto" class="px-3 py-2 rounded-lg transition
+        <a href="/contacto" class="px-3 py-2 rounded-lg transition
            <%= active === 'contacto' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                    Contacto
-                </a>
+            Contacto
+        </a>
 
-                <%if(userData.admin) {%>
-                    <a href="/adm" class="px-3 py-2 rounded-lg transition
+        <%if(userData.admin) {%>
+            <a href="/adm" class="px-3 py-2 rounded-lg transition
            <%= active === 'administracion' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700' %>">
-                        Administración
-                    </a>
+                Administración
+            </a>
 
-                    <%}%>
+            <%}%>
 
-                        <a href="/logout" class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition mt-auto">
-                            Cerrar sesión
-                        </a>
+                <!-- <a href="/logout" class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition mt-auto">
+                    Cerrar sesión
+                </a>-->
 
-            </nav>
-        </aside>
+
+    </nav>
+
+    <div class="flex items-center w-full h-16 rounded-xl border border-gray-700 bg-white mt-auto p-3">
+        <a href="/perfil" class="shrink-0"><img
+                src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/avatar-default.webp"
+                alt="Banner de PawLink" class="w-10 h-10 rounded-full object-cover"></a>
+        <p class="text-black font-bold text-sm ml-3 truncate flex-grow">
+            <%=userData.nombre%>
+        </p>
+        <div id="iconosDiv" class="flex flex-col items-center justify-center gap-1 ml-2">
+            <a href="/perfil" title="Ir a ajustes">
+                <i class="fa-solid fa-gear text-gray-400 hover:text-gray-600 text-lg transition"></i>
+            </a>
+
+            <a href="/logout" title="Cerrar sesión">
+                <i class="fa-solid fa-right-from-bracket text-red-500 hover:text-red-400 text-lg transition"></i>
+            </a>
+        </div>
+
+    </div>
+</aside>
+<!-- BANNER CON PICTURE -->
+<header id="banner" class="fixed top-0 left-64 right-0 h-40 z-40 overflow-hidden shadow-lg border-b">
+
+    <picture class="w-full h-full">
+        <source media="(min-width: 1200px)"
+            srcset="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/imagenBanner.png">
+        <source media="(min-width: 768px)"
+            srcset="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/imagenBanner.png">
+        <source media="(max-width: 767px)"
+            srcset="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/imagenBanner.png">
+
+        <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/imagenBanner.png"
+            alt="Banner de PawLink" class="w-full h-full object-cover object-center">
+    </picture>
+
+    <!-- (Opcional) Si en el futuro queremos poner texto encima de la foto oscureciéndola un pelín -->
+    <!--
+    <div class="absolute inset-0 bg-black/20 flex items-center px-8">
+        <h1 class="text-white text-3xl font-bold drop-shadow-md">🐾 PawLink Center</h1>
+    </div>
+    -->
+</header>
+<div id="bloqueFantasma" class="h-40 w-full pointer-events-none"></div><!--bloque fantasma temporal-->

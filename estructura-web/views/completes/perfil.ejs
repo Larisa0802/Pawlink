@@ -4,8 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Mi perfil</title>
-
+    <style>
+        #banner,
+        #bloqueFantasma {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,7 +34,8 @@
 
 
                 <div class="flex gap-20">
-                    <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/avatar-default.webp" class="w-32 h-32 rounded-full object-cover" />
+                    <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/avatar-default.webp"
+                        class="w-32 h-32 rounded-full object-cover" />
 
                     <div class="block">
                         <span>
@@ -303,6 +310,8 @@
                 });
 
             </script>
+
+            <%- include("../partials/footer") %>
 
 
 </body>
