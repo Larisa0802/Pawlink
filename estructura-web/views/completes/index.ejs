@@ -16,53 +16,68 @@
         <%- include("../partials/sidebar") %>
 
 
-            <main class="ml-64 p-6 flex-grow">
-                <h1 class="text-xl font-bold">Bienvenido <%=userData.nombre%>
-                </h1>
-                <%if(userData.admin) { %>
-                    <h1 class="text-xl font-bold">Eres admin</h1>
-                    <%}%><br>
-                        <!-- <a href="/perfil"
-                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
-                            Ir a perfil
-                        </a>-->
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2 mt-6">Quiénes somos</h2>
-                            <p class="text-gray-600 leading-relaxed">
-                                Somos un equipo apasionado por el bienestar animal. PawLink nace del profundo amor por
-                                los peludos y la necesidad de modernizar el proceso de adopción. Nuestra misión es dar
-                                voz a los perros y gatos que esperan en los refugios, conectando a personas y familias
-                                con protectoras de toda España para darles esa ansiada segunda oportunidad.
-                            </p>
-                        </div>
+            <main class="ml-64 p-8 flex-grow bg-[#DDECF6] min-h-screen">
+    
+                <!-- Tarjeta de Bienvenida -->
+                <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-[#E5531C] mb-8">
+                    <h1 class="text-3xl font-extrabold text-black">
+                        ¡Hola de nuevo, <%=userData.nombre%>! 🐾
+                    </h1>
+                    <p class="text-gray-600 mt-2 text-lg">
+                        ¿List@ para darle una segunda oportunidad a un amigo peludo hoy?
+                    </p>
+                    <%if(userData.admin) { %>
+                        <span class="inline-block mt-3 bg-[#EADDF0] text-black px-3 py-1 rounded-full text-sm font-bold">Modo Administrador Activo</span>
+                    <%}%>
+                </div>
 
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2 mt-8">Qué hacemos</h2>
-                            <p class="text-gray-600 leading-relaxed">
-                                Hemos revolucionado el sistema tradicional de adopción creando un innovador sistema de
-                                "Match" inteligente. A través de nuestro cuestionario de estilo de vida, analizamos tus
-                                características y preferencias para encontrar a tu compañero ideal, garantizando una
-                                convivencia perfecta. Además, digitalizamos y simplificamos todos los trámites para que
-                                la protectora y tú estéis siempre comunicados.
-                            </p>
-                        </div>
+                <!-- Grid con las 3 secciones -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Tarjeta 1 - Tema Naranja -->
+                    <div class="bg-[#E5531C] text-white rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-users"></i> Quiénes somos
+                        </h2>
+                        <p class="text-white leading-relaxed font-medium">
+                            Somos un equipo apasionado por el bienestar animal. PawLink nace del amor por los peludos y la necesidad de modernizar el proceso de adopción conectando personas y protectoras.
+                        </p>
+                    </div>
 
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2 mt-8">Todo sobre PawLink</h2>
-                            <p class="text-gray-600 leading-relaxed">
-                                PawLink es mucho más que un catálogo de animales; es un ecosistema de bienestar. Desde
-                                tu cuenta puedes hacer seguimiento en tiempo real de tus solicitudes, gestionar tus
-                                datos personales y comunicarte fácilmente ante cualquier duda o problema. Trabajamos día
-                                a día con un solo objetivo en mente: que cada "match" sea el principio de una historia
-                                feliz para toda la vida.
-                            </p>
-                        </div>
+                    <!-- Tarjeta 2 - Tema Lila -->
+                    <div class="bg-[#EADDF0] text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2 text-[#E5531C]">
+                            <i class="fa-solid fa-hand-holding-heart"></i> Qué hacemos
+                        </h2>
+                        <p class="text-gray-900 leading-relaxed font-medium">
+                            Hemos revolucionado el sistema tradicional con un "Match" inteligente. Analizamos tu estilo de vida para encontrar a tu compañero ideal de forma digitalizada y conectada.
+                        </p>
+                    </div>
 
+                    <!-- Tarjeta 3 - Tema Blanco -->
+                    <div class="bg-white text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-[#DDECF6]">
+                        <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-paw text-[#E5531C]"></i> Tu ecosistema
+                        </h2>
+                        <p class="text-gray-600 leading-relaxed">
+                            Desde tu cuenta puedes hacer seguimiento de solicitudes y comunicarte fácilmente. Trabajamos para que cada "match" sea el principio de una historia feliz.
+                        </p>
+                        <button class="mt-5 w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-[#E5531C] transition-colors duration-300">
+                            Saber más de PawLink
+                        </button>
+                    </div>
+                </div>
 
-                        <section id="protectoras">
-                            <h2>Protectoras</h2>
-
-                        </section>
+                <!-- Sección Protectoras -->
+                <section id="protectoras" class="mt-12 bg-white rounded-2xl p-8 shadow-sm">
+                    <h2 class="text-3xl font-extrabold text-black border-b-2 border-[#EADDF0] pb-4 mb-6">
+                        Protectoras Asociadas
+                    </h2>
+                    <div class="text-center text-gray-500 py-10">
+                        <i class="fa-solid fa-house-chimney-window text-6xl text-[#DDECF6] mb-4"></i>
+                        <p>Aquí se cargarán las protectoras con las que trabajamos...</p>
+                    </div>
+                </section>
 
             </main>
 
