@@ -13,16 +13,16 @@
     <%- include("../partials/sidebar") %>
         <main class="ml-64 p-8 min-h-screen">
             <% if(userData) { %>
-                <h1 class="text-3xl font-bold mb-8text-gray-800">¿Qué tipo de compañero buscas?</h1>
+                <h1 class="text-3xl text-center font-bold mb-8text-gray-800">¿Qué tipo de compañero buscas?</h1>
 
                 <!-- Botones de elección -->
-                <div class="flex gap-4 mb-10">
+                <div class="flex gap-8 mb-10 mr-20 justify-center w-[784px] h-[492px]">
                     <button onclick="handleEleccion('perros')"
-                        class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Perros</button>
-                    <button onclick="handleEleccion('gatos')"
-                        class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Gatos</button>
+                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-lg hover:bg-blue-700 transition">Perros</button>
                     <button onclick="handleEleccion('ambos')"
-                        class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Ambos</button>
+                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-lg hover:bg-blue-700 transition">Ambos</button>
+                    <button onclick="handleEleccion('gatos')"
+                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-lg hover:bg-blue-700 transition">Gatos</button>
                 </div>
 
                 <!-- MODAL ENCUESTA -->
