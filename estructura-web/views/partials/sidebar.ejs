@@ -1,7 +1,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 
-<aside class="w-64 h-screen fixed left-0 top-0 bg-gray-700 text-white flex flex-col p-4">
+<aside class="w-64 h-screen fixed left-0 top-0 bg-[#000000] text-white flex flex-col p-4 shadow-xl border-r border-gray-900">
     <a href="/index"><img class="size-20 ml-16"
             src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/logo.png"
             alt="logo"></a>
@@ -9,7 +9,7 @@
     <nav class="flex flex-col gap-3 mt-16">
 
         <a href="/index" class="flex px-3 py-2 rounded-lg transition font-bold
-           <%= active === 'inicio' ? 'bg-gray-700 font-semibold ' : 'hover:bg-gray-700 text-white' %>">
+           <%= active === 'inicio' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/casa_tab.png"
                 alt="iconoCasa">
@@ -17,7 +17,7 @@
         </a>
 
         <a href="/vistaEleccion" class="flex px-3 py-2 rounded-lg transition font-bold
-           <%= active === 'vistaEleccion' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700 text-white' %>">
+           <%= active === 'vistaEleccion' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/adopciones_tab.png"
                 alt="iconoAdopcion">
@@ -25,7 +25,7 @@
         </a>
 
         <a href="/perfil" class="flex px-3 py-2 rounded-lg transition font-bold
-           <%= active === 'perfil' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700 text-white' %>">
+           <%= active === 'perfil' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/perfil_tab.png"
                 alt="iconoPerfil">
@@ -33,7 +33,7 @@
         </a>
 
         <a href="/procesos" class="flex px-3 py-2 rounded-lg transition font-bold
-           <%= active === 'procesos' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700 text-white' %>">
+           <%= active === 'procesos' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/procesos-tab.png"
                 alt="iconoProcesos">
@@ -41,7 +41,7 @@
         </a>
 
         <a href="/contacto" class="flex px-3 py-2 rounded-lg transition font-bold
-           <%= active === 'contacto' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700 text-white' %>">
+           <%= active === 'contacto' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/contacto-tab.png"
                 alt="iconoContacto">
@@ -50,7 +50,7 @@
 
         <%if(userData.admin) {%>
             <a href="/adm" class="px-3 py-2 rounded-lg transition font-bold
-           <%= active === 'administracion' ? 'bg-gray-700 font-semibold' : 'hover:bg-gray-700 text-white' %>">
+           <%= active === 'administracion' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
                 Administración
             </a>
 
@@ -63,7 +63,7 @@
 
     </nav>
 
-    <div class="flex items-center w-full h-16 rounded-xl border border-gray-700 bg-white mt-auto p-3">
+    <div class="flex items-center w-full h-16 rounded-xl border border-gray-800 bg-[#111111] mt-auto p-3">
         <a href="/perfil" class="shrink-0">
             <% let
                 img="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/default.png"
@@ -76,7 +76,7 @@
                 <img src="<%= img %>"
                     class="w-12 h-12 rounded-full object-cover border-4 border-[#E5531C] shadow mb-4 mt-4">
         </a>
-        <p class="text-black font-bold text-sm ml-3 truncate flex-grow">
+        <p class="text-white font-bold text-sm ml-3 truncate flex-grow">
             <%=userData.nombre%>
         </p>
         <div id="iconosDiv" class="flex flex-col items-center justify-center gap-1 ml-2">
