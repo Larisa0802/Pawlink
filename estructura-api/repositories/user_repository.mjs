@@ -1,5 +1,5 @@
 import db from "../config/database.mjs";
-
+import { supabase } from "../config/supabaseClient.mjs";
 
 //Obtiene el user por email
 export const getUserByEmail = async (email) => {
@@ -103,7 +103,7 @@ export const deleteUserById = async (id) => {
 };
 
 
-//Conseugir todos los usuarios de la BD
+//Conseguir todos los usuarios de la BD
 export const getAllUsers = async () => {
     const query = "SELECT * FROM usuarios"
 
@@ -115,6 +115,41 @@ export const getAllUsers = async () => {
         throw err
     }
 }
+
+//Funcion para listar todos los avatares
+export async function getAvailableAvatars() {
+  const { data, error } = await supabase
+    .storage
+    .from("animalesPAWLINK")
+    .list("avatar", { limit: 100 });
+
+
+  if (error) {
+    console.error("Error listando avatares:", error.message);
+    throw error;
+  }
+
+  return data.map(file => ({
+    name: file.name,
+    url: supabase.storage
+      .from("animalesPAWLINK")
+      .getPublicUrl(`avatar/${file.name}`).data.publicUrl
+  }));
+}
+
+//Actualizar avatar del usuario
+export const updateUserAvatar = async (userId, avatarUrl) => {
+    const query = "UPDATE usuarios SET avatar_url = $1 WHERE id = $2 RETURNING id, avatar_url";
+    const values = [avatarUrl, userId];
+    
+    try {
+        const result = await db.query(query, values);
+        return result.rows[0];
+    } catch (err) {
+        console.error("Error al actualizar avatar:", err.message);
+        throw err;
+    }
+};
 
 //FILTRO POR PREFERENCIAS
 export const guardarEncuesta = async (userId, preferencias) => {
@@ -144,6 +179,8 @@ export const guardarEncuesta = async (userId, preferencias) => {
 
 
 
+
+
 export default {
     getUserByEmail,
     createUser,
@@ -153,5 +190,7 @@ export default {
     getAllUsers,
     updateUserEmailById,
     updateUserById,
-    guardarEncuesta
+    guardarEncuesta,
+    getAvailableAvatars,
+    updateUserAvatar,
 };

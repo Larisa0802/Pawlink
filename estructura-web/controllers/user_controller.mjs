@@ -172,6 +172,7 @@ class UserController {
             fecha: data.user.fecha_registro,
             encuesta_realizada: data.user.encuesta_realizada,
             animal: req.body.especie,
+            avatar_url: data.user.avatar_url,
           },
           { maxAge: 3600000 },
         );
@@ -185,6 +186,7 @@ class UserController {
           fecha: data.user.fecha_registro,
           encuesta_realizada: data.user.encuesta_realizada,
           animal: req.body.especie,
+          avatar_url: data.user.avatar_url,
 
         };
 
@@ -291,6 +293,7 @@ class UserController {
         fecha: userData.fecha,
           encuesta_realizada: userData.encuesta_realizada,
             animal: userData.animal,
+            avatar_url: userData.avatar_url,
       });
 
   
@@ -817,6 +820,45 @@ class UserController {
         errorL: { mensaje: "Error al enviar el correo" },
         mensaje: null,
       });
+    }
+  };
+
+  //Actualizar avatar
+  updateAvatar = async (req, res) => {
+    try {
+      const userData = req.cookies["datosUsuario"];
+      const { avatar_url } = req.body;
+
+      if (!userData) {
+        return res.status(401).json({ message: "No logueado" });
+      }
+
+      if (!avatar_url) {
+        return res.status(400).json({ message: "avatar_url es requerido" });
+      }
+
+      // Llamar a la API para actualizar el avatar
+      const response = await this.client.post("/avatar", {
+        id: userData.id,
+        avatar_url: avatar_url,
+      });
+
+      if (response.status === 200) {
+        // Actualizar cookie con el nuevo avatar
+        userData.avatar_url = avatar_url;
+        res.cookie("datosUsuario", userData);
+        req.cookies["datosUsuario"] = userData;
+
+        console.log("Avatar actualizado:", userData);
+
+        return res.status(200).json({
+          message: "Avatar actualizado correctamente",
+          user: userData,
+        });
+      }
+    } catch (err) {
+      console.error("Error al actualizar avatar:", err.message);
+      return res.status(500).json({ error: "Error al actualizar avatar" });
     }
   };
 }

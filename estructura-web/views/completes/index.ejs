@@ -2,26 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Inicio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Inicio</title>
 
 </head>
 
 <body class="flex flex-col min-h-screen bg-gray-50">
 
 
-    <% if (userData) { %>
-        <%- include("../partials/sidebar") %>
+  <% if (userData) { %>
+  <%- include("../partials/sidebar") %>
 
 
-            <main class="ml-64 p-6 flex-grow">
-                <h1 class="text-xl font-bold">Bienvenido <%=userData.nombre%>
-                </h1>
-                <%if(userData.admin) { %>
-                    <h1 class="text-xl font-bold">Eres admin</h1>
-                    <%}%><br>
+  <main class="ml-64 p-6 flex-grow">
+    <div class="flex gap-4 justify-center">
+      <h1 class="text-xl font-bold">Bienvenido <%=userData.nombre%>
+      </h1>
+
+      <%if(userData.admin) { %>
+      <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/admin.png" title="Eres admin" class="size-6">
+      <%}%><br>
+    </div>
                         <!-- <a href="/perfil"
                             class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
                             Ir a perfil
@@ -68,23 +71,21 @@
 
             <%}else{%>
 
-                <div
-                    class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-3">
-                        ¡Ups! Parece que no estás logueado
-                    </h2>
+      <div class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">
+          ¡Ups! Parece que no estás logueado
+        </h2>
 
-                    <p class="text-gray-600 mb-6">
-                        Para acceder a esta sección necesitas iniciar sesión.
-                        No te preocupes, te llevamos de vuelta a la página principal.
-                    </p>
+        <p class="text-gray-600 mb-6">
+          Para acceder a esta sección necesitas iniciar sesión.
+          No te preocupes, te llevamos de vuelta a la página principal.
+        </p>
 
-                    <a href="/"
-                        class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
-                        Volver al inicio
-                    </a>
-                </div>
-                <%}%>
+        <a href="/" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+          Volver al inicio
+        </a>
+      </div>
+      <%}%>
 
                     <%- include("../partials/footer") %>
 
