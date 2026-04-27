@@ -7,6 +7,8 @@ const router = Router();
 //GET
 router.get("/usuarios", userController.getAllUsersControl);
 router.get("/getUserData/:id", userController.getUserData);
+router.get("/avatars", userController.getAvatars); //Listar avatares
+router.post("/avatar", userController.updateAvatar); //Actualiza avatar del usuario
 
 //POST
 router.post("/register", userController.register);
@@ -17,6 +19,8 @@ router.post("/usuarios/email", userController.updateEmail); //Actualiza email
 router.post("/usuarios/check-email", userController.checkEmail); //Comprueba existencia email
 router.post("/usuarios/update-admin", userController.updateUserAdmin); //Actualiza datos como adm
 router.post("/encuesta", userController.enviarEncuesta);//match 
+
+
 
 /* router.post("/usuarios/delete",userController.deleteUser)
 router.post("/login-google", async (req, res) => {
