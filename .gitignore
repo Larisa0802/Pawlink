@@ -3,10 +3,12 @@
 **/*.jpeg
 **/*.png
 **/*.webp
+**/supabaseClient.mjs
 **/keys.mjs
 **/node_modules
 **/serviceAccountKey.json
 **/firebaseAdmin.mjs
+**/database.mjs
 **/package-lock.json
 **/package.json
 **/DS_Store
