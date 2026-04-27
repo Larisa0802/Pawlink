@@ -19,130 +19,144 @@
 
         <%- include("../partials/sidebar") %>
 
-         <main class="ml-64 p-6">
+            <main class="ml-64 p-6">
 
 
-    <!-- HEADER FRIENDLY -->
-    <section class="bg-[#CCE2ED] rounded-2xl p-8 shadow mb-10 flex flex-col items-center ">
+                <!-- HEADER FRIENDLY -->
+                <section class="bg-[#CCE2ED] rounded-2xl p-8 shadow mb-10 flex flex-col items-center ">
 
-        <% 
-        let img = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/default.png";
-        if (userData.animal === "cat") {
-            img = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png";
-        } else if (userData.animal === "dog") {
-            img = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dog.png";
-        }
-        %>
+                    <% let
+                        img="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/default.png"
+                        ; if (userData.animal==="cat" ) {
+                        img="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png"
+                        ; } else if (userData.animal==="dog" ) {
+                        img="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dog.png"
+                        ; } %>
 
-        <img src="<%= img %>" 
-             class="w-32 h-32 rounded-full object-cover border-4 border-[#E5531C] shadow mb-4">
+                        <img id="profileAvatar" src="<%= userData.avatar_url || img %>"
+                            class="w-32 h-32 rounded-full object-cover border-4 border-[#E5531C] shadow mb-4">
 
-        <h1 class="text-3xl font-bold text-black">Hola, <%= userData.nombre %> 🐾</h1>
-        <p class="text-gray-700"><%= userData.email %></p>
+                        <h1 class="text-3xl font-bold text-black">Hola, <%= userData.nombre %> 🐾</h1>
+                        <p class="text-gray-700">
+                            <%= userData.email %>
+                        </p>
 
-        <p class="text-gray-600 text-sm mt-1">
-            Registrado el 
-            <%= new Date(userData.fecha).toLocaleDateString("es-ES") %> a las 
-            <%= new Date(userData.fecha).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }) %>
-        </p>
+                        <p class="text-gray-600 text-sm mt-1">
+                            Registrado el
+                            <%= new Date(userData.fecha).toLocaleDateString("es-ES") %> a las
+                                <%= new Date(userData.fecha).toLocaleTimeString("es-ES", { hour: "2-digit" ,
+                                    minute: "2-digit" }) %>
+                        </p>
 
-        <button onclick="openModal('modalNombre')"
-            class="mt-4 px-6 py-2 bg-[#E5531C] text-white rounded-full hover:opacity-90 transition font-medium">
-            Editar nombre
-        </button>
-    </section>
+                        <button onclick="openModal('modalNombre')"
+                            class="mt-4 px-6 py-2 bg-[#E5531C] text-white rounded-full hover:opacity-90 transition font-medium">
+                            Editar nombre
+                        </button>
 
+                        <button onclick="openModal('modalAvatar')"
+                            class="mt-2 px-6 py-2 bg-[#E5531C] text-white rounded-full hover:opacity-90 transition font-medium">
+                            Cambiar avatar
+                        </button>
 
-    <!-- TARJETA DE INFO -->
-<section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-
-   <div class="bg-white border border-[#DDCCE6] rounded-2xl p-6 shadow">
-
-    <h2 class="text-xl font-semibold text-black mb-4">Información personal</h2>
-
-    <!-- GRID INTERNO: TEXTO IZQ + IMAGEN DER -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-
-        <!-- IZQUIERDA: INFO -->
-        <div class="flex flex-col gap-4 text-gray-800">
-
-            <div class="flex items-center gap-3">
-                <span class="text-[#E5531C] text-xl">👤</span>
-                <p><span class="font-semibold">Nombre:</span> <%= userData.nombre %></p>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <span class="text-[#E5531C] text-xl">📧</span>
-                <p><span class="font-semibold">Email:</span> <%= userData.email %></p>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <span class="text-[#E5531C] text-xl">📅</span>
-                <p>
-                    <span class="font-semibold">Fecha de registro:</span>
-                    <%= new Date(userData.fecha).toLocaleDateString("es-ES") %>
-                    <%= new Date(userData.fecha).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }) %>
-                </p>
-            </div>
-
-        </div>
-
-        <!-- DERECHA: IMAGEN -->
-        <div class="flex justify-center">
-            <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/info_personal.png" class="w-40 h-40 object-cover ">
-        </div>
-
-    </div>
-
-</div>
-
-    <!-- ACCIONES  -->
-    <div class="bg-white border border-[#DDCCE6] rounded-2xl p-6 shadow">
-
-        <div class="flex justify-between mt-[70px] gap-4">
+                </section>
 
 
-            <button onclick="openModal('modalPass')"
-                class="px-5 py-3 bg-[#E5531C] text-white rounded-full hover:opacity-90 transition font-medium  gap-4 w-full text-center">
+                <!-- TARJETA DE INFO -->
+                <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
 
-                Cambiar <br> contraseña
+                    <div class="bg-white border border-[#DDCCE6] rounded-2xl p-6 shadow">
 
-            </button>
+                        <h2 class="text-xl font-semibold text-black mb-4">Información personal</h2>
+
+                        <!-- GRID INTERNO: TEXTO IZQ + IMAGEN DER -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+
+                            <!-- IZQUIERDA: INFO -->
+                            <div class="flex flex-col gap-4 text-gray-800">
+
+                                <div class="flex items-center gap-3">
+                                    <span class="text-[#E5531C] text-xl">👤</span>
+                                    <p><span class="font-semibold">Nombre:</span>
+                                        <%= userData.nombre %>
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center gap-3">
+                                    <span class="text-[#E5531C] text-xl">📧</span>
+                                    <p><span class="font-semibold">Email:</span>
+                                        <%= userData.email %>
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center gap-3">
+                                    <span class="text-[#E5531C] text-xl">📅</span>
+                                    <p>
+                                        <span class="font-semibold">Fecha de registro:</span>
+                                        <%= new Date(userData.fecha).toLocaleDateString("es-ES") %>
+                                            <%= new Date(userData.fecha).toLocaleTimeString("es-ES", { hour: "2-digit" ,
+                                                minute: "2-digit" }) %>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <!-- DERECHA: IMAGEN -->
+                            <div class="flex justify-center">
+                                <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/info_personal.png"
+                                    class="w-40 h-40 object-cover ">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ACCIONES  -->
+                    <div class="bg-white border border-[#DDCCE6] rounded-2xl p-6 shadow">
+
+                        <div class="flex justify-between mt-[70px] gap-4">
 
 
-            <button onclick="openModal('modalEmail')"
-                class="px-5 py-3 border border-[#E5531C] text-[#E5531C] rounded-full hover:bg-[#E5531C] hover:text-white transition font-medium text-center gap-4 w-full">
-                Cambiar <br> email
+                            <button onclick="openModal('modalPass')"
+                                class="px-5 py-3 bg-[#E5531C] text-white rounded-full hover:opacity-90 transition font-medium  gap-4 w-full text-center">
 
-            </button>
+                                Cambiar <br> contraseña
+
+                            </button>
 
 
-            <!-- Peligro -->
-            <button onclick="openModal('modalDelete')"
-                class="px-5 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition text-center gap-4 font-medium w-full">
-                Eliminar cuenta
-            </button>
+                            <button onclick="openModal('modalEmail')"
+                                class="px-5 py-3 border border-[#E5531C] text-[#E5531C] rounded-full hover:bg-[#E5531C] hover:text-white transition font-medium text-center gap-4 w-full">
+                                Cambiar <br> email
 
-        </div>
-    </div>
+                            </button>
 
-</section>
 
-    <!-- CERRAR SESIÓN -->
-    <div class="text-center">
-        <button onclick="openModal('modalLogout')"
-            class="px-6 py-3 bg-gray-300 text-black rounded-full hover:bg-gray-400 transition font-medium">
-            Cerrar sesión
-        </button>
-    </div>
+                            <!-- Peligro -->
+                            <button onclick="openModal('modalDelete')"
+                                class="px-5 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition text-center gap-4 font-medium w-full">
+                                Eliminar cuenta
+                            </button>
 
-    <% } else { %>
+                        </div>
+                    </div>
 
-    <h1>No estás logueado</h1>
+                </section>
 
-    <% } %>
+                <!-- CERRAR SESIÓN -->
+                <div class="text-center">
+                    <button onclick="openModal('modalLogout')"
+                        class="px-6 py-3 bg-gray-300 text-black rounded-full hover:bg-gray-400 transition font-medium">
+                        Cerrar sesión
+                    </button>
+                </div>
 
-</main>
+                <% } else { %>
+
+                    <h1>No estás logueado</h1>
+
+                    <% } %>
+
+            </main>
 
             <!--MODALES DE PERFIL-->
             <div id="modalDelete"
@@ -313,7 +327,76 @@
                 </div>
             </div>
 
+            <!-- MODAL AVATARES -->
+            <div id="modalAvatar" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center hidden">
+                <div class="bg-white rounded-2xl p-6 w-[90%] max-w-lg shadow-xl">
+
+                    <h2 class="text-xl font-bold text-center mb-4">Elige tu avatar</h2>
+
+                    <div id="avatarGrid" class="grid grid-cols-5 gap-4 max-h-80 overflow-y-auto">
+                    </div>
+
+                    <button onclick="closeModal('modalAvatar')"
+                        class="mt-6 w-full py-2 bg-gray-300 rounded-full hover:bg-gray-400 transition">
+                        Cerrar
+                    </button>
+
+                </div>
+            </div>
+
+
             <script>
+
+                //F(x) para cargar avatares 
+                async function loadAvatars() {
+                    const grid = document.getElementById("avatarGrid");
+                    grid.innerHTML = "<p class='text-center col-span-3'>Cargando...</p>";
+
+                    try {
+                        const res = await fetch("http://localhost:3001/avatars");
+                        const data = await res.json();
+
+                        grid.innerHTML = "";
+
+                        data.avatars.forEach(a => {
+                            const div = document.createElement("div");
+                            div.className = "cursor-pointer";
+
+                            div.innerHTML = `
+                            <img src="${a.url}" 
+                                class="w-full h-24 object-cover rounded-xl border-2 border-transparent hover:border-[#E5531C] transition"
+                                onclick="selectAvatar('${a.url}')">
+                        `;
+
+                            grid.appendChild(div);
+                        });
+
+                    } catch (err) {
+                        grid.innerHTML = "<p class='text-red-500 col-span-3'>Error cargando avatares</p>";
+                    }
+                }
+
+                //F(x) de seleccion de avatares (update)
+                async function selectAvatar(url) {
+                    const userId = "<%= userData.id %>";
+
+                    const res = await fetch("http://localhost:3000/avatar", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ avatar_url: url })
+                    });
+
+                    if (res.ok) {
+                        //Actualizar avatar en pantalla
+                        document.querySelector("#profileAvatar").src = url;
+
+                        closeModal("modalAvatar");
+                    } else {
+                        alert("Error al actualizar avatar");
+                    }
+                }
+
+
                 function openModal(modal) {
                     document.getElementById(modal).classList.remove("hidden");
                     sessionStorage.setItem("modalAbierto", modal);
@@ -324,6 +407,8 @@
                         case "modalEmail": document.getElementById(modal).classList.remove("hidden"); break;
                         case "modalNombre": document.getElementById(modal).classList.remove("hidden"); break;
                         case "modalLogout": document.getElementById(modal).classList.remove("hidden"); break;
+                        case "modalAvatar": document.getElementById("modalAvatar").classList.remove("hidden");
+                            loadAvatars(); break;
                     }
 
                 }
@@ -343,9 +428,12 @@
                         case "modalEmail": document.getElementById(modal).classList.add("hidden"); break;
                         case "modalNombre": document.getElementById(modal).classList.add("hidden"); break;
                         case "modalLogout": document.getElementById(modal).classList.add("hidden"); break;
+                        case "modalAvatar": document.getElementById("modalAvatar").classList.add("hidden"); break;
 
                     }
                 }
+
+
             </script>
 
             <script>

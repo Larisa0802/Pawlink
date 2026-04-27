@@ -1,5 +1,6 @@
 import user_repository, * as userRepository from "../repositories/user_repository.mjs";
-import { updateUserById } from "../repositories/user_repository.mjs";
+import { getAvailableAvatars } from "../repositories/user_repository.mjs";
+import { updateUserById, updateUserAvatar } from "../repositories/user_repository.mjs";
 import animalRepository from "../repositories/animal_repo.mjs";
 
 //Registro
@@ -145,6 +146,7 @@ export const updateEmail = async (req, res) => {
   }
 };
 
+//Actualizar usuario como administrador
 export const updateUserAdmin = async (req, res) => {
   try {
     const { id, name, email, admin } = req.body;
@@ -165,7 +167,7 @@ export const updateUserAdmin = async (req, res) => {
 };
 
 
-
+//Eliminar usuario
 export const deleteUser = async (req, res) => {
   try {
     await userRepository.deleteUserById(req.body.id)
@@ -204,6 +206,37 @@ export const checkEmail = async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor" });
   }
 };
+
+//AVATARES
+
+//Listar avatares
+export const getAvatars = async (req, res) => {
+  try {
+    const avatars = await getAvailableAvatars();
+    res.status(200).json({ avatars });
+  } catch (err) {
+    console.error("Error obteniendo avatares:", err.message);
+    res.status(500).json({ error: "Error al obtener avatares" });
+  }
+};
+
+//Actualizar
+export const updateAvatar = async (req, res) => {
+  try {
+    const { id, avatar_url } = req.body;
+
+    if (!id || !avatar_url) {
+      return res.status(400).json({ message: "ID y avatar_url son requeridos" });
+    }
+
+    const result = await updateUserAvatar(id, avatar_url);
+    res.status(200).json({ message: "Avatar actualizado", user: result });
+  } catch (err) {
+    console.error("Error actualizando avatar:", err.message);
+    res.status(500).json({ error: "Error al actualizar avatar" });
+  }
+};
+
 
 
 // Controlador de filtro por preferencias

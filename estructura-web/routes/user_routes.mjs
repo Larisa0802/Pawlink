@@ -51,6 +51,7 @@ router.post("/usuarios/email", userController.updateEmail)
 router.post("/usuarios/password", userController.updatePassword)
 router.post("/adm/users", userController.createUserAsAdmin);
 router.post("/adm/users/:id", userController.updateUserAsAdmin);
+router.post("/avatar", userController.updateAvatar); //Actualiza avatar del usuario
 
 
 //DELETE
