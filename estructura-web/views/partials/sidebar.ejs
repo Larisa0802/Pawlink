@@ -1,14 +1,16 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 
-<aside class="w-64 h-screen fixed left-0 top-0 bg-[#000000] text-white flex flex-col p-4 shadow-xl border-r border-gray-900">
+<aside
+    class="w-64 h-screen fixed left-0 top-0 bg-[#000000] text-white flex flex-col p-4 shadow-xl border-r border-gray-900">
     <a href="/index"><img class="size-20 ml-16"
             src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/logo.png"
             alt="logo"></a>
 
     <nav class="flex flex-col gap-3 mt-16">
 
-        <a href="/index" class="flex px-3 py-2 rounded-lg transition font-bold
+        <a href="/index"
+            class="flex px-3 py-2 rounded-lg transition font-bold
            <%= active === 'inicio' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/casa_tab.png"
@@ -16,7 +18,8 @@
             Inicio
         </a>
 
-        <a href="/vistaEleccion" class="flex px-3 py-2 rounded-lg transition font-bold
+        <a href="/vistaEleccion"
+            class="flex px-3 py-2 rounded-lg transition font-bold
            <%= active === 'vistaEleccion' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/adopciones_tab.png"
@@ -24,7 +27,8 @@
             Adopciones
         </a>
 
-        <a href="/perfil" class="flex px-3 py-2 rounded-lg transition font-bold
+        <a href="/perfil"
+            class="flex px-3 py-2 rounded-lg transition font-bold
            <%= active === 'perfil' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/perfil_tab.png"
@@ -32,7 +36,8 @@
             Perfil
         </a>
 
-        <a href="/procesos" class="flex px-3 py-2 rounded-lg transition font-bold
+        <a href="/procesos"
+            class="flex px-3 py-2 rounded-lg transition font-bold
            <%= active === 'procesos' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/procesos-tab.png"
@@ -40,7 +45,8 @@
             Procesos
         </a>
 
-        <a href="/contacto" class="flex px-3 py-2 rounded-lg transition font-bold
+        <a href="/contacto"
+            class="flex px-3 py-2 rounded-lg transition font-bold
            <%= active === 'contacto' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
             <img class="size-6 mr-2"
                 src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/contacto-tab.png"
@@ -49,8 +55,12 @@
         </a>
 
         <%if(userData.admin) {%>
-            <a href="/adm" class="px-3 py-2 rounded-lg transition font-bold
+            <a href="/adm"
+                class="flex px-3 py-2 rounded-lg transition font-bold
            <%= active === 'administracion' ? 'text-[#E5531C] bg-gray-900 font-semibold' : 'hover:bg-gray-900 text-gray-300' %>">
+                <img class="size-6 mr-2"
+                    src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/admin.png"
+                    alt="iconoAdmin">
                 Administración
             </a>
 

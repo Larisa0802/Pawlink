@@ -6,23 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Document</title>
+    <title>Pawlink</title>
 </head>
 
 <body class="min-h-screen">
     <%- include("../partials/sidebar") %>
-        <main class="ml-64 p-8 min-h-screen">
+        <main class="ml-64 p-8 flex-grow bg-[#DDECF6] min-h-screen">
             <% if(userData) { %>
-                <h1 class="text-3xl text-center font-bold mb-8text-gray-800">¿Qué tipo de compañero buscas?</h1>
+                <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-[#E5531C] mb-8">
+                    <h1 class="text-3xl font-extrabold text-black">
+                        Que tipo de compañero buscas? 🐾
+                    </h1>
+                </div>
 
                 <!-- Botones de elección -->
-                <div class="flex gap-8 mb-10 mr-20 justify-center w-[784px] h-[492px]">
-                    <button onclick="handleEleccion('perros')"
-                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-lg hover:bg-blue-700 transition">Perros</button>
-                    <button onclick="handleEleccion('ambos')"
-                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-lg hover:bg-blue-700 transition">Ambos</button>
-                    <button onclick="handleEleccion('gatos')"
-                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-lg hover:bg-blue-700 transition">Gatos</button>
+                <div class="flex gap-8 mb-1 mr-20 mt-4 justify-center w-[1084px] h-[492px]">
+                    <button onclick="handleEleccion('perros')" title="Perros"
+                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-[80px] rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">Perros</button>
+                    <button onclick="handleEleccion('ambos')" title="Ambos"
+                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-[80px] h-[392px] mt-24 rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">Ambos</button>
+                    <button onclick="handleEleccion('gatos')" title="Gatos"
+                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-[80px] rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">Gatos</button>
                 </div>
 
                 <!-- MODAL ENCUESTA -->
@@ -85,7 +89,7 @@
 
                             <div class="flex justify-end gap-3 mt-6">
                                 <button type="submit"
-                                    class="w-full px-4 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+                                    class="w-full px-4 py-3 bg-[#E5531C] text-white font-bold rounded-lg hover:bg-[#ff6b35] transition">
                                     Encontrar a mi compañero
                                 </button>
                             </div>
@@ -98,7 +102,9 @@
                     <div id="modalMatches" class="fixed inset-0 bg-black/80 flex justify-center items-center z-50">
                         <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
                             <div class="flex justify-between items-center mb-6">
-                                <h2 class="text-3xl font-bold text-blue-600">Estos son tus matches!💖</h2>
+                                <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-blue-300 mb-8">
+                                    <h2 class="text-3xl font-bold text-black">Estos son tus matches!💖</h2>
+                                </div>
                                 <a href="/adopciones?tipo<%=tipoElegido %>"
                                     class="text-gray-500 hover:text-red-500 font-bold text-2xl transition">
                                     &times;
@@ -118,10 +124,20 @@
                                                 <%= animal.raza %> | <%= animal.sexo %>
                                             </p>
 
-                                            <a href="/animales/<%= animal.id %>"
-                                                class="mt-4 inline-block px-4 py-2 bg-blue-500 text-white font-medium rounded hover:bg-blue-600 w-full">
+                                            <button
+                                                class="masInfo1 mt-4 inline-block px-4 py-2 bg-[#E5531C] text-white font-medium rounded hover:bg-[#ff6b35] w-full"
+                                                data-nombre="<%= animal.nombre %>" data-chip="<%= animal.chip || '—' %>"
+                                                data-especie="<%= animal.especie || '—' %>"
+                                                data-raza="<%= animal.raza || '—' %>"
+                                                data-sexo="<%= animal.sexo || '—' %>"
+                                                data-nacimiento="<%= new Date(animal.fecha_nacimiento).toLocaleDateString('es-ES') || '—' %>"
+                                                data-pelaje="<%= animal.pelaje || '—' %>"
+                                                data-vacunas="<%= animal.vacunas || '—' %>"
+                                                data-esterilizado="<%= animal.esterilizado ? 'Sí' : 'No' %>"
+                                                data-desparasitado="<%=animal.desparasitado ? 'Sí' : 'No' %>"
+                                                data-foto="<%= animal.foto || '' %>">
                                                 Ver Ficha
-                                            </a>
+                                            </button>
                                         </div>
                                         <% }) %>
                                 </div>
@@ -180,11 +196,98 @@
                                 window.location.href = `/adopciones?tipo=${tipo}`;
                             }
 
+
+                            const modal = document.getElementById('editModal');
+
+                            // Rellenar y abrir modal con los datos del botón pulsado
+                            document.querySelectorAll('.masInfo1').forEach(btn => {
+                                btn.addEventListener('click', () => {
+                                    const d = btn.dataset;
+
+                                    document.getElementById('modal-nombre').textContent = d.nombre;
+                                    document.getElementById('modal-chip').textContent = d.chip;
+                                    document.getElementById('modal-especie').textContent = d.especie;
+                                    document.getElementById('modal-raza').textContent = d.raza;
+                                    document.getElementById('modal-sexo').textContent = d.sexo;
+                                    document.getElementById('modal-nacimiento').textContent = d.nacimiento;
+                                    document.getElementById('modal-pelaje').textContent = d.pelaje;
+                                    document.getElementById('modal-vacunas').textContent = d.vacunas;
+                                    document.getElementById('modal-esterilizado').textContent = d.esterilizado;
+                                    document.getElementById('modal-desparasitado').textContent = d.desparasitado;
+
+                                    // Foto opcional
+                                    const fotoWrap = document.getElementById('modal-foto-wrap');
+                                    const fotoImg = document.getElementById('modal-foto');
+                                    if (d.foto) {
+                                        fotoImg.src = d.foto;
+                                        fotoImg.alt = d.nombre;
+                                        fotoWrap.classList.remove('hidden');
+                                    } else {
+                                        fotoWrap.classList.add('hidden');
+                                    }
+
+                                    modal.style.display = 'flex';
+                                });
+                            });
+
+                            // Cerrar con el botón ✕
+                            document.getElementById('cerrarModal').addEventListener('click', () => {
+                                modal.style.display = 'none';
+                            });
+
+                            // Cerrar al hacer clic en el fondo
+                            modal.addEventListener('click', (e) => {
+                                if (e.target === modal) modal.style.display = 'none';
+                            });
+
+
                         </script>
 
 
 
                         <% } %>
+                            <!-- Modal info animal -->
+                            <div id="editModal" style="display: none;">
+                                <div class="modalContent">
+
+                                    <div class="flex items-center justify-between mb-5">
+                                        <h2 id="modal-nombre" class="text-2xl font-extrabold text-gray-800">
+                                        </h2>
+                                        <button id="cerrarModal"
+                                            class="text-gray-400 hover:text-gray-600 text-3xl font-bold leading-none">&times;</button>
+                                    </div>
+
+                                    <div id="modal-foto-wrap" class="mb-5 hidden">
+                                        <img id="modal-foto" src="" alt="" class="w-full h-52 object-cover rounded-xl">
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-x-6 gap-y-3 text-sm text-gray-700">
+                                        <p><span class="font-semibold text-gray-500 block">Chip</span><span
+                                                id="modal-chip"></span></p>
+                                        <p><span class="font-semibold text-gray-500 block">Especie</span><span
+                                                id="modal-especie"></span></p>
+                                        <p><span class="font-semibold text-gray-500 block">Raza</span><span
+                                                id="modal-raza"></span></p>
+                                        <p><span class="font-semibold text-gray-500 block">Sexo</span><span
+                                                id="modal-sexo"></span></p>
+                                        <p><span class="font-semibold text-gray-500 block">Fecha
+                                                nacimiento</span><span id="modal-nacimiento"></span>
+                                        </p>
+                                        <p><span class="font-semibold text-gray-500 block">Pelaje</span><span
+                                                id="modal-pelaje"></span></p>
+                                        <p><span class="font-semibold text-gray-500 block">Vacunas</span><span
+                                                id="modal-vacunas"></span></p>
+                                        <p><span class="font-semibold text-gray-500 block">Esterilizado</span><span
+                                                id="modal-esterilizado"></span>
+                                        </p>
+                                        <p><span class="font-semibold text-gray-500 block">Desparasitado</span><span
+                                                id="modal-desparasitado"></span>
+                                        </p>
+                                    </div>
+                                    <button
+                                        class="masInfo1 mt-4 w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-xl text-sm transition-colors duration-150">Adoptar</button>
+                                </div>
+                            </div>
         </main>
         <%- include("../partials/footer") %>
 </body>
