@@ -55,8 +55,11 @@ const getByEspecie = async (especie) => {
     "SELECT * FROM animales WHERE especie = $1",
     [especie]
   );
-
-  return result.rows;
+  return result.rows.map(a => new Animal(
+    a.id, a.nombre, a.chip, a.especie, a.raza, a.sexo,
+    a.fecha_nacimiento, a.color, a.pelaje, a.vacunas,
+    a.esterilizado, a.desparasitado, a.foto
+  ));
 };
 
 // FILTRO POR RAZA
