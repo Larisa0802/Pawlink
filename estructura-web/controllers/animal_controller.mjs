@@ -32,6 +32,8 @@ class AnimalController {
   };
 
   getCatalogo = async (req, res) => {
+    /*debug
+    console.log(">>> getCatalogo called"); */
     const userData = req.cookies["datosUsuario"] || null;
 
     if (!userData) {
@@ -49,12 +51,16 @@ class AnimalController {
     try {
       let response;
 
+      /*console.log("Tipo:", tipo);*/
+
       if (tipo === "ambos") {
         response = await this.client.get("/animales");
       } else {
         const especie = mapaEspecie[tipo];
         response = await this.client.get(`/animales/especie/${especie}`);
       }
+
+      console.log("Datos recibidos:", response.data);
 
       res.render("completes/catalogoAdopciones", {
         animales: response.data,

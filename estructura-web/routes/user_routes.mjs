@@ -13,7 +13,7 @@ router.get("/contacto", (req, res) => {
     res.render("completes/contactos", { active: "contacto" })
 })
 router.get("/adm", userController.getAllUsersFront)
-router.get("/index", (req, res) => {
+router.get("/index", async (req, res) => {
 
     const userData = req.cookies["datosUsuario"] || null;
 
@@ -21,7 +21,27 @@ router.get("/index", (req, res) => {
         return res.redirect("/login");
     }
 
-    return res.render("completes/index", { userData, active: "inicio" });
+    try {
+        // petición a la API para buscar las protectoras
+        const response = await fetch("http://localhost:3001/api/protectoras");
+
+        // Leemos las protectoras de la API si todo va bien
+        let protectorasData = [];
+        if (response.ok) {
+            protectorasData = await response.json();
+        }
+
+        return res.render("completes/index", {
+            userData,
+            active: "inicio",
+            protectoras: protectorasData
+        });
+
+    } catch (error) {
+        // Entrará aquí si el servidor API está caído o si la ruta /api/protectoras aún no existe.
+        console.error("Endpoint de protectoras no creado todavía o apagado, pasando de largo...");
+        return res.render("completes/index", { userData, active: "inicio", protectoras: [] });
+    }
 });
 
 router.get("/perfil", (req, res) => {
@@ -33,6 +53,17 @@ router.get("/perfil", (req, res) => {
 
     return res.render("completes/perfil", { userData, active: "perfil", errorD: null, errorN: null, errorP: null, errorE: null, mensaje: null, openDeleteModal: null });
 })
+
+//--------------------------------------------------------------//
+router.get("/politicaPrivacidad", (req, res) => {
+    const userData = req.cookies["datosUsuario"] || null;
+    res.render("completes/politicaPrivacidad", { userData, active: null });
+});
+
+router.get("/politicaCookies", (req, res) => {
+    const userData = req.cookies["datosUsuario"] || null;
+    res.render("completes/politicaCookies", { userData, active: null });
+});
 
 //--------------------------------------------------------------//
 router.get("/forgot-password", userController.showForgotPasswordForm);
