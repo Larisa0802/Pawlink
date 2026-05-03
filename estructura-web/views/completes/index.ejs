@@ -2,22 +2,26 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <title>Inicio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Inicio</title>
 
 </head>
 
 <body class="flex flex-col min-h-screen bg-gray-50">
 
 
-  <% if (userData) { %>
-  <%- include("../partials/sidebar") %>
+    <% if (userData) { %>
+        <%- include("../partials/sidebar") %>
 
 
             <main class="ml-64 p-8 flex-grow bg-[#DDECF6] min-h-screen">
-    
+
+                <nav class="text-sm font-semibold text-gray-400 mb-2">
+                    <span id="breadcrumb">Cargando ruta...</span>
+                </nav>
+
                 <!-- Tarjeta de Bienvenida -->
                 <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-[#E5531C] mb-8">
                     <h1 class="text-3xl font-extrabold text-black">
@@ -27,43 +31,52 @@
                         ¿List@ para darle una segunda oportunidad a un amigo peludo hoy?
                     </p>
                     <%if(userData.admin) { %>
-                        <span class="inline-block mt-3 bg-[#EADDF0] text-black px-3 py-1 rounded-full text-sm font-bold">Modo Administrador Activo</span>
-                    <%}%>
+                        <span
+                            class="inline-block mt-3 bg-[#EADDF0] text-black px-3 py-1 rounded-full text-sm font-bold">Modo
+                            Administrador Activo</span>
+                        <%}%>
                 </div>
 
                 <!-- Grid con las 3 secciones -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    
+
                     <!-- Tarjeta 1 - Tema Naranja -->
-                    <div class="bg-[#E5531C] text-white rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                    <div
+                        class="bg-[#E5531C] text-white rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
                         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
                             <i class="fa-solid fa-users"></i> Quiénes somos
                         </h2>
                         <p class="text-white leading-relaxed font-medium">
-                            Somos un equipo apasionado por el bienestar animal. PawLink nace del amor por los peludos y la necesidad de modernizar el proceso de adopción conectando personas y protectoras.
+                            Somos un equipo apasionado por el bienestar animal. PawLink nace del amor por los peludos y
+                            la necesidad de modernizar el proceso de adopción conectando personas y protectoras.
                         </p>
                     </div>
 
                     <!-- Tarjeta 2 - Tema Lila -->
-                    <div class="bg-[#EADDF0] text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                    <div
+                        class="bg-[#EADDF0] text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
                         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2 text-[#E5531C]">
                             <i class="fa-solid fa-hand-holding-heart"></i> Qué hacemos
                         </h2>
                         <p class="text-gray-900 leading-relaxed font-medium">
-                            Hemos revolucionado el sistema tradicional con un "Match" inteligente. Analizamos tu estilo de vida para encontrar a tu compañero ideal de forma digitalizada y conectada.
+                            Hemos revolucionado el sistema tradicional con un "Match" inteligente. Analizamos tu estilo
+                            de vida para encontrar a tu compañero ideal de forma digitalizada y conectada.
                         </p>
                     </div>
 
                     <!-- Tarjeta 3 - Tema Blanco -->
-                    <div class="bg-white text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-[#DDECF6]">
+                    <div
+                        class="bg-white text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-[#DDECF6]">
                         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
                             <i class="fa-solid fa-paw text-[#E5531C]"></i> Tu ecosistema
                         </h2>
                         <p class="text-gray-600 leading-relaxed">
-                            Desde tu cuenta puedes hacer seguimiento de solicitudes y comunicarte fácilmente. Trabajamos para que cada "match" sea el principio de una historia feliz.
+                            Desde tu cuenta puedes hacer seguimiento de solicitudes y comunicarte fácilmente. Trabajamos
+                            para que cada "match" sea el principio de una historia feliz.
                         </p>
-                        <button class="mt-5 w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-[#E5531C] transition-colors duration-300">
-                            Saber más de PawLink
+                        <button
+                            class="mt-5 w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-[#E5531C] transition-colors duration-300">
+                            <a href="/politicaPrivacidad">Saber más de PawLink</a>
                         </button>
                     </div>
                 </div>
@@ -73,9 +86,45 @@
                     <h2 class="text-3xl font-extrabold text-black border-b-2 border-[#EADDF0] pb-4 mb-6">
                         Protectoras Asociadas
                     </h2>
-                    <div class="text-center text-gray-500 py-10">
-                        <i class="fa-solid fa-house-chimney-window text-6xl text-[#DDECF6] mb-4"></i>
-                        <p>Aquí se cargarán las protectoras con las que trabajamos...</p>
+                    <div class="text-center text-gray-500 py-10 overflow-x-auto">
+                        <% if (typeof protectoras !=='undefined' && protectoras.length> 0) { %>
+
+                            <table class="w-full mx-auto border-collapse bg-white rounded-xl overflow-hidden shadow-md">
+                                <thead class="bg-[#000000] text-white">
+                                    <th class="py-3 px-4 text-left font-semibold">Nombre</th>
+                                    <th class="py-3 px-4 text-left font-semibold">Dirección</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Animales</th>
+                                    <th class="py-3 px-4 text-center font-semibold">Web</th>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <% protectoras.forEach(prote=> { %>
+                                        <tr class="hover:bg-gray-50 transition">
+                                            <td class="py-3 px-4 text-left font-medium text-gray-800">
+                                                <%= prote.nombre %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left text-gray-600">
+                                                <%= prote.direccion %>
+                                            </td>
+                                            <td class="py-3 px-4 text-center">
+                                                <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                                    <%= prote.numero_animales_web || 0 %>
+                                                </span>
+                                            </td>
+                                            <td class="py-3 px-4 text-center">
+                                                <a target="_blank" href="<%= prote.pagina_web %>" class="text-[#E5531C] hover:text-amber-600 transition">
+                                                    <i class="fa-solid fa-globe text-xl"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+
+
+                            <% } else { %>
+                                <i class="fa-solid fa-house-chimney-window text-6xl text-[#DDECF6] mb-4"></i>
+                                <p>Aquí se visualizan las protectoras con las que trabajamos...</p>
+                                <% } %>
                     </div>
                 </section>
 
@@ -83,23 +132,41 @@
 
             <%}else{%>
 
-      <div class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
-        <h2 class="text-2xl font-bold text-gray-800 mb-3">
-          ¡Ups! Parece que no estás logueado
-        </h2>
+                <div
+                    class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">
+                        ¡Ups! Parece que no estás logueado
+                    </h2>
 
-        <p class="text-gray-600 mb-6">
-          Para acceder a esta sección necesitas iniciar sesión.
-          No te preocupes, te llevamos de vuelta a la página principal.
-        </p>
+                    <p class="text-gray-600 mb-6">
+                        Para acceder a esta sección necesitas iniciar sesión.
+                        No te preocupes, te llevamos de vuelta a la página principal.
+                    </p>
 
-        <a href="/" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
-          Volver al inicio
-        </a>
-      </div>
-      <%}%>
+                    <a href="/"
+                        class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+                        Volver al inicio
+                    </a>
+                </div>
+                <%}%>
 
                     <%- include("../partials/footer") %>
+
+    <script>
+        let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];
+        const rutaActual = window.location.pathname + window.location.search;
+        if (pathHistory.length === 0 || pathHistory[pathHistory.length - 1] !== rutaActual) {
+            pathHistory.push(rutaActual);
+            sessionStorage.setItem('userPath', JSON.stringify(pathHistory));
+        }
+        const displayPath = pathHistory.map(ruta => {
+            if (ruta === '/' || ruta.includes('index')) return '🏠 Inicio';
+            if (ruta.includes('vistaEleccion')) return 'Elección';
+            if (ruta.includes('adopciones')) return 'Catálogo';
+            return ruta.replace('/', '');
+        }).join('  /  ');
+        document.getElementById('breadcrumb').innerText = displayPath;
+    </script>
 
 </body>
 
