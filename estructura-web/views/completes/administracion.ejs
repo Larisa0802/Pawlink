@@ -23,10 +23,8 @@
                             class="hover:text-orange-400 cursor-pointer">Animales</a>
                         <a href="#" onclick="mostrarSeccion('protectoras')"
                             class="hover:text-orange-400 cursor-pointer">Protectoras</a>
-                        <a href="#" onclick="mostrarSeccion('solicitudes')"
-                            class="hover:text-orange-400 cursor-pointer">Solicitudes</a>
-                        <a href="#" onclick="mostrarSeccion('seguimientos')"
-                            class="hover:text-orange-400 cursor-pointer">Seguimientos</a>
+                        <a href="#" onclick="mostrarSeccion('procesos')"
+                            class="hover:text-orange-400 cursor-pointer">Procesos</a>
                     </nav>
 
                     <br>
@@ -254,6 +252,119 @@
                         </table>
                     </div>
 
+                    <div id="seccion-protectoras">
+                        <!--TABLA PROTECTORAS-->
+                        <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
+                            id="protectoras">
+                            <tr>
+                                <th colspan="14" class="text-center py-2 bg-gray-100">
+                                    GESTIÓN DE PROTECTORAS
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="border">ID</th>
+                                <th class="border">Nombre</th>
+                                <th class="border">Dirección</th>
+                                <th class="border">Teléfono</th>
+                                <th class="border">Descripción</th>
+                                <th class="border">Email</th>
+                                <th class="border">Página Web</th>
+                                <th class="border">Acciones</th>
+
+                            </tr>
+                            <tbody class="text-center">
+                                <% if (typeof protectoras !=='undefined' && protectoras.length> 0) { %>
+                                    <% protectoras.forEach(prote=> { %>
+                                        <tr class="hover:bg-gray-50 transition">
+                                            <td class="py-3 px-4 text-left font-medium text-gray-800">
+                                                <%= prote.id %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left font-medium text-gray-800">
+                                                <%= prote.nombre %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left text-gray-600">
+                                                <%= prote.direccion %>
+                                            </td>
+                                            <td class="text-center font-medium text-gray-600 min-w-[120px]">
+                                                <%= prote.telefono %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left text-gray-600">
+                                                <%= prote.descripcion %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left text-gray-600">
+                                                <%= prote.email%>
+                                            </td>
+
+                                            <td class="py-3 px-4 text-center">
+                                                <a target="_blank" href="<%= prote.pagina_web %>"
+                                                    class="text-[#E5531C] hover:text-amber-600 transition">
+                                                    <i class="fa-solid fa-globe text-xl"></i>
+                                                </a>
+                                            </td>
+                                            <td class="border">
+                                                <!--Boton eliminar-->
+                                                <button type="button"
+                                                    class="text-red-600 hover:text-red-800 btn-delete-protectora"
+                                                    data-id="<%= prote.id %>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
+
+                                                <!--Boton editar-->
+                                                <button type="button"
+                                                    class="text-blue-600 hover:text-blue-800 btn-edit-protectora"
+                                                    data-id="<%= prote.id %>" data-nombre="<%= prote.nombre %>"
+                                                    data-direccion="<%= prote.direccion %>"
+                                                    data-telefono="<%= prote.telefono %>"
+                                                    data-descripcion="<%= prote.descripcion %>"
+                                                    data-email="<%= prote.email %>"
+                                                    data-animales="<%= prote.numero_animales_web || 0 %>"
+                                                    data-web="<%= prote.pagina_web %>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+                                        <% }) %>
+                                            <% } else{ %>
+                                                <tr>
+                                                    <td colspan="15" class="border">No hay protectoras registradas</td>
+                                                </tr>
+                                                <% } %>
+                                                    <tr>
+                                                        <td colspan="9" class="text-center py-2">
+                                                            <button
+                                                                onclick="document.getElementById('newProtectoraModal').classList.remove('hidden')"
+                                                                class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 
+            bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded transition">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-5 h-5">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                                Añadir protectora
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                            </tbody>
+
+                        </table>
+
+
+
+                    </div>
+
                     <% }else{ %>
                         <div
                             class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
@@ -294,278 +405,282 @@
                                 </div>
                                 <%}%>
                 </main>
-              
+
                 <%- include("../partials/footer") %>
+                    <!-- -------------------------------MODAL USUARIOS--------------------------------------------- -->
 
+                    <!--MODAL PARA EDITAR USUARIOS-->
+                    <div id="editUserModal"
+                        class="hidden fixed inset-0  bg-black/50 backdrop-blur-sm  bg-opacity-50 flex items-center justify-center">
+                        <div class="bg-white p-6 rounded shadow-lg w-96">
+                            <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
 
-                <!--MODAL PARA EDITAR USUARIOS-->
-                <div id="editUserModal"
-                    class="hidden fixed inset-0  bg-black/50 backdrop-blur-sm  bg-opacity-50 flex items-center justify-center">
-                    <div class="bg-white p-6 rounded shadow-lg w-96">
-                        <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
+                            <form id="editUForm">
+                                <input type="hidden" id="editId">
 
-                        <form id="editUForm">
-                            <input type="hidden" id="editId">
+                                <label class="block mb-2">Nombre</label>
+                                <input id="editUName" class="w-full border p-2 mb-3">
 
-                            <label class="block mb-2">Nombre</label>
-                            <input id="editUName" class="w-full border p-2 mb-3">
+                                <label class="block mb-2">Email</label>
+                                <input id="editUEmail" class="w-full border p-2 mb-3">
 
-                            <label class="block mb-2">Email</label>
-                            <input id="editUEmail" class="w-full border p-2 mb-3">
+                                <label class="block mb-2">Admin</label>
+                                <select id="editUAdmin" class="w-full border p-2 mb-3">
+                                    <option value="false">No</option>
+                                    <option value="true">Sí</option>
+                                </select>
 
-                            <label class="block mb-2">Admin</label>
-                            <select id="editUAdmin" class="w-full border p-2 mb-3">
-                                <option value="false">No</option>
-                                <option value="true">Sí</option>
-                            </select>
+                                <label class="block mb-2">Fecha de registro</label>
+                                <input id="editUFecha" class="w-full border p-2 mb-3" disabled>
 
-                            <label class="block mb-2">Fecha de registro</label>
-                            <input id="editUFecha" class="w-full border p-2 mb-3" disabled>
-
-                            <div class="flex justify-end gap-3 mt-4">
-                                <button type="button" onclick="closeEditModal('editUserModal')"
-                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
-                            </div>
-                        </form>
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeEditModal('editUserModal')"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
-                <!--Modal PARA AÑADIR USUARIOS-->
-                <div id="newUserModal"
-                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm   bg-opacity-50 flex items-center justify-center">
-                    <div class="bg-white p-6 rounded shadow-lg w-96">
-                        <h2 class="text-xl font-bold mb-4">Añadir nuevo usuario</h2>
+                    <!--Modal PARA AÑADIR USUARIOS-->
+                    <div id="newUserModal"
+                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm   bg-opacity-50 flex items-center justify-center">
+                        <div class="bg-white p-6 rounded shadow-lg w-96">
+                            <h2 class="text-xl font-bold mb-4">Añadir nuevo usuario</h2>
 
-                        <form id="newForm">
-                            <input type="hidden" id="newId">
+                            <form id="newForm">
+                                <input type="hidden" id="newId">
 
-                            <label class="block mb-2">Nombre</label>
-                            <input id="newName" class="w-full border p-2 mb-3">
+                                <label class="block mb-2">Nombre</label>
+                                <input id="newName" class="w-full border p-2 mb-3">
 
-                            <label class="block mb-2">Email</label>
-                            <input id="newEmail" class="w-full border p-2 mb-3">
+                                <label class="block mb-2">Email</label>
+                                <input id="newEmail" class="w-full border p-2 mb-3">
 
-                            <label class="block mb-2">Contraseña</label>
-                            <input id="newPassword" type="password" class="w-full border p-2 mb-3">
+                                <label class="block mb-2">Contraseña</label>
+                                <input id="newPassword" type="password" class="w-full border p-2 mb-3">
 
-                            <label class="block mb-2">Admin</label>
-                            <select id="newAdmin" class="w-full border p-2 mb-3">
-                                <option value="false">No</option>
-                                <option value="true">Sí</option>
-                            </select>
+                                <label class="block mb-2">Admin</label>
+                                <select id="newAdmin" class="w-full border p-2 mb-3">
+                                    <option value="false">No</option>
+                                    <option value="true">Sí</option>
+                                </select>
 
-                            <label class="block mb-2">Fecha de registro</label>
-                            <input id="newFecha" class="w-full border p-2 mb-3" disabled>
+                                <label class="block mb-2">Fecha de registro</label>
+                                <input id="newFecha" class="w-full border p-2 mb-3" disabled>
 
-                            <div class="flex justify-end gap-3 mt-4">
-                                <button type="button" onclick="closeNewModal()"
-                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
-                                    guardar</button>
-                            </div>
-                        </form>
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeNewModal()"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
+                                        guardar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                    <!-- -------------------------------MODAL ANIMALES--------------------------------------------- -->
 
-                <!--MODAL PARA EDITAR ANIMALES-->
-                <div id="editAnimalModal"
-                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
-                        <h2 class="text-xl font-bold mb-4">Editar animal</h2>
+                    <!--MODAL PARA EDITAR ANIMALES-->
+                    <div id="editAnimalModal"
+                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                            <h2 class="text-xl font-bold mb-4">Editar animal</h2>
 
-                        <form id="editAnimalForm">
-                            <input type="hidden" id="editAnimalId">
+                            <form id="editAnimalForm">
+                                <input type="hidden" id="editAnimalId">
 
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block mb-1">Nombre</label>
-                                    <input id="editAnimalNombre" class="w-full border p-2">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block mb-1">Nombre</label>
+                                        <input id="editAnimalNombre" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Chip</label>
+                                        <input id="editAnimalChip" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Especie</label>
+                                        <select id="editAnimalEspecie" class="w-full border p-2">
+                                            <option value="Felina">Felina</option>
+                                            <option value="Canina">Canina</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Raza</label>
+                                        <input id="editAnimalRaza" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Sexo</label>
+                                        <select id="editAnimalSexo" class="w-full border p-2">
+                                            <option value="Macho">Macho</option>
+                                            <option value="Hembra">Hembra</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Fecha de nacimiento</label>
+                                        <input id="editAnimalFecha" type="date" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Pelaje</label>
+                                        <input id="editAnimalPelaje" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Tamaño</label>
+                                        <select id="editAnimalTamano" class="w-full border p-2">
+                                            <option value="pequeño">Pequeño</option>
+                                            <option value="mediano">Mediano</option>
+                                            <option value="grande">Grande</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Nivel de energía</label>
+                                        <select id="editAnimalEnergia" class="w-full border p-2">
+                                            <option value="Bajo">Bajo</option>
+                                            <option value="Medio">Medio</option>
+                                            <option value="Alto">Alto</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Vacunas</label>
+                                        <input id="editAnimalVacunas" class="w-full border p-2"
+                                            placeholder="Ej: Parvovirus;Moquillo">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Esterilizado</label>
+                                        <select id="editAnimalEsterilizado" class="w-full border p-2">
+                                            <option value="false">No</option>
+                                            <option value="true">Sí</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Desparasitado</label>
+                                        <select id="editAnimalDesparasitado" class="w-full border p-2">
+                                            <option value="false">No</option>
+                                            <option value="true">Sí</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Disponible</label>
+                                        <select id="editAnimalDisponible" class="w-full border p-2">
+                                            <option value="false">No</option>
+                                            <option value="true">Sí</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block mb-1">Chip</label>
-                                    <input id="editAnimalChip" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Especie</label>
-                                    <select id="editAnimalEspecie" class="w-full border p-2">
-                                        <option value="Felina">Felina</option>
-                                        <option value="Canina">Canina</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Raza</label>
-                                    <input id="editAnimalRaza" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Sexo</label>
-                                    <select id="editAnimalSexo" class="w-full border p-2">
-                                        <option value="Macho">Macho</option>
-                                        <option value="Hembra">Hembra</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Fecha de nacimiento</label>
-                                    <input id="editAnimalFecha" type="date" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Pelaje</label>
-                                    <input id="editAnimalPelaje" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Tamaño</label>
-                                    <select id="editAnimalTamano" class="w-full border p-2">
-                                        <option value="pequeño">Pequeño</option>
-                                        <option value="mediano">Mediano</option>
-                                        <option value="grande">Grande</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Nivel de energía</label>
-                                    <select id="editAnimalEnergia" class="w-full border p-2">
-                                        <option value="Bajo">Bajo</option>
-                                        <option value="Medio">Medio</option>
-                                        <option value="Alto">Alto</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Vacunas</label>
-                                    <input id="editAnimalVacunas" class="w-full border p-2"
-                                        placeholder="Ej: Parvovirus;Moquillo">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Esterilizado</label>
-                                    <select id="editAnimalEsterilizado" class="w-full border p-2">
-                                        <option value="false">No</option>
-                                        <option value="true">Sí</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Desparasitado</label>
-                                    <select id="editAnimalDesparasitado" class="w-full border p-2">
-                                        <option value="false">No</option>
-                                        <option value="true">Sí</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Disponible</label>
-                                    <select id="editAnimalDisponible" class="w-full border p-2">
-                                        <option value="false">No</option>
-                                        <option value="true">Sí</option>
-                                    </select>
-                                </div>
-                            </div>
 
-                            <div class="flex justify-end gap-3 mt-4">
-                                <button type="button" onclick="closeEditModal('editAnimalModal')"
-                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
-                            </div>
-                        </form>
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeEditModal('editAnimalModal')"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
-                <!--MODAL PARA AÑADIR ANIMALES-->
-                <div id="newAnimalModal"
-                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
-                        <h2 class="text-xl font-bold mb-4">Añadir animal</h2>
+                    <!-- -------------------------------MODAL PROTECTORAS--------------------------------------------- -->
+                    <!--MODAL PARA EDITAR PROTECTORAS-->
+                    <div id="editProtectoraModal"
+                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                            <h2 class="text-xl font-bold mb-4">Editar protectora</h2>
 
-                        <form id="newAnimalForm">
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block mb-1">Nombre</label>
-                                    <input id="newAnimalNombre" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Chip</label>
-                                    <input id="newAnimalChip" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Especie</label>
-                                    <select id="newAnimalEspecie" class="w-full border p-2">
-                                        <option value="Canina">Canina</option>
-                                        <option value="Felina">Felina</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Raza</label>
-                                    <input id="newAnimalRaza" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Sexo</label>
-                                    <select id="newAnimalSexo" class="w-full border p-2">
-                                        <option value="Macho">Macho</option>
-                                        <option value="Hembra">Hembra</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Fecha de nacimiento</label>
-                                    <input id="newAnimalFecha" type="date" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Pelaje</label>
-                                    <input id="newAnimalPelaje" class="w-full border p-2">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Tamaño</label>
-                                    <select id="newAnimalTamano" class="w-full border p-2">
-                                        <option value="pequeño">Pequeño</option>
-                                        <option value="mediano">Mediano</option>
-                                        <option value="grande">Grande</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Nivel de energía</label>
-                                    <select id="newAnimalEnergia" class="w-full border p-2">
-                                        <option value="Bajo">Bajo</option>
-                                        <option value="Medio">Medio</option>
-                                        <option value="Alto">Alto</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Vacunas</label>
-                                    <input id="newAnimalVacunas" class="w-full border p-2"
-                                        placeholder="Ej: Parvovirus;Moquillo">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Esterilizado</label>
-                                    <select id="newAnimalEsterilizado" class="w-full border p-2">
-                                        <option value="false">No</option>
-                                        <option value="true">Sí</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Desparasitado</label>
-                                    <select id="newAnimalDesparasitado" class="w-full border p-2">
-                                        <option value="false">No</option>
-                                        <option value="true">Sí</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Disponible</label>
-                                    <select id="newAnimalDisponible" class="w-full border p-2">
-                                        <option value="false">No</option>
-                                        <option value="true">Sí</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <form id="editProtectoraForm">
+                                <input type="hidden" id="editProtectoraId">
 
-                            <div class="flex justify-end gap-3 mt-4">
-                                <button type="button" onclick="closeNewAnimalModal()"
-                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
-                                    guardar</button>
-                            </div>
-                        </form>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block mb-1">Nombre</label>
+                                        <input id="editProtectoraNombre" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Teléfono</label>
+                                        <input id="editProtectoraTelefono" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Dirección</label>
+                                        <input id="editProtectoraDireccion" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Descripción</label>
+                                        <textarea id="editProtectoraDescripcion" class="w-full border p-2 rounded"
+                                            rows="3"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Email</label>
+                                        <input id="editProtectoraEmail" type="email" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Número de animales</label>
+                                        <input id="editProtectoraAnimales" type="number" min="0"
+                                            class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Página Web</label>
+                                        <input id="editProtectoraWeb" class="w-full border p-2 rounded">
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeEditModal('editProtectoraModal')"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
+                    <!--MODAL PARA AÑADIR PROTECTORAS-->
+                    <div id="newProtectoraModal"
+                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                            <h2 class="text-xl font-bold mb-4">Añadir protectora</h2>
+
+                            <form id="newProtectoraForm">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block mb-1">Nombre</label>
+                                        <input id="newProtectoraNombre" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Teléfono</label>
+                                        <input id="newProtectoraTelefono" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Dirección</label>
+                                        <input id="newProtectoraDireccion" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Descripción</label>
+                                        <textarea id="newProtectoraDescripcion" class="w-full border p-2 rounded"
+                                            rows="3"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Email</label>
+                                        <input id="newProtectoraEmail" type="email" class="w-full border p-2 rounded">
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Página Web</label>
+                                        <input id="newProtectoraWeb" class="w-full border p-2 rounded">
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeNewProtectoraModal()"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
+                                        guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
                     <script>
-
-                        // -- GESTION DE USUARIOS --
-                        //Borrar usuarios
+                        // ------------- GESTION DE USUARIOS -------------
+                        //Borrar usuarios (DELETE)
                         async function deleteUser(id) {
                             if (!confirm("¿Seguro que quieres eliminar este usuario?")) {
                                 return;
@@ -602,7 +717,10 @@
                             // Establecer la fecha actual
                             const now = new Date();
                             const fechaFormato = now.toLocaleDateString("es-ES") + " " +
-                                now.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+                                now.toLocaleTimeString("es-ES", {
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                });
                             document.getElementById("newFecha").value = fechaFormato;
                             document.getElementById("newUserModal").classList.remove("hidden");
 
@@ -618,11 +736,16 @@
                             document.getElementById(modal).classList.add("hidden");
 
                             switch (modal) {
-                                case "editUserModal": document.getElementById(modal).classList.add("hidden"); break;
-                                case "editAnimalModal": document.getElementById(modal).classList.add("hidden"); break;
+                                case "editUserModal":
+                                    document.getElementById(modal).classList.add("hidden");
+                                    break;
+                                case "editAnimalModal":
+                                    document.getElementById(modal).classList.add("hidden");
+                                    break;
                             }
                         }
 
+                        //Actualizar datos (UPDATE)
                         document.getElementById("editUForm").addEventListener("submit", async (e) => {
                             e.preventDefault();
 
@@ -638,8 +761,14 @@
 
                             const res = await fetch(`/adm/users/${id}`, {
                                 method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ name, email, admin })
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    name,
+                                    email,
+                                    admin
+                                })
                             });
 
                             const data = await res.json();
@@ -652,6 +781,7 @@
                             }
                         });
 
+                        //Crear nuevo usuario (CREATE )
                         document.getElementById("newForm").addEventListener("submit", async (e) => {
                             e.preventDefault();
 
@@ -667,8 +797,15 @@
 
                             const res = await fetch(`/adm/users`, {
                                 method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ name, email, password, admin })
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    name,
+                                    email,
+                                    password,
+                                    admin
+                                })
                             });
 
                             const data = await res.json();
@@ -683,9 +820,9 @@
                         });
 
 
-                        // ------- ANIMALES -------
+                        // ------------------------ ANIMALES ---------------------
 
-                        //Eliminar
+                        //Eliminar animal (DELETE)
                         async function deleteAnimal(id) {
                             if (!confirm("¿Seguro que quieres eliminar este animal?")) {
                                 return;
@@ -725,7 +862,7 @@
                             document.getElementById("editAnimalModal").classList.remove("hidden");
                         }
 
-                        //Actualizar
+                        //Actualizar animal (UPDATE)
                         document.getElementById("editAnimalForm").addEventListener("submit", async (e) => {
                             e.preventDefault();
 
@@ -749,7 +886,9 @@
 
                             const res = await fetch(`/adm/animales/${id}`, {
                                 method: "POST",
-                                headers: { "Content-Type": "application/json" },
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
                                 body: JSON.stringify(body)
                             });
 
@@ -764,7 +903,122 @@
                             }
                         });
 
-                        //FUNCION PARA RENDERIZAR LAS TABLAS DE MANERA INDEPENDIENTE
+
+                        // -------------------- PROTECTORAS -----------------------------
+
+                        //Abrir modal de editar protectora
+                        document.addEventListener("click", (e) => {
+                            const btn = e.target.closest(".btn-edit-protectora");
+                            if (!btn) return;
+
+                            const d = btn.dataset;
+                            document.getElementById("editProtectoraId").value = d.id;
+                            document.getElementById("editProtectoraNombre").value = d.nombre;
+                            document.getElementById("editProtectoraDireccion").value = d.direccion;
+                            document.getElementById("editProtectoraTelefono").value = d.telefono;
+                            document.getElementById("editProtectoraDescripcion").value = d.descripcion;
+                            document.getElementById("editProtectoraEmail").value = d.email;
+                            document.getElementById("editProtectoraAnimales").value = d.animales || 0;
+                            document.getElementById("editProtectoraWeb").value = d.web;
+
+                            document.getElementById("editProtectoraModal").classList.remove("hidden");
+                        });
+
+                        //Guardar edicion de la protectora seleccionada (UPDATE)
+                        document.getElementById("editProtectoraForm").addEventListener("submit", async (e) => {
+                            e.preventDefault();
+
+                            const id = document.getElementById("editProtectoraId").value;
+
+                            const body = {
+                                nombre: document.getElementById("editProtectoraNombre").value,
+                                direccion: document.getElementById("editProtectoraDireccion").value,
+                                telefono: document.getElementById("editProtectoraTelefono").value,
+                                descripcion: document.getElementById("editProtectoraDescripcion").value,
+                                email: document.getElementById("editProtectoraEmail").value,
+                                numero_animales_web: document.getElementById("editProtectoraAnimales").value,
+                                pagina_web: document.getElementById("editProtectoraWeb").value
+                            };
+
+                            const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(body)
+                            });
+
+                            const data = await res.json();
+
+                            if (data.ok) {
+                                alert("Protectora actualizada correctamente");
+                                closeEditModal("editProtectoraModal");
+                                location.reload();
+                            } else {
+                                alert("Error al actualizar protectora: " + (data.message || ""));
+                            }
+                        });
+
+                        //Borrar protectora (DELETE)
+                        document.addEventListener("click", async (e) => {
+                            const btn = e.target.closest(".btn-delete-protectora");
+                            if (!btn) return;
+
+                            if (!confirm("¿Seguro que quieres eliminar esta protectora?")) return;
+
+                            const id = btn.dataset.id;
+
+                            const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
+                                method: "DELETE"
+                            });
+
+                            const data = await res.json();
+
+                            if (data.ok) {
+                                alert("Protectora eliminada correctamente");
+                                location.reload();
+                            } else {
+                                alert("Error al eliminar protectora: " + (data.message || ""));
+                            }
+                        });
+
+                        //Cerrar modal de nueva protectora
+                        function closeNewProtectoraModal() {
+                            document.getElementById("newProtectoraModal").classList.add("hidden");
+                            document.getElementById("newProtectoraForm").reset();
+                        }
+
+                        //Crear nueva protectora (CREATE)
+                        document.getElementById("newProtectoraForm").addEventListener("submit", async (e) => {
+                            e.preventDefault();
+
+                            const nombre = document.getElementById("newProtectoraNombre").value;
+                            const telefono = document.getElementById("newProtectoraTelefono").value;
+                            const direccion = document.getElementById("newProtectoraDireccion").value;
+                            const descripcion = document.getElementById("newProtectoraDescripcion").value;
+                            const email = document.getElementById("newProtectoraEmail").value;
+                            const web = document.getElementById("newProtectoraWeb").value;
+
+                            if (!nombre || !email) {
+                                alert("El nombre y el email son obligatorios");
+                                return;
+                            }
+
+                            const res = await fetch(`http://localhost:3001/api/protectoras`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ nombre, telefono, direccion, descripcion, email, pagina_web: web })
+                            });
+
+                            const data = await res.json();
+
+                            if (data.ok) {
+                                alert("Protectora creada correctamente");
+                                closeNewProtectoraModal();
+                            } else {
+                                alert("Error al crear protectora: " + (data.message || ""));
+                            }
+                        });
+
+                        //------------FUNCION PARA RENDERIZAR LAS TABLAS DE MANERA INDEPENDIENTE-------------
                         document.addEventListener("DOMContentLoaded", () => {
                             mostrarSeccion("usuarios"); //La seccion por defecto sera la de usuarios
                         });
