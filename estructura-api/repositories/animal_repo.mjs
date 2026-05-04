@@ -3,8 +3,17 @@ import Animal from "../models/animal_model.mjs";
 
 //GET TODOS
 const getAllAnimales = async () => {
-  const result = await pool.query("SELECT * FROM animales");
-
+const result = await pool.query(`
+  SELECT * FROM animales 
+  WHERE especie IN ('Canina', 'Felina')
+  ORDER BY 
+    CASE especie 
+      WHEN 'Canina' THEN 1 
+      WHEN 'Felina' THEN 2 
+    END,
+    id ASC 
+  LIMIT 200;
+`);
   return result.rows.map(a => new Animal(
     a.id,
     a.nombre,
@@ -18,7 +27,10 @@ const getAllAnimales = async () => {
     a.vacunas,
     a.esterilizado,
     a.desparasitado,
-    a.foto
+    a.foto,
+    a.nivel_energia,
+    a.tamano,
+    a.disponible
   ));
 };
 
@@ -45,7 +57,7 @@ const getAnimalById = async (id) => {
     a.vacunas,
     a.esterilizado,
     a.desparasitado,
-    a.foto
+    a.foto,
   );
 };
 
@@ -124,11 +136,32 @@ const getMatches = async (preferencias, tipoElegido) => {
   return result.rows;
 };
 
+//UPDATE ANIMAL
+const updateAnimal = async (id, datos) => {
+  const { nombre, chip, especie, raza, sexo, fecha_nacimiento, pelaje, vacunas, esterilizado, desparasitado, tamano, nivel_energia, disponible } = datos;
+  const result = await pool.query(
+    `UPDATE animales SET nombre=$1, chip=$2, especie=$3, raza=$4, sexo=$5,
+     fecha_nacimiento=$6, pelaje=$7, vacunas=$8, esterilizado=$9,
+     desparasitado=$10, tamano=$11, nivel_energia=$12, disponible=$13
+     WHERE id=$14 RETURNING *`,
+    [nombre, chip, especie, raza, sexo, fecha_nacimiento, pelaje, vacunas, esterilizado, desparasitado, tamano, nivel_energia, disponible, id]
+  );
+  return result.rows[0];
+};
+
+//BORRAR
+const deleteAnimal = async (id) => {
+  const result = await pool.query("DELETE FROM animales WHERE id=$1 RETURNING *", [id]);
+  return result.rows[0];
+};
+
+
 
 export default {
   getAllAnimales,
   getAnimalById,
   getByEspecie,
   getByRaza,
-  getMatches
+  getMatches,
+  updateAnimal,deleteAnimal,
 };
