@@ -44,5 +44,5 @@ router.get("/vistaEleccion", (req, res) => {
 router.get("/adopciones", animalController.getCatalogo);
 router.post("/encuesta", animalController.enviarEncuesta);
 router.get("/animales", animalController.getAllAnimales);
-
+router.get("/protectoras", animalController.getProtectoras);
 export default router;
