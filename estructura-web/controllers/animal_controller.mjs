@@ -115,6 +115,27 @@ class AnimalController {
       res.redirect("/vistaEleccion");
     }
   }
+  
 }
+
+const updateAnimal = async (req, res) => {
+  try {
+    const animal = await animalesRepository.updateAnimal(req.params.id, req.body);
+    if (!animal) return res.status(404).json({ ok: false, message: "Animal no encontrado" });
+    res.json({ ok: true, animal });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+};
+
+const deleteAnimal = async (req, res) => {
+  try {
+    const animal = await animalesRepository.deleteAnimal(req.params.id);
+    if (!animal) return res.status(404).json({ ok: false, message: "Animal no encontrado" });
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+};
 
 export default new AnimalController();
