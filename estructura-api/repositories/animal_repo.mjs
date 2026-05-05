@@ -155,7 +155,7 @@ const deleteAnimal = async (id) => {
   return result.rows[0];
 };
 
-
+//CREAR 
 
 export default {
   getAllAnimales,
@@ -163,5 +163,6 @@ export default {
   getByEspecie,
   getByRaza,
   getMatches,
-  updateAnimal,deleteAnimal,
+  updateAnimal,
+  deleteAnimal,
 };

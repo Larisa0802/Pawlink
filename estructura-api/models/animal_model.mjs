@@ -16,7 +16,6 @@ class Animal {
         this._disponible = disponible;
         this._nivel_energia = nivel_energia
         this._tamano = tamano
-
     }
 
     get id() { return this._id; }

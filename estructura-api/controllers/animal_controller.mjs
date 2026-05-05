@@ -76,5 +76,6 @@ export default {
   getAnimalById,
   getByEspecie,
   getByRaza,
-  updateAnimal,deleteAnimal
+  updateAnimal,
+  deleteAnimal
 };
