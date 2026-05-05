@@ -240,15 +240,38 @@ class UserController {
     try {
       const userData = req.cookies["datosUsuario"];
       let usuarios = [];
+      let animales = [];
+      let protectoras = [];
 
-      //Solo obtener usuarios si es admin
+      //Solo obtener usuarios y animales si es admin
       if (userData && userData.admin) {
-        const response = await this.client.get("/usuarios");
-        usuarios = response.data;
+        try {
+          const responseUsuarios = await this.client.get("/usuarios");
+          usuarios = responseUsuarios.data;
+        } catch (error) {
+          console.error("Error al obtener usuarios:", error.message);
+        }
+        
+        try {
+          const responseAnimales = await this.client.get("/animales");
+          animales = responseAnimales.data;
+          //console.log(responseAnimales.data)
+        } catch (error) {
+          console.error("Error al obtener animales:", error.message);
+        }
+
+        try {
+          const responseProtectoras = await this.client.get("/api/protectoras");
+          protectoras = responseProtectoras.data;
+        } catch (error) {
+          console.error("Error al obtener protectoras:", error.message);
+        }
       }
 
       return res.render("completes/administracion", {
         usuarios,
+        animales,
+        protectoras,
         userData: req.cookies["datosUsuario"],
         errorL: null,
         mensaje: null,
@@ -256,11 +279,14 @@ class UserController {
       });
     } catch (err) {
       console.error("Error en getAllUsersFront:", err.message);
-      return res.render("completes/index", {
+      return res.render("completes/administracion", {
         usuarios: [],
+        animales: [],
+        protectoras: [],
         userData: req.cookies["datosUsuario"],
-        errorL: { mensaje: "Error al cargar los usuarios" },
+        errorL: { mensaje: "Error al cargar los datos" },
         mensaje: null,
+        active: "administracion",
       });
     }
   };
