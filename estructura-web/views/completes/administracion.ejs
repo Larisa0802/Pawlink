@@ -17,153 +17,353 @@
                 <main class="ml-64 p-6">
 
                     <nav class="bg-white shadow px-6 py-4 flex gap-6 text-gray-700 font-medium">
-                        <a href="#usuarios" class="hover:text-blue-600">Usuarios</a>
-                        <a href="#animales" class="hover:text-blue-600">Animales</a>
-                        <a href="#" class="hover:text-blue-600">Protectoras</a>
-                        <a href="#" class="hover:text-blue-600">Solicitudes</a>
-                        <a href="#" class="hover:text-blue-600">Seguimientos</a>
+                        <a href="#" onclick="mostrarSeccion('usuarios')"
+                            class="hover:text-orange-400 cursor-pointer">Usuarios</a>
+                        <a href="#" onclick="mostrarSeccion('animales')"
+                            class="hover:text-orange-400 cursor-pointer">Animales</a>
+                        <a href="#" onclick="mostrarSeccion('protectoras')"
+                            class="hover:text-orange-400 cursor-pointer">Protectoras</a>
+                        <a href="#" onclick="mostrarSeccion('procesos')"
+                            class="hover:text-orange-400 cursor-pointer">Procesos</a>
                     </nav>
 
                     <br>
-                    <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
-                        id="usuarios">
-                        <tr>
-                            <th colspan="5" class="text-center py-2 bg-gray-100">
-                                GESTIÓN DE USUARIOS
-                            </th>
-                        </tr>
-                        <tr class="bg-gray-50">
-                            <th class="border">ID</th>
-                            <th class="border">Usuario</th>
-                            <th class="border">Email</th>
-                            <th class="border">Fecha de registro</th>
-                            <th class="border">Acciones</th>
-                        </tr>
-                        <tbody class="text-center">
-                            <% if(usuarios && usuarios.length> 0) { %>
-                                <% usuarios.forEach(usuario=> { %>
-                                    <tr class="p-20">
-                                        <td class="border">
-                                            <%= usuario.id %>
-                                        </td>
-                                        <td class="border">
-                                            <%= usuario.username %>
-                                        </td>
-                                        <td class="border">
-                                            <%= usuario.email %>
-                                        </td>
-                                        <td class="border">
-                                            <%= new Date(usuario.fecha_registro).toLocaleDateString("es-ES") %>
-                                                <%= new Date(usuario.fecha_registro).toLocaleTimeString("es-ES", {
-                                                    hour: "2-digit" , minute: "2-digit" }) %>
-                                        </td>
-                                        <td class="border">
-                                            <!--Boton eliminar-->
-                                            <button type="button" onclick="deleteUser('<%= usuario.id %>')"
-                                                class="text-red-600 hover:text-red-800">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                </svg>
-                                            </button>
+                    <div id="seccion-usuarios">
+                        <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
+                            id="usuarios">
+                            <tr>
+                                <th colspan="5" class="text-center py-2 bg-gray-100">
+                                    GESTIÓN DE USUARIOS
+                                </th>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <th class="border">ID</th>
+                                <th class="border">Usuario</th>
+                                <th class="border">Email</th>
+                                <th class="border">Fecha de registro</th>
+                                <th class="border">Acciones</th>
+                            </tr>
+                            <tbody class="text-center">
+                                <% if(usuarios && usuarios.length> 0) { %>
+                                    <% usuarios.forEach(usuario=> { %>
+                                        <tr class="p-20">
+                                            <td class="border">
+                                                <%= usuario.id %>
+                                            </td>
+                                            <td class="border">
+                                                <%= usuario.username %>
+                                            </td>
+                                            <td class="border">
+                                                <%= usuario.email %>
+                                            </td>
+                                            <td class="border">
+                                                <%= new Date(usuario.fecha_registro).toLocaleDateString("es-ES") %>
+                                                    <%= new Date(usuario.fecha_registro).toLocaleTimeString("es-ES", {
+                                                        hour: "2-digit" , minute: "2-digit" }) %>
+                                            </td>
+                                            <td class="border">
+                                                <!--Boton eliminar-->
+                                                <button type="button" onclick="deleteUser('<%= usuario.id %>')"
+                                                    class="text-red-600 hover:text-red-800">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
 
-                                            <!--Boton editar-->
-                                            <button type="button"
-                                                onclick="openEditModal('<%= usuario.id %>', '<%= usuario.username %>', '<%= usuario.email %>', '<%= usuario.admin %>', '<%= usuario.fecha_registro %>')"
-                                                class="text-blue-600 hover:text-blue-800">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                </svg>
+                                                <!--Boton editar-->
+                                                <button type="button"
+                                                    onclick="openEditModal('<%= usuario.id %>', '<%= usuario.username %>', '<%= usuario.email %>', '<%= usuario.admin %>', '<%= usuario.fecha_registro %>')"
+                                                    class="text-blue-600 hover:text-blue-800">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
 
-                                            </button>
+                                                </button>
 
-                                        </td>
+                                            </td>
 
-                                    </tr>
+                                        </tr>
 
-                                    <% }) %>
-                                        <% } else { %>
-                                            <tr>
-                                                <td colspan="4" class="border">No hay usuarios registrados</td>
-                                            </tr>
-                                            <% } %>
+                                        <% }) %>
+                                            <% } else { %>
                                                 <tr>
-                                                    <td colspan="5" class="text-center py-2">
-                                                        <button onclick="openNewModal()" class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 
+                                                    <td colspan="4" class="border">No hay usuarios registrados</td>
+                                                </tr>
+                                                <% } %>
+                                                    <tr>
+                                                        <td colspan="5" class="text-center py-2">
+                                                            <button onclick="openNewModal()" class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 
                                                         bg-blue-600 hover:bg-blue-700 text-white font-medium 
                                                         py-2 rounded transition">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor" class="w-5 h-5">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                            </svg>
-                                                            Añadir usuario
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-5 h-5">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                                Añadir usuario
+                                                            </button>
+                                                        </td>
+                                                    </tr>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                     <br>
-                    <!--TABLA ANIMALES-->
-                    <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
-                        id="#animales">
-                        <tr>
-                            <th colspan="16" class="text-center py-2">
-                                GESTIÓN DE ANIMALES
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="border">ID</th>
-                            <th class="border">Nombre</th>
-                            <th class="border">Chip</th>
-                            <th class="border">Especie</th>
-                            <th class="border">Raza</th>
-                            <th class="border">Sexo</th>
-                            <th class="border">Fecha de nacimiento</th>
-                            <th class="border">Color</th>
-                            <th class="border">Pelaje</th>
-                            <th class="border">Vacunas</th>
-                            <th class="border">Esterilizado</th>
-                            <th class="border">Desparasitado</th>
-                            <th class="border">Tamaño</th>
-                            <th class="border">Nivel de energia</th>
-                            <th class="border">Disponible</th>
-                            <th class="border">Acciones</th>
+                    <div id="seccion-animales">
+                        <!--TABLA ANIMALES-->
+                        <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
+                            id="animales">
+                            <tr>
+                                <th colspan="15" class="text-center py-2 bg-gray-100">
+                                    GESTIÓN DE ANIMALES
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="border">ID</th>
+                                <th class="border">Nombre</th>
+                                <th class="border">Chip</th>
+                                <th class="border">Especie</th>
+                                <th class="border">Raza</th>
+                                <th class="border">Sexo</th>
+                                <th class="border">Fecha de nacimiento</th>
+                                <th class="border">Pelaje</th>
+                                <th class="border">Vacunas</th>
+                                <th class="border">Esterilizado</th>
+                                <th class="border">Desparasitado</th>
+                                <th class="border">Tamaño</th>
+                                <th class="border">Nivel de energía</th>
+                                <th class="border">Disponible</th>
+                                <th class="border">Acciones</th>
+                            </tr>
+                            <tbody class="text-center">
+                                <% if(animales && animales.length> 0) { %>
+                                    <% animales.forEach(animal=> { %>
+                                        <tr class="p-10">
+                                            <td class="border">
+                                                <%= animal._id %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._nombre %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._chip %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._especie %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._raza %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._sexo %>
+                                            </td>
+                                            <td class="border">
+                                                <%= new Date(animal._fecha_nacimiento).toLocaleDateString("es-ES") %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._pelaje %>
+                                            </td>
+                                            <td class="border ">
+                                                <%= animal._vacunas %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._esterilizado ? 'Sí' : 'No' %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._desparasitado ? 'Sí' : 'No' %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._tamano %>
+                                            </td>
+
+                                            <td class="border">
+                                                <%= animal._nivel_energia %>
+                                            </td>
+                                            <td class="border">
+                                                <%= animal._disponible ? 'Sí' : 'No' %>
+                                            </td>
+                                            <td class="border">
+                                                <!--Boton eliminar-->
+                                                <button type="button" onclick="deleteAnimal('<%= animal._id %>')"
+                                                    class="text-red-600 hover:text-red-800">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
+
+                                                <!--Boton editar-->
+                                                <button type="button" onclick="openEditAnimalModal(
+                                                        '<%= animal._id %>',
+                                                        '<%= animal._nombre %>',
+                                                        '<%= animal._chip %>',
+                                                        '<%= animal._especie %>',
+                                                        '<%= animal._raza %>',
+                                                        '<%= animal._sexo %>',
+                                                        '<%= animal._fecha_nacimiento %>',
+                                                        '<%= animal._pelaje %>',
+                                                        '<%= animal._vacunas %>',
+                                                        '<%= animal._esterilizado %>',
+                                                        '<%= animal._desparasitado %>',
+                                                        '<%= animal._tamano %>',
+                                                        '<%= animal._nivel_energia %>',
+                                                        '<%= animal._disponible %>'
+                                                    )" class="text-blue-600 hover:text-blue-800">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="15" class="border">No hay animales registrados</td>
+                                                </tr>
+                                                <% } %>
+                                                    <tr>
+                                                        <td colspan="15" class="text-center py-2">
+                                                            <button onclick="openNewAnimalModal()" class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 
+                                    bg-blue-600 hover:bg-blue-700 text-white font-medium 
+                                    py-2 rounded transition">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-5 h-5">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                                Añadir animal
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="seccion-protectoras">
+                        <!--TABLA PROTECTORAS-->
+                        <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
+                            id="protectoras">
+                            <tr>
+                                <th colspan="14" class="text-center py-2 bg-gray-100">
+                                    GESTIÓN DE PROTECTORAS
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="border">ID</th>
+                                <th class="border">Nombre</th>
+                                <th class="border">Dirección</th>
+                                <th class="border">Teléfono</th>
+                                <th class="border">Descripción</th>
+                                <th class="border">Email</th>
+                                <th class="border">Página Web</th>
+                                <th class="border">Acciones</th>
+
+                            </tr>
+                            <tbody class="text-center">
+                                <% if (typeof protectoras !=='undefined' && protectoras.length> 0) { %>
+                                    <% protectoras.forEach(prote=> { %>
+                                        <tr class="hover:bg-gray-50 transition">
+                                            <td class="py-3 px-4 text-left font-medium text-gray-800">
+                                                <%= prote.id %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left font-medium text-gray-800">
+                                                <%= prote.nombre %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left text-gray-600">
+                                                <%= prote.direccion %>
+                                            </td>
+                                            <td class="text-center font-medium text-gray-600 min-w-[120px]">
+                                                <%= prote.telefono %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left text-gray-600">
+                                                <%= prote.descripcion %>
+                                            </td>
+                                            <td class="py-3 px-4 text-left text-gray-600">
+                                                <%= prote.email%>
+                                            </td>
+
+                                            <td class="py-3 px-4 text-center">
+                                                <a target="_blank" href="<%= prote.pagina_web %>"
+                                                    class="text-[#E5531C] hover:text-amber-600 transition">
+                                                    <i class="fa-solid fa-globe text-xl"></i>
+                                                </a>
+                                            </td>
+                                            <td class="border">
+                                                <!--Boton eliminar-->
+                                                <button type="button"
+                                                    class="text-red-600 hover:text-red-800 btn-delete-protectora"
+                                                    data-id="<%= prote.id %>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
+
+                                                <!--Boton editar-->
+                                                <button type="button"
+                                                    class="text-blue-600 hover:text-blue-800 btn-edit-protectora"
+                                                    data-id="<%= prote.id %>" data-nombre="<%= prote.nombre %>"
+                                                    data-direccion="<%= prote.direccion %>"
+                                                    data-telefono="<%= prote.telefono %>"
+                                                    data-descripcion="<%= prote.descripcion %>"
+                                                    data-email="<%= prote.email %>"
+                                                    data-animales="<%= prote.numero_animales_web || 0 %>"
+                                                    data-web="<%= prote.pagina_web %>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+                                        <% }) %>
+                                            <% } else{ %>
+                                                <tr>
+                                                    <td colspan="15" class="border">No hay protectoras registradas</td>
+                                                </tr>
+                                                <% } %>
+                                                    <tr>
+                                                        <td colspan="9" class="text-center py-2">
+                                                            <button
+                                                                onclick="document.getElementById('newProtectoraModal').classList.remove('hidden')"
+                                                                class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 
+            bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded transition">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-5 h-5">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                                Añadir protectora
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                            </tbody>
+
+                        </table>
 
 
-                        </tr>
-                        <tbody>
 
-                            <td class="border">
-                                <!--Boton eliminar-->
-                                <button type="button" class="text-red-600 hover:text-red-800">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                    </svg>
-                                </button>
-
-                                <!--Boton editar-->
-                                <button type="button" class="text-blue-600 hover:text-blue-800">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                    </svg>
-
-                                </button>
-
-                            </td>
-
-                        </tbody>
-                    </table>
-
+                    </div>
 
                     <% }else{ %>
                         <div
@@ -182,6 +382,7 @@
                                 Volver al inicio
                             </a>
                         </div>
+
                         <%} %>
 
                             <%}else{%>
@@ -202,85 +403,284 @@
                                         Volver al inicio
                                     </a>
                                 </div>
-
                                 <%}%>
                 </main>
 
-
-                <!--MODAL PARA EDITAR USUARIOS-->
-                <div id="editUserModal"
-                    class="hidden fixed inset-0  bg-black/50 backdrop-blur-sm  bg-opacity-50 flex items-center justify-center">
-                    <div class="bg-white p-6 rounded shadow-lg w-96">
-                        <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
-
-                        <form id="editUForm">
-                            <input type="hidden" id="editId">
-
-                            <label class="block mb-2">Nombre</label>
-                            <input id="editUName" class="w-full border p-2 mb-3">
-
-                            <label class="block mb-2">Email</label>
-                            <input id="editUEmail" class="w-full border p-2 mb-3">
-
-                            <label class="block mb-2">Admin</label>
-                            <select id="editUAdmin" class="w-full border p-2 mb-3">
-                                <option value="false">No</option>
-                                <option value="true">Sí</option>
-                            </select>
-
-                            <label class="block mb-2">Fecha de registro</label>
-                            <input id="editUFecha" class="w-full border p-2 mb-3" disabled>
-
-                            <div class="flex justify-end gap-3 mt-4">
-                                <button type="button" onclick="closeEditModal()"
-                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!--Modal PARA AÑADIR USUARIOS-->
-                <div id="newUserModal"
-                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm   bg-opacity-50 flex items-center justify-center">
-                    <div class="bg-white p-6 rounded shadow-lg w-96">
-                        <h2 class="text-xl font-bold mb-4">Añadir nuevo usuario</h2>
-
-                        <form id="newForm">
-                            <input type="hidden" id="newId">
-
-                            <label class="block mb-2">Nombre</label>
-                            <input id="newName" class="w-full border p-2 mb-3">
-
-                            <label class="block mb-2">Email</label>
-                            <input id="newEmail" class="w-full border p-2 mb-3">
-
-                            <label class="block mb-2">Contraseña</label>
-                            <input id="newPassword" type="password" class="w-full border p-2 mb-3">
-
-                            <label class="block mb-2">Admin</label>
-                            <select id="newAdmin" class="w-full border p-2 mb-3">
-                                <option value="false">No</option>
-                                <option value="true">Sí</option>
-                            </select>
-
-                            <label class="block mb-2">Fecha de registro</label>
-                            <input id="newFecha" class="w-full border p-2 mb-3" disabled>
-
-                            <div class="flex justify-end gap-3 mt-4">
-                                <button type="button" onclick="closeNewModal()"
-                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
-                                    guardar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 <%- include("../partials/footer") %>
+                    <!-- -------------------------------MODAL USUARIOS--------------------------------------------- -->
+
+                    <!--MODAL PARA EDITAR USUARIOS-->
+                    <div id="editUserModal"
+                        class="hidden fixed inset-0  bg-black/50 backdrop-blur-sm  bg-opacity-50 flex items-center justify-center">
+                        <div class="bg-white p-6 rounded shadow-lg w-96">
+                            <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
+
+                            <form id="editUForm">
+                                <input type="hidden" id="editId">
+
+                                <label class="block mb-2">Nombre</label>
+                                <input id="editUName" class="w-full border p-2 mb-3">
+
+                                <label class="block mb-2">Email</label>
+                                <input id="editUEmail" class="w-full border p-2 mb-3">
+
+                                <label class="block mb-2">Admin</label>
+                                <select id="editUAdmin" class="w-full border p-2 mb-3">
+                                    <option value="false">No</option>
+                                    <option value="true">Sí</option>
+                                </select>
+
+                                <label class="block mb-2">Fecha de registro</label>
+                                <input id="editUFecha" class="w-full border p-2 mb-3" disabled>
+
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeEditModal('editUserModal')"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--Modal PARA AÑADIR USUARIOS-->
+                    <div id="newUserModal"
+                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm   bg-opacity-50 flex items-center justify-center">
+                        <div class="bg-white p-6 rounded shadow-lg w-96">
+                            <h2 class="text-xl font-bold mb-4">Añadir nuevo usuario</h2>
+
+                            <form id="newForm">
+                                <input type="hidden" id="newId">
+
+                                <label class="block mb-2">Nombre</label>
+                                <input id="newName" class="w-full border p-2 mb-3">
+
+                                <label class="block mb-2">Email</label>
+                                <input id="newEmail" class="w-full border p-2 mb-3">
+
+                                <label class="block mb-2">Contraseña</label>
+                                <input id="newPassword" type="password" class="w-full border p-2 mb-3">
+
+                                <label class="block mb-2">Admin</label>
+                                <select id="newAdmin" class="w-full border p-2 mb-3">
+                                    <option value="false">No</option>
+                                    <option value="true">Sí</option>
+                                </select>
+
+                                <label class="block mb-2">Fecha de registro</label>
+                                <input id="newFecha" class="w-full border p-2 mb-3" disabled>
+
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeNewModal()"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
+                                        guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- -------------------------------MODAL ANIMALES--------------------------------------------- -->
+
+                    <!--MODAL PARA EDITAR ANIMALES-->
+                    <div id="editAnimalModal"
+                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                            <h2 class="text-xl font-bold mb-4">Editar animal</h2>
+
+                            <form id="editAnimalForm">
+                                <input type="hidden" id="editAnimalId">
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block mb-1">Nombre</label>
+                                        <input id="editAnimalNombre" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Chip</label>
+                                        <input id="editAnimalChip" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Especie</label>
+                                        <select id="editAnimalEspecie" class="w-full border p-2">
+                                            <option value="Felina">Felina</option>
+                                            <option value="Canina">Canina</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Raza</label>
+                                        <input id="editAnimalRaza" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Sexo</label>
+                                        <select id="editAnimalSexo" class="w-full border p-2">
+                                            <option value="Macho">Macho</option>
+                                            <option value="Hembra">Hembra</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Fecha de nacimiento</label>
+                                        <input id="editAnimalFecha" type="date" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Pelaje</label>
+                                        <input id="editAnimalPelaje" class="w-full border p-2">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Tamaño</label>
+                                        <select id="editAnimalTamano" class="w-full border p-2">
+                                            <option value="pequeño">Pequeño</option>
+                                            <option value="mediano">Mediano</option>
+                                            <option value="grande">Grande</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Nivel de energía</label>
+                                        <select id="editAnimalEnergia" class="w-full border p-2">
+                                            <option value="Bajo">Bajo</option>
+                                            <option value="Medio">Medio</option>
+                                            <option value="Alto">Alto</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Vacunas</label>
+                                        <input id="editAnimalVacunas" class="w-full border p-2"
+                                            placeholder="Ej: Parvovirus;Moquillo">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Esterilizado</label>
+                                        <select id="editAnimalEsterilizado" class="w-full border p-2">
+                                            <option value="false">No</option>
+                                            <option value="true">Sí</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Desparasitado</label>
+                                        <select id="editAnimalDesparasitado" class="w-full border p-2">
+                                            <option value="false">No</option>
+                                            <option value="true">Sí</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Disponible</label>
+                                        <select id="editAnimalDisponible" class="w-full border p-2">
+                                            <option value="false">No</option>
+                                            <option value="true">Sí</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeEditModal('editAnimalModal')"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- -------------------------------MODAL PROTECTORAS--------------------------------------------- -->
+                    <!--MODAL PARA EDITAR PROTECTORAS-->
+                    <div id="editProtectoraModal"
+                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                            <h2 class="text-xl font-bold mb-4">Editar protectora</h2>
+
+                            <form id="editProtectoraForm">
+                                <input type="hidden" id="editProtectoraId">
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block mb-1">Nombre</label>
+                                        <input id="editProtectoraNombre" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Teléfono</label>
+                                        <input id="editProtectoraTelefono" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Dirección</label>
+                                        <input id="editProtectoraDireccion" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Descripción</label>
+                                        <textarea id="editProtectoraDescripcion" class="w-full border p-2 rounded"
+                                            rows="3"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Email</label>
+                                        <input id="editProtectoraEmail" type="email" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Número de animales</label>
+                                        <input id="editProtectoraAnimales" type="number" min="0"
+                                            class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Página Web</label>
+                                        <input id="editProtectoraWeb" class="w-full border p-2 rounded">
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeEditModal('editProtectoraModal')"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--MODAL PARA AÑADIR PROTECTORAS-->
+                    <div id="newProtectoraModal"
+                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                            <h2 class="text-xl font-bold mb-4">Añadir protectora</h2>
+
+                            <form id="newProtectoraForm">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block mb-1">Nombre</label>
+                                        <input id="newProtectoraNombre" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Teléfono</label>
+                                        <input id="newProtectoraTelefono" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Dirección</label>
+                                        <input id="newProtectoraDireccion" class="w-full border p-2 rounded">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Descripción</label>
+                                        <textarea id="newProtectoraDescripcion" class="w-full border p-2 rounded"
+                                            rows="3"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1">Email</label>
+                                        <input id="newProtectoraEmail" type="email" class="w-full border p-2 rounded">
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label class="block mb-1">Página Web</label>
+                                        <input id="newProtectoraWeb" class="w-full border p-2 rounded">
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-4">
+                                    <button type="button" onclick="closeNewProtectoraModal()"
+                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
+                                        guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
                     <script>
-                        //Borrar usuarios
+                        // ------------- GESTION DE USUARIOS -------------
+                        //Borrar usuarios (DELETE)
                         async function deleteUser(id) {
                             if (!confirm("¿Seguro que quieres eliminar este usuario?")) {
                                 return;
@@ -310,15 +710,20 @@
                             document.getElementById("editUFecha").value = fecha;
 
                             document.getElementById("editUserModal").classList.remove("hidden");
+
                         }
 
                         function openNewModal() {
                             // Establecer la fecha actual
                             const now = new Date();
                             const fechaFormato = now.toLocaleDateString("es-ES") + " " +
-                                now.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+                                now.toLocaleTimeString("es-ES", {
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                });
                             document.getElementById("newFecha").value = fechaFormato;
                             document.getElementById("newUserModal").classList.remove("hidden");
+
                         }
 
                         function closeNewModal() {
@@ -327,10 +732,20 @@
                         }
 
                         //Cerrar modal de edicion
-                        function closeEditModal() {
-                            document.getElementById("editUserModal").classList.add("hidden");
+                        function closeEditModal(modal) {
+                            document.getElementById(modal).classList.add("hidden");
+
+                            switch (modal) {
+                                case "editUserModal":
+                                    document.getElementById(modal).classList.add("hidden");
+                                    break;
+                                case "editAnimalModal":
+                                    document.getElementById(modal).classList.add("hidden");
+                                    break;
+                            }
                         }
 
+                        //Actualizar datos (UPDATE)
                         document.getElementById("editUForm").addEventListener("submit", async (e) => {
                             e.preventDefault();
 
@@ -346,8 +761,14 @@
 
                             const res = await fetch(`/adm/users/${id}`, {
                                 method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ name, email, admin })
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    name,
+                                    email,
+                                    admin
+                                })
                             });
 
                             const data = await res.json();
@@ -360,6 +781,7 @@
                             }
                         });
 
+                        //Crear nuevo usuario (CREATE )
                         document.getElementById("newForm").addEventListener("submit", async (e) => {
                             e.preventDefault();
 
@@ -375,8 +797,15 @@
 
                             const res = await fetch(`/adm/users`, {
                                 method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ name, email, password, admin })
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    name,
+                                    email,
+                                    password,
+                                    admin
+                                })
                             });
 
                             const data = await res.json();
@@ -389,7 +818,230 @@
                                 alert("Error al crear usuario: " + (data.message || ""));
                             }
                         });
+
+
+                        // ------------------------ ANIMALES ---------------------
+
+                        //Eliminar animal (DELETE)
+                        async function deleteAnimal(id) {
+                            if (!confirm("¿Seguro que quieres eliminar este animal?")) {
+                                return;
+                            }
+
+                            const res = await fetch(`/adm/animales/${id}`, {
+                                method: "DELETE"
+                            });
+
+                            const data = await res.json();
+
+                            if (data.ok) {
+                                alert("Animal eliminado correctamente");
+                                location.reload();
+                            } else {
+                                alert("Error al eliminar animal");
+                            }
+                        }
+
+                        //Abrir modal animales
+                        function openEditAnimalModal(id, nombre, chip, especie, raza, sexo, fecha, pelaje, vacunas, esterilizado, desparasitado, tamano, energia, disponible) {
+
+                            document.getElementById("editAnimalId").value = id;
+                            document.getElementById("editAnimalNombre").value = nombre;
+                            document.getElementById("editAnimalChip").value = chip;
+                            document.getElementById("editAnimalEspecie").value = especie;
+                            document.getElementById("editAnimalRaza").value = raza;
+                            document.getElementById("editAnimalSexo").value = sexo;
+                            document.getElementById("editAnimalFecha").value = new Date(fecha).toISOString().split("T")[0];
+                            document.getElementById("editAnimalPelaje").value = pelaje;
+                            document.getElementById("editAnimalEnergia").value = energia;
+                            document.getElementById("editAnimalVacunas").value = vacunas;
+                            document.getElementById("editAnimalEsterilizado").value = esterilizado === "true" ? "true" : "false";
+                            document.getElementById("editAnimalDesparasitado").value = desparasitado === "true" ? "true" : "false";
+                            document.getElementById("editAnimalDisponible").value = disponible === "true" ? "true" : "false";
+
+                            document.getElementById("editAnimalModal").classList.remove("hidden");
+                        }
+
+                        //Actualizar animal (UPDATE)
+                        document.getElementById("editAnimalForm").addEventListener("submit", async (e) => {
+                            e.preventDefault();
+
+                            const id = document.getElementById("editAnimalId").value;
+
+                            const body = {
+                                nombre: document.getElementById("editAnimalNombre").value,
+                                chip: document.getElementById("editAnimalChip").value,
+                                especie: document.getElementById("editAnimalEspecie").value,
+                                raza: document.getElementById("editAnimalRaza").value,
+                                sexo: document.getElementById("editAnimalSexo").value,
+                                fecha_nacimiento: document.getElementById("editAnimalFecha").value,
+                                pelaje: document.getElementById("editAnimalPelaje").value,
+                                vacunas: document.getElementById("editAnimalVacunas").value,
+                                esterilizado: document.getElementById("editAnimalEsterilizado").value === "true",
+                                desparasitado: document.getElementById("editAnimalDesparasitado").value === "true",
+                                tamano: document.getElementById("editAnimalTamano").value,
+                                nivel_energia: document.getElementById("editAnimalEnergia").value,
+                                disponible: document.getElementById("editAnimalDisponible").value === "true"
+                            };
+
+                            const res = await fetch(`/adm/animales/${id}`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(body)
+                            });
+
+                            const data = await res.json();
+
+                            if (data.ok) {
+                                alert("Animal actualizado correctamente");
+                                closeEditModal("editAnimalModal");
+                                location.reload();
+                            } else {
+                                alert("Error al actualizar animal: " + (data.message || ""));
+                            }
+                        });
+
+
+                        // -------------------- PROTECTORAS -----------------------------
+
+                        //Abrir modal de editar protectora
+                        document.addEventListener("click", (e) => {
+                            const btn = e.target.closest(".btn-edit-protectora");
+                            if (!btn) return;
+
+                            const d = btn.dataset;
+                            document.getElementById("editProtectoraId").value = d.id;
+                            document.getElementById("editProtectoraNombre").value = d.nombre;
+                            document.getElementById("editProtectoraDireccion").value = d.direccion;
+                            document.getElementById("editProtectoraTelefono").value = d.telefono;
+                            document.getElementById("editProtectoraDescripcion").value = d.descripcion;
+                            document.getElementById("editProtectoraEmail").value = d.email;
+                            document.getElementById("editProtectoraAnimales").value = d.animales || 0;
+                            document.getElementById("editProtectoraWeb").value = d.web;
+
+                            document.getElementById("editProtectoraModal").classList.remove("hidden");
+                        });
+
+                        //Guardar edicion de la protectora seleccionada (UPDATE)
+                        document.getElementById("editProtectoraForm").addEventListener("submit", async (e) => {
+                            e.preventDefault();
+
+                            const id = document.getElementById("editProtectoraId").value;
+
+                            const body = {
+                                nombre: document.getElementById("editProtectoraNombre").value,
+                                direccion: document.getElementById("editProtectoraDireccion").value,
+                                telefono: document.getElementById("editProtectoraTelefono").value,
+                                descripcion: document.getElementById("editProtectoraDescripcion").value,
+                                email: document.getElementById("editProtectoraEmail").value,
+                                numero_animales_web: document.getElementById("editProtectoraAnimales").value,
+                                pagina_web: document.getElementById("editProtectoraWeb").value
+                            };
+
+                            const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(body)
+                            });
+
+                            const data = await res.json();
+
+                            if (data.ok) {
+                                alert("Protectora actualizada correctamente");
+                                closeEditModal("editProtectoraModal");
+                                location.reload();
+                            } else {
+                                alert("Error al actualizar protectora: " + (data.message || ""));
+                            }
+                        });
+
+                        //Borrar protectora (DELETE)
+                        document.addEventListener("click", async (e) => {
+                            const btn = e.target.closest(".btn-delete-protectora");
+                            if (!btn) return;
+
+                            if (!confirm("¿Seguro que quieres eliminar esta protectora?")) return;
+
+                            const id = btn.dataset.id;
+
+                            const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
+                                method: "DELETE"
+                            });
+
+                            const data = await res.json();
+
+                            if (data.ok) {
+                                alert("Protectora eliminada correctamente");
+                                location.reload();
+                            } else {
+                                alert("Error al eliminar protectora: " + (data.message || ""));
+                            }
+                        });
+
+                        //Cerrar modal de nueva protectora
+                        function closeNewProtectoraModal() {
+                            document.getElementById("newProtectoraModal").classList.add("hidden");
+                            document.getElementById("newProtectoraForm").reset();
+                        }
+
+                        //Crear nueva protectora (CREATE)
+                        document.getElementById("newProtectoraForm").addEventListener("submit", async (e) => {
+                            e.preventDefault();
+
+                            const nombre = document.getElementById("newProtectoraNombre").value;
+                            const telefono = document.getElementById("newProtectoraTelefono").value;
+                            const direccion = document.getElementById("newProtectoraDireccion").value;
+                            const descripcion = document.getElementById("newProtectoraDescripcion").value;
+                            const email = document.getElementById("newProtectoraEmail").value;
+                            const web = document.getElementById("newProtectoraWeb").value;
+
+                            if (!nombre || !email) {
+                                alert("El nombre y el email son obligatorios");
+                                return;
+                            }
+
+                            const res = await fetch(`http://localhost:3001/api/protectoras`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ nombre, telefono, direccion, descripcion, email, pagina_web: web })
+                            });
+
+                            const data = await res.json();
+
+                            if (data.ok) {
+                                alert("Protectora creada correctamente");
+                                closeNewProtectoraModal();
+                            } else {
+                                alert("Error al crear protectora: " + (data.message || ""));
+                            }
+                        });
+
+                        //------------FUNCION PARA RENDERIZAR LAS TABLAS DE MANERA INDEPENDIENTE-------------
+                        document.addEventListener("DOMContentLoaded", () => {
+                            mostrarSeccion("usuarios"); //La seccion por defecto sera la de usuarios
+                        });
+
+                        function mostrarSeccion(seccion) {
+                            const secciones = ["usuarios", "animales", "protectoras", "solicitudes", "seguimientos"];
+
+                            secciones.forEach(s => {
+                                const el = document.getElementById("seccion-" + s);
+                                if (el) el.classList.add("hidden");
+                            });
+                            const activa = document.getElementById("seccion-" + seccion);
+                            if (activa) activa.classList.remove("hidden");
+
+                            //Marcamos el nav activo
+                            document.querySelectorAll("nav a").forEach(a => {
+                                a.classList.remove("text-orange-500", "font-bold");
+                            });
+                            event.target.classList.add("text-orange-500", "font-bold");
+                        }
+
                     </script>
+
 
 </body>
 

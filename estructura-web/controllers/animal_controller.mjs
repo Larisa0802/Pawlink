@@ -115,6 +115,61 @@ class AnimalController {
       res.redirect("/vistaEleccion");
     }
   }
+
+ getProtectoras = async (req,res) => {
+  try {
+    
+    const userData = req.cookies["datosUsuario"] || null;
+
+    if (!userData) {
+        return res.redirect("/login");
+    }
+        // petición a la API para buscar las protectoras
+        const response = await fetch("http://localhost:3001/api/protectoras");
+
+        // Leemos las protectoras de la API si todo va bien
+        let protectorasData = [];
+
+        if (response.ok) {
+            protectorasData = await response.json();
+                console.log("➡️ Datos recibidos:", protectorasData);
+        }
+
+        return res.render("completes/adm", {
+            userData,
+            active: "adm",
+            protectoras: protectorasData
+        });
+
+    } catch (error) {
+        // Entrará aquí si el servidor API está caído o si la ruta /api/protectoras aún no existe.
+        console.error("Endpoint de protectoras no creado todavía o apagado, pasando de largo...");
+        return res.render("completes/index", { userData, active: "adm", protectoras: [] });
+    }
 }
+  
+}
+
+const updateAnimal = async (req, res) => {
+  try {
+    const animal = await animalesRepository.updateAnimal(req.params.id, req.body);
+    if (!animal) return res.status(404).json({ ok: false, message: "Animal no encontrado" });
+    res.json({ ok: true, animal });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+};
+
+const deleteAnimal = async (req, res) => {
+  try {
+    const animal = await animalesRepository.deleteAnimal(req.params.id);
+    if (!animal) return res.status(404).json({ ok: false, message: "Animal no encontrado" });
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+};
+
+
 
 export default new AnimalController();
