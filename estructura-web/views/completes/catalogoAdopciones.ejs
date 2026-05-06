@@ -162,7 +162,8 @@
             <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Pelaje</span><span id="modal-pelaje"
                 class="text-lg font-semibold text-gray-800"></span></div>
             <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Vacunas</span><span
-                id="modal-vacunas" class="text-lg font-semibold text-gray-800"></span></div>
+                id="modal-vacunas" class="flex flex-col gap-1 max-h-24  mt-1 text-lg font-semibold text-gray-800">
+              </span></div>
             <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Esterilizado</span><span
                 id="modal-esterilizado" class="text-lg font-semibold text-gray-800"></span></div>
             <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Desparasitado</span><span
@@ -171,13 +172,13 @@
         </div>
 
 
-        <div class="w-48 p-6 flex flex-col justify-between items-end border-l border-gray-50 bg-gray-50/30">
+        <div class="w-48 p-6 flex flex-col justify-between items-end">
           <button id="cerrarModal"
             class="text-gray-400 hover:text-gray-600 text-4xl font-light transition-transform hover:scale-110 cursor-pointer">&times;</button>
 
           <div class="flex-1 flex items-center">
             <button
-              class="bg-[#E5531C] text-white font-bold py-4 px-8 rounded-2xl text-sm shadow-lg hover:bg-[#d44819] transition-all hover:-translate-y-1 active:scale-95 whitespace-nowrap">
+              class="bg-[#E5531C] text-white font-bold mr-[70px] py-4 px-8 rounded-2xl text-l shadow-lg hover:bg-[#d44819] transition-all hover:-translate-y-1 active:scale-95 whitespace-nowrap">
               Adoptar
             </button>
           </div>
@@ -205,7 +206,17 @@
             document.getElementById('modal-sexo').textContent = d.sexo;
             document.getElementById('modal-nacimiento').textContent = d.nacimiento;
             document.getElementById('modal-pelaje').textContent = d.pelaje;
-            document.getElementById('modal-vacunas').textContent = d.vacunas;
+            const vacunasEl = document.getElementById('modal-vacunas');
+            vacunasEl.innerHTML = '';
+            if (d.vacunas && d.vacunas !== '—') {
+              d.vacunas.split(';').map(v => v.trim()).filter(Boolean).forEach(v => {
+                const s = document.createElement('span');
+                s.textContent = '• ' + v;
+                vacunasEl.appendChild(s);
+              });
+            } else {
+              vacunasEl.textContent = '—';
+            }
             document.getElementById('modal-esterilizado').textContent = d.esterilizado;
             document.getElementById('modal-desparasitado').textContent = d.desparasitado;
 
