@@ -48,26 +48,28 @@
                         <!-- Slider 1 - Video -->
                         <div class="slider-item w-full flex-shrink-0 relative">
                             <video class="w-full h-[400px] object-cover" controls>
-                                <source src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-video.mp4" type="video/mp4">
+                                <source
+                                    src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-video.mp4"
+                                    type="video/mp4">
                             </video>
                         </div>
 
                         <!-- Slider 2 - Imagen -->
                         <div class="slider-item w-full flex-shrink-0">
-                            <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-1.jpg" alt="Imagen 1"
-                                class="w-full h-[400px] object-cover">
+                            <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-1.jpg"
+                                alt="Imagen 1" class="w-full h-[400px] object-cover">
                         </div>
 
                         <!-- Slider 3 - Imagen -->
                         <div class="slider-item w-full flex-shrink-0">
-                            <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dogs-and-cats-peeking-over-web-banner-free-photo.jpg" alt="Imagen 2"
-                                class="w-full h-[400px] object-cover">
+                            <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dogs-and-cats-peeking-over-web-banner-free-photo.jpg"
+                                alt="Imagen 2" class="w-full h-[400px] object-cover">
                         </div>
 
                         <!-- Slider 4 - Imagen -->
                         <div class="slider-item w-full flex-shrink-0">
-                            <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-3.jpg" alt="Imagen 3"
-                                class="w-full h-[400px] object-cover">
+                            <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-3.jpg"
+                                alt="Imagen 3" class="w-full h-[400px] object-cover">
                         </div>
 
                     </div>
@@ -137,19 +139,21 @@
                     <h2 class="text-3xl font-extrabold text-black border-b-2 border-[#EADDF0] pb-4 mb-6">
                         Protectoras Asociadas
                     </h2>
-                    <div class="text-center text-gray-500 py-10 overflow-x-hidden overflow-y-auto">
+                    <div class="text-center text-gray-500 py-10 overflow-x-hidden overflow-y-auto ">
                         <% if (typeof protectoras !=='undefined' && protectoras.length> 0) { %>
 
                             <table class="w-full mx-auto border-collapse bg-white rounded-xl overflow-hidden shadow-md">
-                                <thead class="bg-[#000000] text-white">
-                                    <th class="py-3 px-4 text-left font-semibold">Nombre</th>
-                                    <th class="py-3 px-4 text-left font-semibold">Dirección</th>
-                                    <th class="py-3 px-4 text-center font-semibold">Animales</th>
-                                    <th class="py-3 px-4 text-center font-semibold">Web</th>
+                                <thead class="bg-[#000000] text-white table w-full table-fixed">
+                                    <tr>
+                                        <th class="py-3 px-4 text-left font-semibold">Nombre</th>
+                                        <th class="py-3 px-4 text-left font-semibold">Dirección</th>
+                                        <th class="py-3 px-4 text-center font-semibold">Animales</th>
+                                        <th class="py-3 px-4 text-center font-semibold">Web</th>
+                                    </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200">
+                                <tbody class="block max-h-80 overflow-y-auto divide-y divide-gray-200">
                                     <% protectoras.forEach(prote=> { %>
-                                        <tr class="hover:bg-gray-50 transition">
+                                        <tr class="table w-full table-fixed hover:bg-gray-50 transition">
                                             <td class="py-3 px-4 text-left font-medium text-gray-800">
                                                 <%= prote.nombre %>
                                             </td>
@@ -172,7 +176,6 @@
                                         <% }) %>
                                 </tbody>
                             </table>
-
 
                             <% } else { %>
                                 <i class="fa-solid fa-house-chimney-window text-6xl text-[#DDECF6] mb-4"></i>
