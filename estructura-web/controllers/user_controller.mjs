@@ -239,16 +239,21 @@ class UserController {
   getAllUsersFront = async (req, res) => {
     try {
       const userData = req.cookies["datosUsuario"];
-      let usuarios = [];
+      let usuarios = [], procesos = [], animales = [];
 
-      //Solo obtener usuarios si es admin
       if (userData && userData.admin) {
-        const response = await this.client.get("/usuarios");
-        usuarios = response.data;
+        const [usuariosRes, procesosRes, animalesRes] = await Promise.all([
+          this.client.get("/usuarios"),
+          this.client.get("/procesos"),
+          this.client.get("/animales"),
+        ]);
+        usuarios  = usuariosRes.data;
+        procesos  = procesosRes.data;
+        animales  = animalesRes.data;
       }
 
       return res.render("completes/administracion", {
-        usuarios,
+        usuarios, procesos, animales,
         userData: req.cookies["datosUsuario"],
         errorL: null,
         mensaje: null,
@@ -257,7 +262,7 @@ class UserController {
     } catch (err) {
       console.error("Error en getAllUsersFront:", err.message);
       return res.render("completes/index", {
-        usuarios: [],
+        usuarios: [], procesos: [], animales: [],
         userData: req.cookies["datosUsuario"],
         errorL: { mensaje: "Error al cargar los usuarios" },
         mensaje: null,
