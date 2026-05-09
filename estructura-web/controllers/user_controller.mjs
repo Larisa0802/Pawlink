@@ -239,7 +239,15 @@ class UserController {
   getAllUsersFront = async (req, res) => {
     try {
       const userData = req.cookies["datosUsuario"];
-      let usuarios = [], procesos = [], animales = [];
+      let usuarios = [], procesos = [], animales = [], protectoras = [];
+
+
+      try {
+        const responseProtectoras = await this.client.get("/api/protectoras");
+        protectoras = responseProtectoras.data;
+      } catch (error) {
+        console.error("Error al obtener protectoras:", error.message);
+      }
 
       if (userData && userData.admin) {
         const [usuariosRes, procesosRes, animalesRes] = await Promise.all([
@@ -247,13 +255,13 @@ class UserController {
           this.client.get("/procesos"),
           this.client.get("/animales"),
         ]);
-        usuarios  = usuariosRes.data;
-        procesos  = procesosRes.data;
-        animales  = animalesRes.data;
+        usuarios = usuariosRes.data;
+        procesos = procesosRes.data;
+        animales = animalesRes.data;
       }
 
       return res.render("completes/administracion", {
-        usuarios, procesos, animales,
+        usuarios, procesos, animales, protectoras,
         userData: req.cookies["datosUsuario"],
         errorL: null,
         mensaje: null,
@@ -262,7 +270,7 @@ class UserController {
     } catch (err) {
       console.error("Error en getAllUsersFront:", err.message);
       return res.render("completes/index", {
-        usuarios: [], procesos: [], animales: [],
+        usuarios: [], procesos: [], animales: [], protectoras: [],
         userData: req.cookies["datosUsuario"],
         errorL: { mensaje: "Error al cargar los datos" },
         mensaje: null,
@@ -297,12 +305,12 @@ class UserController {
         nombre: req.body.name,
         admin: userData.admin,
         fecha: userData.fecha,
-          encuesta_realizada: userData.encuesta_realizada,
-            animal: userData.animal,
-            avatar_url: userData.avatar_url,
+        encuesta_realizada: userData.encuesta_realizada,
+        animal: userData.animal,
+        avatar_url: userData.avatar_url,
       });
 
-  
+
 
       userData.nombre = req.body.name;
       req.cookies["datosUsuario"] = userData;
@@ -489,7 +497,7 @@ class UserController {
 
       return res.render("completes/login", {
         errorL: {
-          mensaje:null,
+          mensaje: null,
         },
         mensaje: "Contraseña actualizada correctamente. Vuelva a iniciar sesión.",
         errorR: { mensaje: null }, activeTab: "login",
