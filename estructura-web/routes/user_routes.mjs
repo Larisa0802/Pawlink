@@ -1,5 +1,8 @@
 import { Router } from "express";
 import userController from "../controllers/user_controller.mjs";
+import axios from "axios";
+
+const API = axios.create({ baseURL: "http://localhost:3001" });
 
 const router = Router();
 
@@ -88,6 +91,26 @@ router.post("/avatar", userController.updateAvatar); //Actualiza avatar del usua
 //DELETE
 router.post("/usuarios/delete", userController.deleteUser)
 router.delete("/adm/users/:id", userController.deleteUserAsAdmin);
+
+// Procesos (admin)
+router.post("/adm/procesos", async (req, res) => {
+    try {
+        const r = await API.post("/procesos", req.body);
+        res.json(r.data);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+router.patch("/adm/procesos/:id/toggle", async (req, res) => {
+    try {
+        const r = await API.patch(`/procesos/${req.params.id}/toggle`, req.body);
+        res.json(r.data);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+router.delete("/adm/procesos/:id", async (req, res) => {
+    try {
+        await API.delete(`/procesos/${req.params.id}`);
+        res.json({ ok: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
 
 
 //CERRAR SESION

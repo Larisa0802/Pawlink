@@ -239,39 +239,21 @@ class UserController {
   getAllUsersFront = async (req, res) => {
     try {
       const userData = req.cookies["datosUsuario"];
-      let usuarios = [];
-      let animales = [];
-      let protectoras = [];
+      let usuarios = [], procesos = [], animales = [];
 
-      //Solo obtener usuarios y animales si es admin
       if (userData && userData.admin) {
-        try {
-          const responseUsuarios = await this.client.get("/usuarios");
-          usuarios = responseUsuarios.data;
-        } catch (error) {
-          console.error("Error al obtener usuarios:", error.message);
-        }
-        
-        try {
-          const responseAnimales = await this.client.get("/animales");
-          animales = responseAnimales.data;
-          //console.log(responseAnimales.data)
-        } catch (error) {
-          console.error("Error al obtener animales:", error.message);
-        }
-
-        try {
-          const responseProtectoras = await this.client.get("/api/protectoras");
-          protectoras = responseProtectoras.data;
-        } catch (error) {
-          console.error("Error al obtener protectoras:", error.message);
-        }
+        const [usuariosRes, procesosRes, animalesRes] = await Promise.all([
+          this.client.get("/usuarios"),
+          this.client.get("/procesos"),
+          this.client.get("/animales"),
+        ]);
+        usuarios  = usuariosRes.data;
+        procesos  = procesosRes.data;
+        animales  = animalesRes.data;
       }
 
       return res.render("completes/administracion", {
-        usuarios,
-        animales,
-        protectoras,
+        usuarios, procesos, animales,
         userData: req.cookies["datosUsuario"],
         errorL: null,
         mensaje: null,
@@ -279,10 +261,8 @@ class UserController {
       });
     } catch (err) {
       console.error("Error en getAllUsersFront:", err.message);
-      return res.render("completes/administracion", {
-        usuarios: [],
-        animales: [],
-        protectoras: [],
+      return res.render("completes/index", {
+        usuarios: [], procesos: [], animales: [],
         userData: req.cookies["datosUsuario"],
         errorL: { mensaje: "Error al cargar los datos" },
         mensaje: null,
