@@ -19,11 +19,13 @@
                     <span id="breadcrumb">Cargando ruta...</span>
                 </nav>
 
-                <h2 class="text-4xl font-bold text-center bg-gray-100 p-10 ">
-                    Formulario de contacto
-                </h2>
-
-                <div class="w-full text-center px-4 py-6 bg-gray-50">
+                <div
+                    class="bg-[#E5531C] text-white rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                    <h2 class="text-3xl font-bold mb-3 flex justify-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> Formulario de contacto
+                    </h2>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-[#E5531C] mt-5">
                     <h2 class="text-3xl font-bold mb-4 text-gray-800">
                         ¡Estamos aquí para ayudarte!
                     </h2>
@@ -34,11 +36,9 @@
                     </p>
                 </div>
 
-
                 <section id="formulario">
 
                     <form class="w-full max-w-md mx-auto bg-white p-6 rounded-xl shadow-md flex flex-col gap-4 mt-10">
-
 
                         <div class="flex flex-col gap-1">
                             <div class="flex justify-end text-right mb-4">
@@ -74,8 +74,9 @@
                                 placeholder="Escribe aquí"></textarea>
 
                         </div>
-
-                        <button type="submit" class="border p-5" id="enviar">Enviar formulario</button>
+                        <button type="submit" id="enviar"
+                            class="mt-5 w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-[#E5531C] transition-colors duration-300">
+                            Enviar formulario </button>
                         <h3 style="color:green" class="hidden" id="mensaje"> ¡Se ha enviado tu formulario con éxito!
                         </h3>
                         <h3 style="color:red" class="hidden" id="error"> Debes rellenar los campos</h3>
@@ -83,44 +84,12 @@
 
                     </form>
 
-                    <script>
-
-                        const select = document.getElementById("motivoC")
-
-                        select.addEventListener("change", () => {
-                            if (select.value === "otros") {
-                                document.getElementById("comentario").classList.remove("hidden")
-                            } else {
-                                document.getElementById("comentario").classList.add("hidden")
-                            }
-                        })
-
-                        const form = document.getElementById("formulario")
-                        const n = document.getElementById("nombre")
-                        const e = document.getElementById("email")
-                        const m = document.getElementById("motivoC")
-                        const er = document.getElementById("error")
-                        const msg = document.getElementById("mensaje")
-                        const btn = document.getElementById("enviar")
-
-                        form.addEventListener("submit", () => {
-                            event.preventDefault()
-                            if (n.value.trim() === "" || e.value.trim() === "" || m.value.trim() === "") {
-                                er.classList.remove("hidden")
-                                msg.classList.add("hidden")
-                            } else {
-                                msg.classList.remove("hidden")
-                                er.classList.add("hidden")
-                            }
-                        })
-
-                    </script>
 
 
                 </section>
 
                 <!--Seccion de FAQ-->
-                <section class="py-12 bg-gray-50 mt-6">
+                <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-[#E5531C] mt-5">
                     <div class="max-w-3xl mx-auto px-4">
                         <h2 class="text-3xl font-bold text-center mb-8">Dudas Frecuentes (FAQ)</h2>
                         <div class="space-y-4">
@@ -133,15 +102,21 @@
                                 </button>
                                 <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
                                     <p class="p-4 text-gray-600">
-                                       En PawLink queremos que encontrar a tu compañero ideal sea una experiencia bonita y sencilla. Por eso, cuando entres al catálogo te pediremos que elijas si buscas perro, gato o ambos.
-Después, solo tendrás que completar un breve formulario para conocerte un poquito mejor: tu ritmo de vida, tus preferencias de tamaño, sexo...<br>
-Con esa información haremos un match personalizado, mostrándote los animales que mejor encajan contigo. Cuando encuentres a ese peludo que te haga ilusión, podrás iniciar la solicitud de adopción directamente desde su ficha.
-A partir de ahí, te iremos acompañando en cada paso y podrás ver el progreso desde tu perfil.
+                                        En PawLink queremos que encontrar a tu compañero ideal sea una experiencia
+                                        bonita y sencilla. Por eso, cuando entres al catálogo te pediremos que elijas si
+                                        buscas perro, gato o ambos.
+                                        Después, solo tendrás que completar un breve formulario para conocerte un
+                                        poquito mejor: tu ritmo de vida, tus preferencias de tamaño, sexo...<br>
+                                        Con esa información haremos un match personalizado, mostrándote los animales que
+                                        mejor encajan contigo. Cuando encuentres a ese peludo que te haga ilusión,
+                                        podrás iniciar la solicitud de adopción directamente desde su ficha.
+                                        A partir de ahí, te iremos acompañando en cada paso y podrás ver el progreso
+                                        desde tu perfil.
                                 </div>
                             </div>
 
                             <!-- FAQ item -->
-                            <div class="border rounded-lg overflow-hidden">
+                            <div class="border rounded-lg overflow-hidden ">
                                 <button class="w-full flex justify-between items-center p-4 text-left faq-btn">
                                     <span class="font-semibold text-gray-800">¿Qué hago si tengo problemas con la
                                         plataforma?</span>
@@ -161,9 +136,9 @@ A partir de ahí, te iremos acompañando en cada paso y podrás ver el progreso 
                                         qué estabas intentando hacer y, si puedes, incluye una captura del error
                                         enviandola
                                         a nuestro correo de soporte. Con esa
-                                        información podremos ayudarte más rápido y darte una solución personalizada
+                                        información podremos ayudarte más rápido y darte una solución personalizada.
                                         <br><br>
-                                        pawlink@support.com
+                                        support@pawlink.com
                                     </p>
                                 </div>
                             </div>
@@ -176,8 +151,8 @@ A partir de ahí, te iremos acompañando en cada paso y podrás ver el progreso 
                                 </button>
                                 <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
                                     <p class="p-4 text-gray-600">
-                                        Aquí iría la respuesta sobre voluntariado o donaciones.
-                                    </p>
+                                        Prrr... supuesto 🐈, para colaborar con Pawlink manda un email a <b>support@pawlink.com.
+                                    </b></p>
                                 </div>
                             </div>
 
@@ -202,10 +177,39 @@ A partir de ahí, te iremos acompañando en cada paso y podrás ver el progreso 
                             }
                         });
                     });
+
+
+                    const select = document.getElementById("motivoC")
+
+                    select.addEventListener("change", () => {
+                        if (select.value === "otros") {
+                            document.getElementById("comentario").classList.remove("hidden")
+                        } else {
+                            document.getElementById("comentario").classList.add("hidden")
+                        }
+                    })
+
+                    const form = document.getElementById("formulario")
+                    const n = document.getElementById("nombre")
+                    const e = document.getElementById("email")
+                    const m = document.getElementById("motivoC")
+                    const er = document.getElementById("error")
+                    const msg = document.getElementById("mensaje")
+                    const btn = document.getElementById("enviar")
+
+                    form.addEventListener("submit", () => {
+                        event.preventDefault()
+                        if (n.value.trim() === "" || e.value.trim() === "" || m.value.trim() === "") {
+                            er.classList.remove("hidden")
+                            msg.classList.add("hidden")
+                        } else {
+                            msg.classList.remove("hidden")
+                            er.classList.add("hidden")
+                        }
+                    })
+
+
                 </script>
-
-                <button><a href="/">Ir a la página de iniciar sesión</a></button>
-
 
             </main>
 
