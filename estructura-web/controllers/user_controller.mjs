@@ -264,8 +264,9 @@ class UserController {
       return res.render("completes/index", {
         usuarios: [], procesos: [], animales: [],
         userData: req.cookies["datosUsuario"],
-        errorL: { mensaje: "Error al cargar los usuarios" },
+        errorL: { mensaje: "Error al cargar los datos" },
         mensaje: null,
+        active: "administracion",
       });
     }
   };
