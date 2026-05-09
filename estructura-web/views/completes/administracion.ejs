@@ -17,14 +17,11 @@
                 <main class="ml-64 p-6">
 
                     <nav class="bg-white shadow px-6 py-4 flex gap-6 text-gray-700 font-medium">
-                        <a href="#" onclick="mostrarSeccion('usuarios')"
-                            class="hover:text-orange-400 cursor-pointer">Usuarios</a>
-                        <a href="#" onclick="mostrarSeccion('animales')"
-                            class="hover:text-orange-400 cursor-pointer">Animales</a>
-                        <a href="#" onclick="mostrarSeccion('protectoras')"
-                            class="hover:text-orange-400 cursor-pointer">Protectoras</a>
-                        <a href="#" onclick="mostrarSeccion('procesos')"
-                            class="hover:text-orange-400 cursor-pointer">Procesos</a>
+                        <a href="#usuarios" class="hover:text-blue-600">Usuarios</a>
+                        <a href="#animales" class="hover:text-blue-600">Animales</a>
+                        <a href="#procesos" class="hover:text-[#E5531C]">Procesos</a>
+                        <a href="#" class="hover:text-blue-600">Protectoras</a>
+                        <a href="#" class="hover:text-blue-600">Solicitudes</a>
                     </nav>
 
                     <br>
@@ -363,6 +360,107 @@
 
 
 
+                    <!-- ══ TABLA PROCESOS ══ -->
+                    <br>
+                    <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full" id="procesos">
+                        <tr>
+                            <th colspan="9" class="text-center py-2 bg-gray-100">
+                                GESTIÓN DE PROCESOS DE ADOPCIÓN
+                            </th>
+                        </tr>
+                        <tr class="bg-gray-50 text-sm">
+                            <th class="border px-2 py-1">ID</th>
+                            <th class="border px-2 py-1">Usuario</th>
+                            <th class="border px-2 py-1">Animal</th>
+                            <th class="border px-2 py-1">Confirmación</th>
+                            <th class="border px-2 py-1">Revisión vet.</th>
+                            <th class="border px-2 py-1">Documentación</th>
+                            <th class="border px-2 py-1">Preparativos</th>
+                            <th class="border px-2 py-1">Firma</th>
+                            <th class="border px-2 py-1">Acciones</th>
+                        </tr>
+                        <tbody class="text-center text-sm">
+                            <% if (procesos && procesos.length > 0) { %>
+                                <% procesos.forEach(p => { %>
+                                <tr>
+                                    <td class="border px-2 py-1"><%= p.id %></td>
+                                    <td class="border px-2 py-1 text-left">
+                                        <% if (p.animal && p.animal.usuario_nombre) { %>
+                                            <span class="font-medium"><%= p.animal.usuario_nombre %></span><br>
+                                        <% } %>
+                                        <span class="text-gray-400 text-xs"><%= p.usuario_id.slice(0,8) %>…</span>
+                                    </td>
+                                    <td class="border px-2 py-1">
+                                        <% if (p.animal) { %>
+                                            <span class="font-medium"><%= p.animal.nombre %></span>
+                                            <span class="text-gray-400 text-xs block"><%= p.animal.raza %></span>
+                                        <% } else { %>—<% } %>
+                                    </td>
+                                    <% ['confirmacion','revision','preparacion','preparativo','firma'].forEach(field => { %>
+                                    <td class="border px-2 py-2">
+                                        <button onclick="toggleProceso(<%= p.id %>, '<%= field %>', this)"
+                                            class="w-7 h-7 rounded-full border-2 flex items-center justify-center mx-auto transition
+                                                   <%= p[field] ? 'bg-[#E5531C] border-[#E5531C] text-white' : 'border-gray-300 text-transparent hover:border-[#E5531C]' %>">
+                                            <i class="fa-solid fa-check text-xs"></i>
+                                        </button>
+                                    </td>
+                                    <% }); %>
+                                    <td class="border px-2 py-1">
+                                        <button type="button" onclick="deleteProceso(<%= p.id %>)"
+                                            class="text-red-600 hover:text-red-800">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr><td colspan="9" class="border py-4 text-gray-400">No hay procesos registrados</td></tr>
+                            <% } %>
+                            <tr>
+                                <td colspan="9" class="text-center py-2">
+                                    <button onclick="openNewProcesoModal()"
+                                        class="w-full max-w-xs mx-auto flex items-center justify-center gap-2
+                                               bg-[#E5531C] hover:opacity-90 text-white font-medium py-2 rounded transition">
+                                        <i class="fa-solid fa-plus"></i> Añadir proceso
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Modal nuevo proceso -->
+                    <div id="newProcesoModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                        <div class="bg-white p-6 rounded-xl shadow-lg w-96">
+                            <h2 class="text-xl font-bold mb-4">Nuevo proceso de adopción</h2>
+                            <form id="newProcesoForm">
+                                <label class="block mb-1 text-sm font-medium">Usuario</label>
+                                <select id="newProcesoUsuario" class="w-full border p-2 mb-3 rounded text-sm">
+                                    <option value="">— Selecciona usuario —</option>
+                                    <% if (usuarios) { usuarios.forEach(u => { %>
+                                    <option value="<%= u.id %>"><%= u.username %> (<%= u.email %>)</option>
+                                    <% }); } %>
+                                </select>
+
+                                <label class="block mb-1 text-sm font-medium">Animal</label>
+                                <select id="newProcesoAnimal" class="w-full border p-2 mb-4 rounded text-sm">
+                                    <option value="">— Selecciona animal —</option>
+                                    <% if (animales) { animales.forEach(a => { %>
+                                    <option value="<%= a._id %>"><%= a._nombre %> — <%= a._raza %></option>
+                                    <% }); } %>
+                                </select>
+
+                                <div class="flex justify-end gap-3">
+                                    <button type="button" onclick="closeNewProcesoModal()"
+                                        class="px-4 py-2 bg-gray-200 rounded">Cancelar</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-[#E5531C] text-white rounded hover:opacity-90">Crear</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     <% }else{ %>
@@ -818,228 +916,54 @@
                                 alert("Error al crear usuario: " + (data.message || ""));
                             }
                         });
-
-
-                        // ------------------------ ANIMALES ---------------------
-
-                        //Eliminar animal (DELETE)
-                        async function deleteAnimal(id) {
-                            if (!confirm("¿Seguro que quieres eliminar este animal?")) {
-                                return;
-                            }
-
-                            const res = await fetch(`/adm/animales/${id}`, {
-                                method: "DELETE"
+                        // ── PROCESOS ──
+                        async function toggleProceso(id, field, btn) {
+                            const res = await fetch(`/adm/procesos/${id}/toggle`, {
+                                method: "PATCH",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ field })
                             });
-
                             const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Animal eliminado correctamente");
-                                location.reload();
+                            if (res.ok) {
+                                const isOn = data[field];
+                                btn.classList.toggle('bg-[#E5531C]', isOn);
+                                btn.classList.toggle('border-[#E5531C]', isOn);
+                                btn.classList.toggle('text-white', isOn);
+                                btn.classList.toggle('border-gray-300', !isOn);
+                                btn.classList.toggle('text-transparent', !isOn);
                             } else {
-                                alert("Error al eliminar animal");
+                                alert(data.error || "Error al actualizar el estado");
                             }
                         }
 
-                        //Abrir modal animales
-                        function openEditAnimalModal(id, nombre, chip, especie, raza, sexo, fecha, pelaje, vacunas, esterilizado, desparasitado, tamano, energia, disponible) {
-
-                            document.getElementById("editAnimalId").value = id;
-                            document.getElementById("editAnimalNombre").value = nombre;
-                            document.getElementById("editAnimalChip").value = chip;
-                            document.getElementById("editAnimalEspecie").value = especie;
-                            document.getElementById("editAnimalRaza").value = raza;
-                            document.getElementById("editAnimalSexo").value = sexo;
-                            document.getElementById("editAnimalFecha").value = new Date(fecha).toISOString().split("T")[0];
-                            document.getElementById("editAnimalPelaje").value = pelaje;
-                            document.getElementById("editAnimalEnergia").value = energia;
-                            document.getElementById("editAnimalVacunas").value = vacunas;
-                            document.getElementById("editAnimalEsterilizado").value = esterilizado === "true" ? "true" : "false";
-                            document.getElementById("editAnimalDesparasitado").value = desparasitado === "true" ? "true" : "false";
-                            document.getElementById("editAnimalDisponible").value = disponible === "true" ? "true" : "false";
-
-                            document.getElementById("editAnimalModal").classList.remove("hidden");
+                        async function deleteProceso(id) {
+                            if (!confirm("¿Eliminar este proceso?")) return;
+                            const res = await fetch(`/adm/procesos/${id}`, { method: "DELETE" });
+                            if ((await res.json()).ok) location.reload();
+                            else alert("Error al eliminar");
                         }
 
-                        //Actualizar animal (UPDATE)
-                        document.getElementById("editAnimalForm").addEventListener("submit", async (e) => {
+                        function openNewProcesoModal() {
+                            document.getElementById("newProcesoModal").classList.remove("hidden");
+                        }
+                        function closeNewProcesoModal() {
+                            document.getElementById("newProcesoModal").classList.add("hidden");
+                            document.getElementById("newProcesoForm").reset();
+                        }
+
+                        document.getElementById("newProcesoForm").addEventListener("submit", async (e) => {
                             e.preventDefault();
-
-                            const id = document.getElementById("editAnimalId").value;
-
-                            const body = {
-                                nombre: document.getElementById("editAnimalNombre").value,
-                                chip: document.getElementById("editAnimalChip").value,
-                                especie: document.getElementById("editAnimalEspecie").value,
-                                raza: document.getElementById("editAnimalRaza").value,
-                                sexo: document.getElementById("editAnimalSexo").value,
-                                fecha_nacimiento: document.getElementById("editAnimalFecha").value,
-                                pelaje: document.getElementById("editAnimalPelaje").value,
-                                vacunas: document.getElementById("editAnimalVacunas").value,
-                                esterilizado: document.getElementById("editAnimalEsterilizado").value === "true",
-                                desparasitado: document.getElementById("editAnimalDesparasitado").value === "true",
-                                tamano: document.getElementById("editAnimalTamano").value,
-                                nivel_energia: document.getElementById("editAnimalEnergia").value,
-                                disponible: document.getElementById("editAnimalDisponible").value === "true"
-                            };
-
-                            const res = await fetch(`/adm/animales/${id}`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify(body)
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Animal actualizado correctamente");
-                                closeEditModal("editAnimalModal");
-                                location.reload();
-                            } else {
-                                alert("Error al actualizar animal: " + (data.message || ""));
-                            }
-                        });
-
-
-                        // -------------------- PROTECTORAS -----------------------------
-
-                        //Abrir modal de editar protectora
-                        document.addEventListener("click", (e) => {
-                            const btn = e.target.closest(".btn-edit-protectora");
-                            if (!btn) return;
-
-                            const d = btn.dataset;
-                            document.getElementById("editProtectoraId").value = d.id;
-                            document.getElementById("editProtectoraNombre").value = d.nombre;
-                            document.getElementById("editProtectoraDireccion").value = d.direccion;
-                            document.getElementById("editProtectoraTelefono").value = d.telefono;
-                            document.getElementById("editProtectoraDescripcion").value = d.descripcion;
-                            document.getElementById("editProtectoraEmail").value = d.email;
-                            document.getElementById("editProtectoraAnimales").value = d.animales || 0;
-                            document.getElementById("editProtectoraWeb").value = d.web;
-
-                            document.getElementById("editProtectoraModal").classList.remove("hidden");
-                        });
-
-                        //Guardar edicion de la protectora seleccionada (UPDATE)
-                        document.getElementById("editProtectoraForm").addEventListener("submit", async (e) => {
-                            e.preventDefault();
-
-                            const id = document.getElementById("editProtectoraId").value;
-
-                            const body = {
-                                nombre: document.getElementById("editProtectoraNombre").value,
-                                direccion: document.getElementById("editProtectoraDireccion").value,
-                                telefono: document.getElementById("editProtectoraTelefono").value,
-                                descripcion: document.getElementById("editProtectoraDescripcion").value,
-                                email: document.getElementById("editProtectoraEmail").value,
-                                numero_animales_web: document.getElementById("editProtectoraAnimales").value,
-                                pagina_web: document.getElementById("editProtectoraWeb").value
-                            };
-
-                            const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
+                            const usuario_id = document.getElementById("newProcesoUsuario").value;
+                            const animal_id  = document.getElementById("newProcesoAnimal").value;
+                            if (!usuario_id || !animal_id) { alert("Selecciona usuario y animal"); return; }
+                            const res = await fetch("/adm/procesos", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify(body)
+                                body: JSON.stringify({ usuario_id, animal_id })
                             });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Protectora actualizada correctamente");
-                                closeEditModal("editProtectoraModal");
-                                location.reload();
-                            } else {
-                                alert("Error al actualizar protectora: " + (data.message || ""));
-                            }
+                            if (res.ok) { closeNewProcesoModal(); location.reload(); }
+                            else alert("Error al crear proceso");
                         });
-
-                        //Borrar protectora (DELETE)
-                        document.addEventListener("click", async (e) => {
-                            const btn = e.target.closest(".btn-delete-protectora");
-                            if (!btn) return;
-
-                            if (!confirm("¿Seguro que quieres eliminar esta protectora?")) return;
-
-                            const id = btn.dataset.id;
-
-                            const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
-                                method: "DELETE"
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Protectora eliminada correctamente");
-                                location.reload();
-                            } else {
-                                alert("Error al eliminar protectora: " + (data.message || ""));
-                            }
-                        });
-
-                        //Cerrar modal de nueva protectora
-                        function closeNewProtectoraModal() {
-                            document.getElementById("newProtectoraModal").classList.add("hidden");
-                            document.getElementById("newProtectoraForm").reset();
-                        }
-
-                        //Crear nueva protectora (CREATE)
-                        document.getElementById("newProtectoraForm").addEventListener("submit", async (e) => {
-                            e.preventDefault();
-
-                            const nombre = document.getElementById("newProtectoraNombre").value;
-                            const telefono = document.getElementById("newProtectoraTelefono").value;
-                            const direccion = document.getElementById("newProtectoraDireccion").value;
-                            const descripcion = document.getElementById("newProtectoraDescripcion").value;
-                            const email = document.getElementById("newProtectoraEmail").value;
-                            const web = document.getElementById("newProtectoraWeb").value;
-
-                            if (!nombre || !email) {
-                                alert("El nombre y el email son obligatorios");
-                                return;
-                            }
-
-                            const res = await fetch(`http://localhost:3001/api/protectoras`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ nombre, telefono, direccion, descripcion, email, pagina_web: web })
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Protectora creada correctamente");
-                                closeNewProtectoraModal();
-                            } else {
-                                alert("Error al crear protectora: " + (data.message || ""));
-                            }
-                        });
-
-                        //------------FUNCION PARA RENDERIZAR LAS TABLAS DE MANERA INDEPENDIENTE-------------
-                        document.addEventListener("DOMContentLoaded", () => {
-                            mostrarSeccion("usuarios"); //La seccion por defecto sera la de usuarios
-                        });
-
-                        function mostrarSeccion(seccion) {
-                            const secciones = ["usuarios", "animales", "protectoras", "solicitudes", "seguimientos"];
-
-                            secciones.forEach(s => {
-                                const el = document.getElementById("seccion-" + s);
-                                if (el) el.classList.add("hidden");
-                            });
-                            const activa = document.getElementById("seccion-" + seccion);
-                            if (activa) activa.classList.remove("hidden");
-
-                            //Marcamos el nav activo
-                            document.querySelectorAll("nav a").forEach(a => {
-                                a.classList.remove("text-orange-500", "font-bold");
-                            });
-                            event.target.classList.add("text-orange-500", "font-bold");
-                        }
-
                     </script>
 
 
