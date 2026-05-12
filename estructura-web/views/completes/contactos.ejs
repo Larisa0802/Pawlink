@@ -214,7 +214,7 @@
             </main>
 
 
-
+    <%- include("../partials/footer") %>
             <%}else{%>
 
                 <div
@@ -235,8 +235,6 @@
                 </div>
 
                 <%}%>
-
-                    <%- include("../partials/footer") %>
 
     <script>
         let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];

@@ -1,5 +1,5 @@
 class Animal {
-    constructor(id, nombre, chip, especie, raza, sexo, fecha_nacimiento, color, pelaje, vacunas, esterilizado, desparasitado, foto, nivel_energia, tamano, disponible) {
+    constructor(id, nombre, chip, especie, raza, sexo, fecha_nacimiento, color, pelaje, vacunas, esterilizado, desparasitado, foto, disponible, nivel_energia, tamano) {
         this._id = id;
         this._nombre = nombre;
         this._chip = chip;
