@@ -14,7 +14,7 @@
         <%if(userData.admin) { %>
             <%- include("../partials/sidebar") %>
 
-                <main class="ml-64 p-6">
+                <main class="md:ml-64 pt-16 md:pt-6 p-6">
 
                     <nav class="bg-white shadow px-6 py-4 flex gap-6 text-gray-700 font-medium">
                         <a href="#" onclick="mostrarSeccion('usuarios', this)" class="hover:text-blue-600">Usuarios</a>
@@ -25,7 +25,7 @@
                     </nav>
 
                     <br>
-                    <div id="seccion-usuarios">
+                    <div id="seccion-usuarios" class="overflow-x-auto">
                         <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
                             id="usuarios">
                             <tr>
@@ -113,7 +113,7 @@
                         </table>
                     </div>
                     <br>
-                    <div id="seccion-animales">
+                    <div id="seccion-animales" class="overflow-x-auto">
                         <!--TABLA ANIMALES-->
                         <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
                             id="animales">
@@ -249,7 +249,7 @@
                         </table>
                     </div>
 
-                    <div id="seccion-protectoras">
+                    <div id="seccion-protectoras" class="overflow-x-auto">
                         <!--TABLA PROTECTORAS-->
                         <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
                             id="protectoras">
@@ -361,7 +361,7 @@
                     </div>
 
                     <!-- ══ TABLA PROCESOS ══ -->
-                    <div id="seccion-procesos">
+                    <div id="seccion-procesos" class="overflow-x-auto">
                         <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
                             id="procesos">
                             <tr>

@@ -3,7 +3,9 @@ import animalesRepository from "../repositories/animal_repo.mjs";
 //GET TODOS
 const getAllAnimales = async (req, res) => {
   try {
-    const animales = await animalesRepository.getAllAnimales();
+    const animales = req.query.disponible === 'true'
+      ? await animalesRepository.getAllDisponibles()
+      : await animalesRepository.getAllAnimales();
     res.json(animales);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -28,7 +30,9 @@ const getAnimalById = async (req, res) => {
 //FILTRO ESPECIE
 const getByEspecie = async (req, res) => {
   try {
-    const animales = await animalesRepository.getByEspecie(req.params.especie);
+    const animales = req.query.disponible === 'true'
+      ? await animalesRepository.getByEspecieDisponible(req.params.especie)
+      : await animalesRepository.getByEspecie(req.params.especie);
     res.json(animales);
   } catch (error) {
     res.status(500).json({ error: error.message });
