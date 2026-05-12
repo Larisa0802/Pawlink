@@ -74,6 +74,14 @@ const deleteAnimal = async (req, res) => {
 };
 
 
+const createAnimal = async (req, res) => {
+  try {
+    const animal = await animalesRepository.createAnimal(req.body);
+    res.status(201).json({ ok: true, animal });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+};
 
 export default {
   getAllAnimales,
@@ -81,5 +89,6 @@ export default {
   getByEspecie,
   getByRaza,
   updateAnimal,
-  deleteAnimal
+  deleteAnimal,
+  createAnimal
 };

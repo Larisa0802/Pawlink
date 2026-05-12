@@ -23,9 +23,9 @@ const result = await pool.query(`
     a.esterilizado,
     a.desparasitado,
     a.foto,
+    a.disponible,
     a.nivel_energia,
     a.tamano,
-    a.disponible
   ));
 };
 
@@ -53,6 +53,10 @@ const getAnimalById = async (id) => {
     a.esterilizado,
     a.desparasitado,
     a.foto,
+    a.nivel_energia,
+    a.tamano,
+    a.disponible,
+
   );
 };
 
@@ -177,7 +181,18 @@ const deleteAnimal = async (id) => {
   return result.rows[0];
 };
 
-//CREAR 
+//CREAR
+const createAnimal = async (datos) => {
+  const { nombre, chip, especie, raza, sexo, fecha_nacimiento, pelaje, vacunas, esterilizado, desparasitado, tamano, nivel_energia, disponible, protectora_id } = datos;
+  const { rows: [{ next_id }] } = await pool.query(`SELECT COALESCE(MAX(id), 0) + 1 AS next_id FROM animales`);
+  const result = await pool.query(
+    `INSERT INTO animales (id, nombre, chip, especie, raza, sexo, fecha_nacimiento, pelaje, vacunas, esterilizado, desparasitado, tamano, nivel_energia, disponible, protectora_id)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING *`,
+    [next_id, nombre, chip || null, especie, raza, sexo, fecha_nacimiento || null, pelaje || null, vacunas || null, esterilizado, desparasitado, tamano, nivel_energia, disponible, protectora_id || null]
+  );
+  return result.rows[0];
+};
+
 
 export default {
   getAllAnimales,
@@ -189,4 +204,5 @@ export default {
   getMatches,
   updateAnimal,
   deleteAnimal,
+  createAnimal,
 };
