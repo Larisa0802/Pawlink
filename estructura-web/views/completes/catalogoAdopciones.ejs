@@ -74,13 +74,12 @@
         <div id="contenedor-animales" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <% animales.forEach((animal)=> { %>
             <div class="tarjetaAnimal bg-white rounded-2xl shadow-md overflow-hidden flex flex-col">
-
               <div class="relative w-full h-44 bg-amber-100 flex items-center justify-center overflow-hidden">
                 <% if (animal._foto) { %>
                   <img src="<%= animal._foto %>" alt="<%= animal._nombre %>"
-                    class="w-full h-full object-cover <%= animal._disponible == 0 || animal._disponible == null ? 'brightness-50' : '' %>">
+                    class="w-full h-full object-cover <%= !animal._disponible ? 'brightness-50' : '' %>">
 
-                  <% if (animal._disponible == 0 || animal._disponible == null) { %>
+                  <% if (!animal._disponible) { %>
                     <div
                       class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-extrabold px-2 py-1 rounded-md uppercase tracking-tighter shadow-xl border border-red-500">
                       No disponible
@@ -88,8 +87,8 @@
                     <% } %>
 
                       <% } else { %>
-                        <span class="text-5xl <%= animal._disponible == 0 || animal._disponible == null ? 'opacity-30' : '' %>">🐶</span>
-                        <% if (animal._disponible == 0 || animal._disponible == null) { %>
+                        <span class="text-5xl <%= !animal._disponible ? 'opacity-30' : '' %>">🐶</span>
+                        <% if (!animal._disponible == 0) { %>
                           <div
                             class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-extrabold px-2 py-1 rounded-md uppercase tracking-tighter shadow-xl">
                             No disponible
