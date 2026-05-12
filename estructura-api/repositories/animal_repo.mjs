@@ -58,9 +58,9 @@ const getAnimalById = async (id) => {
     a.esterilizado,
     a.desparasitado,
     a.foto,
+    a.disponible,
     a.nivel_energia,
     a.tamano,
-    a.disponible,
 
   );
 };
@@ -74,7 +74,8 @@ const getByEspecie = async (especie) => {
   return result.rows.map(a => new Animal(
     a.id, a.nombre, a.chip, a.especie, a.raza, a.sexo,
     a.fecha_nacimiento, a.color, a.pelaje, a.vacunas,
-    a.esterilizado, a.desparasitado, a.foto
+    a.esterilizado, a.desparasitado, a.foto, a.disponible,
+    a.nivel_energia, a.tamano
   ));
 };
 
