@@ -78,16 +78,31 @@
       </div>
 
       <% if (animales && animales.length> 0) { %>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div id="contenedor-animales" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <% animales.forEach((animal)=> { %>
             <div class="tarjetaAnimal bg-white rounded-2xl shadow-md overflow-hidden flex flex-col">
 
-              <div class="w-full h-44 bg-amber-100 flex items-center justify-center overflow-hidden">
+              <div class="relative w-full h-44 bg-amber-100 flex items-center justify-center overflow-hidden">
                 <% if (animal._foto) { %>
-                  <img src="<%= animal._foto %>" alt="<%= animal._nombre %>" class="w-full h-full object-cover">
-                  <% } else { %>
-                    <span class="text-5xl">🐶</span>
+                  <img src="<%= animal._foto %>" alt="<%= animal._nombre %>"
+                    class="w-full h-full object-cover <%= animal._disponible == 0 || animal._disponible == null ? 'brightness-50' : '' %>">
+
+                  <% if (animal._disponible == 0 || animal._disponible == null) { %>
+                    <div
+                      class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-extrabold px-2 py-1 rounded-md uppercase tracking-tighter shadow-xl border border-red-500">
+                      No disponible
+                    </div>
                     <% } %>
+
+                      <% } else { %>
+                        <span class="text-5xl <%= animal._disponible == 0 || animal._disponible == null ? 'opacity-30' : '' %>">🐶</span>
+                        <% if (animal._disponible == 0 || animal._disponible == null) { %>
+                          <div
+                            class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-extrabold px-2 py-1 rounded-md uppercase tracking-tighter shadow-xl">
+                            No disponible
+                          </div>
+                          <% } %>
+                            <% } %>
               </div>
 
               <div class="p-4 flex flex-col flex-1">
@@ -133,16 +148,52 @@
             </div>
             <% }) %>
         </div>
-
-        <% } else { %>
-          <div class="flex flex-col items-center justify-center py-24 text-center text-amber-700">
-            <span class="text-6xl mb-4">🐾</span>
-            <p class="text-xl font-bold">No hay animales disponibles</p>
-            <p class="text-sm mt-1 text-amber-500">Vuelve a intentarlo más tarde</p>
-          </div>
-          <% } %>
-
+        <div id="paginacion-catalogo" class="mt-12 flex justify-center"></div>
     </main>
+    <%- include("../partials/footer") %>
+      <% } else { %>
+        <div class="flex flex-col items-center justify-center py-24 text-center text-amber-700">
+          <span class="text-6xl mb-4">🐾</span>
+          <p class="text-xl font-bold">No hay animales disponibles</p>
+          <p class="text-sm mt-1 text-amber-500">Vuelve a intentarlo más tarde</p>
+        </div>
+        <% } %>
+
+          <!--Modal masinformacion -->
+          <div id="editModal" style="display: none;">
+            <div
+              class="relative bg-white rounded-3xl shadow-2xl flex flex-row w-[90%] max-w-5xl overflow-hidden min-h-[450px]">
+              <div id="modal-foto-wrap"
+                class="w-1/3 bg-gray-100 flex items-center justify-center overflow-hidden border-r border-gray-100">
+                <img id="modal-foto" src="" alt="" class="w-full h-full object-cover">
+              </div>
+
+              <div class="flex-1 p-10 flex flex-col justify-center">
+                <h2 id="modal-nombre" class="text-4xl font-extrabold text-gray-800 mb-8 pb-2 inline-block"></h2>
+
+                <div class="grid grid-cols-2 gap-x-8 gap-y-5 text-gray-700">
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Chip</span><span
+                      id="modal-chip" class="text-lg font-semibold text-gray-800"></span></div>
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Especie</span><span
+                      id="modal-especie" class="text-lg font-semibold text-gray-800"></span></div>
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Raza</span><span
+                      id="modal-raza" class="text-lg font-semibold text-gray-800"></span></div>
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Sexo</span><span
+                      id="modal-sexo" class="text-lg font-semibold text-gray-800"></span></div>
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Nacimiento</span><span
+                      id="modal-nacimiento" class="text-lg font-semibold text-gray-800"></span></div>
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Pelaje</span><span
+                      id="modal-pelaje" class="text-lg font-semibold text-gray-800"></span></div>
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Vacunas</span><span
+                      id="modal-vacunas" class="flex flex-col gap-1 max-h-24  mt-1 text-lg font-semibold text-gray-800">
+                    </span></div>
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Esterilizado</span><span
+                      id="modal-esterilizado" class="text-lg font-semibold text-gray-800"></span></div>
+                  <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Desparasitado</span><span
+                      id="modal-desparasitado" class="text-lg font-semibold text-gray-800"></span></div>
+                </div>
+              </div>
+
 
     <!--Modal masinformacion -->
     <div id="editModal" style="display: none;">
@@ -152,33 +203,65 @@
           class="w-full md:w-1/3 h-52 md:h-auto bg-gray-100 flex items-center justify-center overflow-hidden border-b md:border-b-0 md:border-r border-gray-100">
           <img id="modal-foto" src="" alt="" class="w-full h-full object-cover">
         </div>
+              <div class="w-48 p-6 flex flex-col justify-between items-end">
+                <button id="cerrarModal"
+                  class="text-gray-400 hover:text-gray-600 text-4xl font-light transition-transform hover:scale-110 cursor-pointer">&times;</button>
 
-        <div class="flex-1 p-10 flex flex-col justify-center">
-          <h2 id="modal-nombre" class="text-4xl font-extrabold text-gray-800 mb-8 pb-2 inline-block"></h2>
-
-          <div class="grid grid-cols-2 gap-x-8 gap-y-5 text-gray-700">
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Chip</span><span id="modal-chip"
-                class="text-lg font-semibold text-gray-800"></span></div>
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Especie</span><span
-                id="modal-especie" class="text-lg font-semibold text-gray-800"></span></div>
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Raza</span><span id="modal-raza"
-                class="text-lg font-semibold text-gray-800"></span></div>
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Sexo</span><span id="modal-sexo"
-                class="text-lg font-semibold text-gray-800"></span></div>
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Nacimiento</span><span
-                id="modal-nacimiento" class="text-lg font-semibold text-gray-800"></span></div>
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Pelaje</span><span id="modal-pelaje"
-                class="text-lg font-semibold text-gray-800"></span></div>
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Vacunas</span><span
-                id="modal-vacunas" class="flex flex-col gap-1 max-h-24  mt-1 text-lg font-semibold text-gray-800">
-              </span></div>
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Esterilizado</span><span
-                id="modal-esterilizado" class="text-lg font-semibold text-gray-800"></span></div>
-            <div><span class="text-[10px] uppercase font-bold text-gray-400 block">Desparasitado</span><span
-                id="modal-desparasitado" class="text-lg font-semibold text-gray-800"></span></div>
+                <div class="flex-1 flex items-center">
+                  <button
+                    class="bg-[#E5531C] text-white font-bold mr-[70px] py-4 px-8 rounded-2xl text-l shadow-lg hover:bg-[#d44819] transition-all hover:-translate-y-1 active:scale-95 whitespace-nowrap">
+                    Adoptar
+                  </button>
+                </div>
+                <div class="h-10"></div>
+              </div>
+            </div>
           </div>
-        </div>
+          </div>
 
+          <script>
+            const modal = document.getElementById('editModal');
+
+            // Rellenar y abrir modal con los datos del botón pulsado
+            document.querySelectorAll('.masInfo1').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const d = btn.dataset;
+
+                document.getElementById('modal-nombre').textContent = d.nombre;
+                document.getElementById('modal-chip').textContent = d.chip;
+                document.getElementById('modal-especie').textContent = d.especie;
+                document.getElementById('modal-raza').textContent = d.raza;
+                document.getElementById('modal-sexo').textContent = d.sexo;
+                document.getElementById('modal-nacimiento').textContent = d.nacimiento;
+                document.getElementById('modal-pelaje').textContent = d.pelaje;
+                const vacunasEl = document.getElementById('modal-vacunas');
+                vacunasEl.innerHTML = '';
+                if (d.vacunas && d.vacunas !== '—') {
+                  d.vacunas.split(';').map(v => v.trim()).filter(Boolean).forEach(v => {
+                    const s = document.createElement('span');
+                    s.textContent = '• ' + v;
+                    vacunasEl.appendChild(s);
+                  });
+                } else {
+                  vacunasEl.textContent = '—';
+                }
+                document.getElementById('modal-esterilizado').textContent = d.esterilizado;
+                document.getElementById('modal-desparasitado').textContent = d.desparasitado;
+
+                // Foto opcional
+                const fotoWrap = document.getElementById('modal-foto-wrap');
+                const fotoImg = document.getElementById('modal-foto');
+                if (d.foto) {
+                  fotoImg.src = d.foto;
+                  fotoImg.alt = d.nombre;
+                  fotoWrap.classList.remove('hidden');
+                } else {
+                  fotoWrap.classList.add('hidden');
+                }
+
+                modal.style.display = 'flex';
+              });
+            });
 
         <div class="w-full md:w-48 p-6 flex flex-row md:flex-col justify-between items-center md:items-end border-t md:border-t-0 md:border-l border-gray-100">
           <button id="cerrarModal"
@@ -195,7 +278,18 @@
       </div>
     </div>
     </div>
+            // Cerrar con el botón ✕
+            document.getElementById('cerrarModal').addEventListener('click', () => {
+              modal.style.display = 'none';
+            });
 
+            // Cerrar al hacer clic en el fondo
+            modal.addEventListener('click', (e) => {
+              if (e.target === modal) modal.style.display = 'none';
+            });
+
+            //conseguir el historial guardado o crear uno nuevo
+            let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];
 
     <!-- Hidden form for adoption POST -->
     <form id="adoptarForm" method="POST" action="/adoptar" style="display:none;">
@@ -245,11 +339,13 @@
               fotoWrap.classList.remove('hidden');
             } else {
               fotoWrap.classList.add('hidden');
+            const rutaActual = window.location.pathname + window.location.search;
+
+            if (pathHistory.length === 0 || pathHistory[pathHistory.length - 1] !== rutaActual) {
+              pathHistory.push(rutaActual);
+              sessionStorage.setItem('userPath', JSON.stringify(pathHistory));
             }
 
-            modal.style.display = 'flex';
-          });
-        });
 
         // Botón Adoptar
         document.getElementById('btnAdoptar').addEventListener('click', () => {
@@ -262,63 +358,130 @@
         document.getElementById('cerrarModal').addEventListener('click', () => {
           modal.style.display = 'none';
         });
+            const displayPath = pathHistory.map(ruta => {
+              if (ruta === '/' || ruta.includes('index')) return '🏠 Inicio';
+              if (ruta.includes('vistaEleccion')) return 'Elección';
+              if (ruta.includes('adopciones')) return 'Catálogo';
+              return ruta.replace('/', '');
+            }).join('  /  ');
 
-        // Cerrar al hacer clic en el fondo
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) modal.style.display = 'none';
-        });
+            //meterlo en la vista
+            document.getElementById('breadcrumb').innerText = displayPath;
 
-        //conseguir el historial guardado o crear uno nuevo
-        let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];
+            //filtro de búsqueda y radio
+            function aplicarFiltros() {
+              //1 - leer el valor de input
+              const queryRaza = document.getElementById("entrada").value.toLowerCase().trim();
 
-        const rutaActual = window.location.pathname + window.location.search;
+              //2 - leer el valor de los radio button
+              const sexoSeleccionado = document.querySelector("input[name='filtroSexo']:checked").value;
 
-        if (pathHistory.length === 0 || pathHistory[pathHistory.length - 1] !== rutaActual) {
-          pathHistory.push(rutaActual);
-          sessionStorage.setItem('userPath', JSON.stringify(pathHistory));
-        }
+              // 3 - recorrer cada tarjeta y decidir si mostrarla u ocultarla
+              document.querySelectorAll(".tarjetaAnimal").forEach(function (card) {
+                const btn = card.querySelector("[data-raza]");
+                const raza = (btn ? btn.dataset.raza : "").toLowerCase();
+                const sexo = (btn ? btn.dataset.sexo : "").toLowerCase();
 
+                const coincideRaza = raza.includes(queryRaza);
+                const coincideSexo = sexoSeleccionado === "todos" || sexo === sexoSeleccionado;
 
-        const displayPath = pathHistory.map(ruta => {
-          if (ruta === '/' || ruta.includes('index')) return '🏠 Inicio';
-          if (ruta.includes('vistaEleccion')) return 'Elección';
-          if (ruta.includes('adopciones')) return 'Catálogo';
-          return ruta.replace('/', '');
-        }).join('  /  ');
+                // En lugar de ocultar directamente, marcamos si cumple el filtro
+                if (coincideRaza && coincideSexo) {
+                  card.setAttribute("data-visible", "true");
+                } else {
+                  card.setAttribute("data-visible", "false");
+                  card.style.display = "none";
+                }
+              });
 
-        //meterlo en la vista
-        document.getElementById('breadcrumb').innerText = displayPath;
+              // Reiniciar a la página 1 tras filtrar
+              paginaActual = 1;
+              renderPagina();
+            }
 
-        //filtro de búsqueda y radio
-        function aplicarFiltros() {
-          //1 - leer el valor de input
-          const queryRaza = document.getElementById("entrada").value.toLowerCase().trim();
+            // --- LÓGICA DE PAGINACIÓN ---
+            const ITEMS_POR_PAGINA = 20;
+            let paginaActual = 1;
 
-          //2 - leer el valor de los radio button
-          const sexoSeleccionado = document.querySelector("input[name='filtroSexo']:checked").value;
+            function renderPagina() {
+              const contenedor = document.getElementById("contenedor-animales");
+              if (!contenedor) return;
 
-          // 3 - recorrer cada tarjeta y decidir si mostrarla u ocultarla
-          document.querySelectorAll(".tarjetaAnimal").forEach(function (card) {
-            const btn = card.querySelector("[data-raza]");
-            const raza = (btn ? btn.dataset.raza : "").toLowerCase();
-            const sexo = (btn ? btn.dataset.sexo : "").toLowerCase();
+              const todasLasTarjetas = Array.from(contenedor.querySelectorAll(".tarjetaAnimal"));
+              const tarjetasFiltradas = todasLasTarjetas.filter(card => card.getAttribute("data-visible") !== "false");
 
-            const coincideRaza = raza.includes(queryRaza);
-            const coincideSexo = sexoSeleccionado === "todos" || sexo === sexoSeleccionado;
+              const totalItems = tarjetasFiltradas.length;
+              const totalPaginas = Math.ceil(totalItems / ITEMS_POR_PAGINA);
 
-            card.style.display = (coincideRaza && coincideSexo) ? "" : "none";
-          });
-        }
+              // Ocultar todas primero
+              todasLasTarjetas.forEach(card => card.style.display = "none");
 
-        // llamar a aplicarFiltros() cada vez que se escribe en el input
-        document.getElementById("entrada").addEventListener("input", aplicarFiltros);
+              // Mostrar solo las de la página actual
+              const inicio = (paginaActual - 1) * ITEMS_POR_PAGINA;
+              const fin = inicio + ITEMS_POR_PAGINA;
 
-        // llamar a aplicarFiltros() cada vez que se cambia el radio
-        document.querySelectorAll("input[name='filtroSexo']").forEach(function (radio) {
-          radio.addEventListener("change", aplicarFiltros);
-        });
+              tarjetasFiltradas.slice(inicio, fin).forEach(card => {
+                card.style.display = "flex";
+              });
 
-      </script>
+              renderControles(totalPaginas, totalItems);
+            }
+
+            function renderControles(totalPaginas, totalItems) {
+              const container = document.getElementById("paginacion-catalogo");
+              if (!container) return;
+
+              if (totalPaginas <= 1) {
+                container.innerHTML = "";
+                return;
+              }
+
+              let botonesHTML = "";
+              for (let i = 1; i <= totalPaginas; i++) {
+                const activo = i === paginaActual
+                  ? "bg-[#E5531C] text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100";
+                botonesHTML += `
+              <button onclick="irAPagina(${i})" class="w-10 h-10 mx-1 rounded-xl border font-bold transition ${activo}">
+                ${i}
+              </button>`;
+              }
+
+              container.innerHTML = `
+            <div class="flex items-center gap-2">
+              <button onclick="irAPagina(${paginaActual - 1})" ${paginaActual === 1 ? 'disabled' : ''} 
+                class="w-10 h-10 rounded-xl border bg-white flex items-center justify-center disabled:opacity-30">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              ${botonesHTML}
+              <button onclick="irAPagina(${paginaActual + 1})" ${paginaActual === totalPaginas ? 'disabled' : ''} 
+                class="w-10 h-10 rounded-xl border bg-white flex items-center justify-center disabled:opacity-30">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+          `;
+            }
+
+            function irAPagina(n) {
+              paginaActual = n;
+              renderPagina();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Inicializar la primera vista
+            document.addEventListener("DOMContentLoaded", () => {
+              aplicarFiltros();
+            });
+
+            // llamar a aplicarFiltros() cada vez que se escribe en el input
+            document.getElementById("entrada").addEventListener("input", aplicarFiltros);
+
+            // llamar a aplicarFiltros() cada vez que se cambia el radio
+            document.querySelectorAll("input[name='filtroSexo']").forEach(function (radio) {
+              radio.addEventListener("change", aplicarFiltros);
+            });
+
+          </script>
 
 
 

@@ -75,7 +75,9 @@ router.post("/forgot-password", userController.submitForgotPassword);
 router.get("/register", userController.showRegisterForm); //Muestra
 router.post("/register", userController.submitRegister); //Valida
 
-router.get("/", userController.showLoginForm); //Muestra
+router.get("/", (req,res) => {
+    res.render("completes/pre-sala")
+})
 router.get("/login", userController.showLoginForm); //Muestra
 router.post("/login", userController.submitLogin); //Valida
 
