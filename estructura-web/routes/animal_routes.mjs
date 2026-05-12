@@ -17,6 +17,20 @@ router.post("/adm/animales/:id", async (req, res) => {
   }
 });
 
+router.post("/adm/animales", async (req, res) => {
+  try {
+    const response = await fetch("http://localhost:3001/animales", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body)
+    });
+    const data = await response.json();
+    res.status(response.status).json(data);
+  } catch (error) {
+    res.status(500).json({ ok: false, message: error.message });
+  }
+});
+
 router.delete("/adm/animales/:id", async (req, res) => {
   try {
     const response = await fetch(`http://localhost:3001/animales/${req.params.id}`, {
