@@ -54,10 +54,10 @@ class AnimalController {
       /*console.log("Tipo:", tipo);*/
 
       if (tipo === "ambos") {
-        response = await this.client.get("/animales");
+        response = await this.client.get("/animales?disponible=true");
       } else {
         const especie = mapaEspecie[tipo];
-        response = await this.client.get(`/animales/especie/${especie}`);
+        response = await this.client.get(`/animales/especie/${especie}?disponible=true`);
       }
 
       console.log("Datos recibidos:", response.data);
@@ -67,7 +67,7 @@ class AnimalController {
         userData,
         active: "adopciones",
         tipo,
-        error: null,
+        error: req.query.error || null,
       });
     } catch (error) {
       console.error("Error al obtener catálogo:", error.message);

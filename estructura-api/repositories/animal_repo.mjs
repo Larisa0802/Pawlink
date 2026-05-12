@@ -4,15 +4,10 @@ import Animal from "../models/animal_model.mjs";
 //GET TODOS
 const getAllAnimales = async () => {
 const result = await pool.query(`
-  SELECT * FROM animales 
+  SELECT * FROM animales
   WHERE especie IN ('Canina', 'Felina')
-  ORDER BY 
-    CASE especie 
-      WHEN 'Canina' THEN 1 
-      WHEN 'Felina' THEN 2 
-    END,
-    id ASC 
-  LIMIT 200;
+  ORDER BY CASE especie WHEN 'Canina' THEN 1 WHEN 'Felina' THEN 2 END, id ASC
+  LIMIT 200
 `);
   return result.rows.map(a => new Animal(
     a.id,
@@ -65,6 +60,33 @@ const getAnimalById = async (id) => {
 const getByEspecie = async (especie) => {
   const result = await pool.query(
     "SELECT * FROM animales WHERE especie = $1",
+    [especie]
+  );
+  return result.rows.map(a => new Animal(
+    a.id, a.nombre, a.chip, a.especie, a.raza, a.sexo,
+    a.fecha_nacimiento, a.color, a.pelaje, a.vacunas,
+    a.esterilizado, a.desparasitado, a.foto
+  ));
+};
+
+// Solo disponibles (para el catálogo público)
+const getAllDisponibles = async () => {
+  const result = await pool.query(
+    `SELECT * FROM animales
+     WHERE especie IN ('Canina','Felina') AND (disponible IS NULL OR disponible = true)
+     ORDER BY CASE especie WHEN 'Canina' THEN 1 WHEN 'Felina' THEN 2 END, id ASC
+     LIMIT 200`
+  );
+  return result.rows.map(a => new Animal(
+    a.id, a.nombre, a.chip, a.especie, a.raza, a.sexo,
+    a.fecha_nacimiento, a.color, a.pelaje, a.vacunas,
+    a.esterilizado, a.desparasitado, a.foto
+  ));
+};
+
+const getByEspecieDisponible = async (especie) => {
+  const result = await pool.query(
+    `SELECT * FROM animales WHERE especie = $1 AND (disponible IS NULL OR disponible = true)`,
     [especie]
   );
   return result.rows.map(a => new Animal(
@@ -159,8 +181,10 @@ const deleteAnimal = async (id) => {
 
 export default {
   getAllAnimales,
+  getAllDisponibles,
   getAnimalById,
   getByEspecie,
+  getByEspecieDisponible,
   getByRaza,
   getMatches,
   updateAnimal,
