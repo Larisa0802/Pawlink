@@ -16,12 +16,36 @@
 
                 <main class="ml-64 p-6">
 
-                    <nav class="bg-white shadow px-6 py-4 flex gap-6 text-gray-700 font-medium">
-                        <a href="#" onclick="mostrarSeccion('usuarios', this)" class="hover:text-blue-600">Usuarios</a>
-                        <a href="#" onclick="mostrarSeccion('animales', this)" class="hover:text-blue-600">Animales</a>
-                        <a href="#" onclick="mostrarSeccion('procesos', this)" class="hover:text-[#E5531C]">Procesos</a>
+                    <nav class="bg-white px-6 py-4 flex gap-12 text-gray-700 text-lg justify-center font-bold relative">
+                        <!-- Indicador deslizante (Activo) con el azul de las tablas -->
+                        <div id="nav-indicator"
+                            class="absolute bottom-0 h-1 bg-[#DDECF6] transition-all duration-300 rounded-full"></div>
+
+                        <a href="#" onclick="mostrarSeccion('usuarios', this)"
+                            class="relative group py-2 hover:text-[#E5531C] transition-colors">
+                            <span>Usuarios</span>
+                            <!-- Subrayado hover con el azul de las tablas -->
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-1 bg-[#DDECF6]/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full"></span>
+                        </a>
+                        <a href="#" onclick="mostrarSeccion('animales', this)"
+                            class="relative group py-2 hover:text-[#E5531C] transition-colors">
+                            <span>Animales</span>
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-1 bg-[#DDECF6]/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full"></span>
+                        </a>
+                        <a href="#" onclick="mostrarSeccion('procesos', this)"
+                            class="relative group py-2 hover:text-[#E5531C] transition-colors">
+                            <span>Procesos</span>
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-1 bg-[#DDECF6]/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full"></span>
+                        </a>
                         <a href="#" onclick="mostrarSeccion('protectoras', this)"
-                            class="hover:text-blue-600">Protectoras</a>
+                            class="relative group py-2 hover:text-[#E5531C] transition-colors">
+                            <span>Protectoras</span>
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-1 bg-[#DDECF6]/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full"></span>
+                        </a>
                     </nav>
 
                     <br>
@@ -29,21 +53,21 @@
                         <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
                             id="usuarios">
                             <tr>
-                                <th colspan="5" class="text-center py-2 bg-gray-100">
+                                <th colspan="5" class="text-center rounded text-white py-2 bg-black">
                                     GESTIÓN DE USUARIOS
                                 </th>
                             </tr>
-                            <tr class="bg-gray-50">
+                            <tr class="bg-[#DDECF6]">
                                 <th class="border">ID</th>
                                 <th class="border">Usuario</th>
                                 <th class="border">Email</th>
                                 <th class="border">Fecha de registro</th>
                                 <th class="border">Acciones</th>
                             </tr>
-                            <tbody class="text-center">
+                            <tbody class="text-center" id="tbody-usuarios">
                                 <% if(usuarios && usuarios.length> 0) { %>
                                     <% usuarios.forEach(usuario=> { %>
-                                        <tr class="p-20">
+                                        <tr class="p-20" data-fila>
                                             <td class="border">
                                                 <%= usuario.id %>
                                             </td>
@@ -95,9 +119,9 @@
                                                 <% } %>
                                                     <tr>
                                                         <td colspan="5" class="text-center py-2">
-                                                            <button onclick="openNewModal()" class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 
-                                                        bg-blue-600 hover:bg-blue-700 text-white font-medium 
-                                                        py-2 rounded transition">
+                                                            <button onclick="openNewModal()"
+                                                                class="w-full max-w-xs mx-auto flex items-center justify-center gap-2
+                                               bg-[#E5531C] hover:opacity-90 text-white font-medium py-2 rounded transition">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
                                                                     stroke="currentColor" class="w-5 h-5">
@@ -111,6 +135,7 @@
 
                             </tbody>
                         </table>
+                        <div id="pag-usuarios" class="px-1"></div>
                     </div>
                     <br>
                     <div id="seccion-animales">
@@ -118,11 +143,11 @@
                         <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
                             id="animales">
                             <tr>
-                                <th colspan="15" class="text-center py-2 bg-gray-100">
+                                <th colspan="15" class="text-center rounded text-white py-2 bg-black">
                                     GESTIÓN DE ANIMALES
                                 </th>
                             </tr>
-                            <tr>
+                            <tr class="bg-[#DDECF6]">
                                 <th class="border">ID</th>
                                 <th class="border">Nombre</th>
                                 <th class="border">Chip</th>
@@ -139,10 +164,10 @@
                                 <th class="border">Disponible</th>
                                 <th class="border">Acciones</th>
                             </tr>
-                            <tbody class="text-center">
+                            <tbody class="text-center" id="tbody-animales">
                                 <% if(animales && animales.length> 0) { %>
                                     <% animales.forEach(animal=> { %>
-                                        <tr class="p-10">
+                                        <tr class="p-10" data-fila>
                                             <td class="border">
                                                 <%= animal._id %>
                                             </td>
@@ -232,9 +257,9 @@
                                                 <% } %>
                                                     <tr>
                                                         <td colspan="15" class="text-center py-2">
-                                                            <button onclick="openNewAnimalModal()" class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 
-                                    bg-blue-600 hover:bg-blue-700 text-white font-medium 
-                                    py-2 rounded transition">
+                                                            <button onclick="openNewAnimalModal()"
+                                                                class="w-full max-w-xs mx-auto flex items-center justify-center gap-2
+                                               bg-[#E5531C] hover:opacity-90 text-white font-medium py-2 rounded transition">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
                                                                     stroke="currentColor" class="w-5 h-5">
@@ -247,6 +272,7 @@
                                                     </tr>
                             </tbody>
                         </table>
+                        <div id="pag-animales" class="px-1"></div>
                     </div>
 
                     <div id="seccion-protectoras">
@@ -254,11 +280,11 @@
                         <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
                             id="protectoras">
                             <tr>
-                                <th colspan="14" class="text-center py-2 bg-gray-100">
+                                <th colspan="14" class="text-center rounded text-white py-2 bg-black">
                                     GESTIÓN DE PROTECTORAS
                                 </th>
                             </tr>
-                            <tr>
+                            <tr class="bg-[#DDECF6]">
                                 <th class="border">ID</th>
                                 <th class="border">Nombre</th>
                                 <th class="border">Dirección</th>
@@ -269,30 +295,30 @@
                                 <th class="border">Acciones</th>
 
                             </tr>
-                            <tbody class="text-center">
+                            <tbody class="text-center" id="tbody-protectoras">
                                 <% if (typeof protectoras !=='undefined' && protectoras.length> 0) { %>
                                     <% protectoras.forEach(prote=> { %>
-                                        <tr class="hover:bg-gray-50 transition">
-                                            <td class="py-3 px-4 text-left font-medium text-gray-800">
+                                        <tr class="hover:bg-gray-50 transition" data-fila>
+                                            <td class="py-3 px-4  border text-left font-medium text-gray-800">
                                                 <%= prote.id %>
                                             </td>
-                                            <td class="py-3 px-4 text-left font-medium text-gray-800">
+                                            <td class="py-3 px-4 border text-left font-medium text-gray-800">
                                                 <%= prote.nombre %>
                                             </td>
-                                            <td class="py-3 px-4 text-left text-gray-600">
+                                            <td class="py-3 px-4 border text-left text-gray-600">
                                                 <%= prote.direccion %>
                                             </td>
-                                            <td class="text-center font-medium text-gray-600 min-w-[120px]">
+                                            <td class="text-center border font-medium text-gray-600 min-w-[120px]">
                                                 <%= prote.telefono %>
                                             </td>
-                                            <td class="py-3 px-4 text-left text-gray-600">
+                                            <td class="py-3 px-4 border text-left text-gray-600">
                                                 <%= prote.descripcion %>
                                             </td>
-                                            <td class="py-3 px-4 text-left text-gray-600">
+                                            <td class="py-3 px-4  border text-left text-gray-600">
                                                 <%= prote.email%>
                                             </td>
 
-                                            <td class="py-3 px-4 text-center">
+                                            <td class="py-3 px-4 border text-center">
                                                 <a target="_blank" href="<%= prote.pagina_web %>"
                                                     class="text-[#E5531C] hover:text-amber-600 transition">
                                                     <i class="fa-solid fa-globe text-xl"></i>
@@ -342,8 +368,8 @@
                                                         <td colspan="9" class="text-center py-2">
                                                             <button
                                                                 onclick="document.getElementById('newProtectoraModal').classList.remove('hidden')"
-                                                                class="w-full max-w-xs mx-auto flex items-center justify-center gap-2 
-            bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded transition">
+                                                                class="w-full max-w-xs mx-auto flex items-center justify-center gap-2
+                                               bg-[#E5531C] hover:opacity-90 text-white font-medium py-2 rounded transition">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
                                                                     stroke="currentColor" class="w-5 h-5">
@@ -357,7 +383,7 @@
                             </tbody>
 
                         </table>
-
+                        <div id="pag-protectoras" class="px-1"></div>
                     </div>
 
                     <!-- ══ TABLA PROCESOS ══ -->
@@ -365,11 +391,11 @@
                         <table class="border border-gray-300 rounded-lg border-separate border-spacing-0 w-full"
                             id="procesos">
                             <tr>
-                                <th colspan="9" class="text-center py-2 bg-gray-100">
+                                <th colspan="9" class="text-center rounded text-white py-2 bg-black">
                                     GESTIÓN DE PROCESOS DE ADOPCIÓN
                                 </th>
                             </tr>
-                            <tr class="bg-gray-50 text-sm">
+                            <tr class="bg-[#DDECF6]">
                                 <th class="border px-2 py-1">ID</th>
                                 <th class="border px-2 py-1">Usuario</th>
                                 <th class="border px-2 py-1">Animal</th>
@@ -380,10 +406,10 @@
                                 <th class="border px-2 py-1">Firma</th>
                                 <th class="border px-2 py-1">Acciones</th>
                             </tr>
-                            <tbody class="text-center text-sm">
+                            <tbody class="text-center text-sm" id="tbody-procesos">
                                 <% if (procesos && procesos.length> 0) { %>
                                     <% procesos.forEach(p=> { %>
-                                        <tr>
+                                        <tr data-fila>
                                             <td class="border px-2 py-1">
                                                 <%= p.id %>
                                             </td>
@@ -446,12 +472,19 @@
                                                             <button onclick="openNewProcesoModal()"
                                                                 class="w-full max-w-xs mx-auto flex items-center justify-center gap-2
                                                bg-[#E5531C] hover:opacity-90 text-white font-medium py-2 rounded transition">
-                                                                <i class="fa-solid fa-plus"></i> Añadir proceso
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-5 h-5">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                                Añadir proceso
                                                             </button>
                                                         </td>
                                                     </tr>
                             </tbody>
                         </table>
+                        <div id="pag-procesos" class="px-1"></div>
                     </div>
 
                     <!-- Modal nuevo proceso -->
@@ -479,7 +512,6 @@
                                         </option>
                                         <% }); } %>
                                 </select>
-
                                 <div class="flex justify-end gap-3">
                                     <button type="button" onclick="closeNewProcesoModal()"
                                         class="px-4 py-2 bg-gray-200 rounded">Cancelar</button>
@@ -489,730 +521,984 @@
                             </form>
                         </div>
                     </div>
+                    </main>
+                    <%- include("../partials/footer") %>
 
-                    <% }else{ %>
-                        <div
-                            class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-3">
-                                ¡Ups! Parece que no tienes permisos para estar aquí.
-                            </h2>
-
-                            <p class="text-gray-600 mb-6">
-                                Para acceder a esta sección necesitas permisos.
-                                No te preocupes, te llevamos de vuelta a la página principal.
-                            </p>
-
-                            <a href="/index"
-                                class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
-                                Volver al inicio
-                            </a>
-                        </div>
-
-                        <%} %>
-
-                            <%}else{%>
-
-                                <div
-                                    class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
-                                    <h2 class="text-2xl font-bold text-gray-800 mb-3">
-                                        ¡Ups! Parece que no estás logueado
-                                    </h2>
-
-                                    <p class="text-gray-600 mb-6">
-                                        Para acceder a esta sección necesitas iniciar sesión.
-                                        No te preocupes, te llevamos de vuelta a la página principal.
-                                    </p>
-
-                                    <a href="/"
-                                        class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
-                                        Volver al inicio
-                                    </a>
-                                </div>
-                                <%}%>
-                </main>
-
-                <%- include("../partials/footer") %>
-                    <!-- -------------------------------MODAL USUARIOS--------------------------------------------- -->
-
-                    <!--MODAL PARA EDITAR USUARIOS-->
-                    <div id="editUserModal"
-                        class="hidden fixed inset-0  bg-black/50 backdrop-blur-sm  bg-opacity-50 flex items-center justify-center">
-                        <div class="bg-white p-6 rounded shadow-lg w-96">
-                            <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
-
-                            <form id="editUForm">
-                                <input type="hidden" id="editId">
-
-                                <label class="block mb-2">Nombre</label>
-                                <input id="editUName" class="w-full border p-2 mb-3">
-
-                                <label class="block mb-2">Email</label>
-                                <input id="editUEmail" class="w-full border p-2 mb-3">
-
-                                <label class="block mb-2">Admin</label>
-                                <select id="editUAdmin" class="w-full border p-2 mb-3">
-                                    <option value="false">No</option>
-                                    <option value="true">Sí</option>
-                                </select>
-
-                                <label class="block mb-2">Fecha de registro</label>
-                                <input id="editUFecha" class="w-full border p-2 mb-3" disabled>
-
-                                <div class="flex justify-end gap-3 mt-4">
-                                    <button type="button" onclick="closeEditModal('editUserModal')"
-                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                    <button type="submit"
-                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
-                                </div>
-                            </form>
+                <% } else { %>
+                    <!-- Pantalla No Admin -->
+                    <div class="p-6">
+                        <div class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3">¡Ups! Parece que no tienes permisos.</h2>
+                            <p class="text-gray-600 mb-6">Esta sección es solo para administradores.</p>
+                            <a href="/index" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">Volver al inicio</a>
                         </div>
                     </div>
+                <% } %>
 
-                    <!--Modal PARA AÑADIR USUARIOS-->
-                    <div id="newUserModal"
-                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm   bg-opacity-50 flex items-center justify-center">
-                        <div class="bg-white p-6 rounded shadow-lg w-96">
-                            <h2 class="text-xl font-bold mb-4">Añadir nuevo usuario</h2>
-
-                            <form id="newForm">
-                                <input type="hidden" id="newId">
-
-                                <label class="block mb-2">Nombre</label>
-                                <input id="newName" class="w-full border p-2 mb-3">
-
-                                <label class="block mb-2">Email</label>
-                                <input id="newEmail" class="w-full border p-2 mb-3">
-
-                                <label class="block mb-2">Contraseña</label>
-                                <input id="newPassword" type="password" class="w-full border p-2 mb-3">
-
-                                <label class="block mb-2">Admin</label>
-                                <select id="newAdmin" class="w-full border p-2 mb-3">
-                                    <option value="false">No</option>
-                                    <option value="true">Sí</option>
-                                </select>
-
-                                <label class="block mb-2">Fecha de registro</label>
-                                <input id="newFecha" class="w-full border p-2 mb-3" disabled>
-
-                                <div class="flex justify-end gap-3 mt-4">
-                                    <button type="button" onclick="closeNewModal()"
-                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
-                                        guardar</button>
-                                </div>
-                            </form>
-                        </div>
+            <% } else { %>
+                <!-- Pantalla No Logueado -->
+                <div class="p-6">
+                    <div class="w-full max-w-lg mx-auto mt-16 bg-white shadow-lg rounded-xl p-8 text-center border border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-3">¡Ups! No estás logueado.</h2>
+                        <p class="text-gray-600 mb-6">Inicia sesión para acceder al panel.</p>
+                        <a href="/" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">Ir al login</a>
                     </div>
-                    <!-- -------------------------------MODAL ANIMALES--------------------------------------------- -->
+                </div>
+            <% } %>
+        
+                <!-- -------------------------------MODAL USUARIOS--------------------------------------------- -->
 
-                    <!--MODAL PARA EDITAR ANIMALES-->
-                    <div id="editAnimalModal"
-                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
-                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
-                            <h2 class="text-xl font-bold mb-4">Editar animal</h2>
+                <!--MODAL PARA EDITAR USUARIOS-->
+                <div id="editUserModal"
+                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div class="bg-white p-6 rounded-xl shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                        <h2 class="text-xl font-bold mb-4">Editar usuario</h2>
 
-                            <form id="editAnimalForm">
-                                <input type="hidden" id="editAnimalId">
+                        <form id="editUForm">
+                            <input type="hidden" id="editId">
 
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div>
-                                        <label class="block mb-1">Nombre</label>
-                                        <input id="editAnimalNombre" class="w-full border p-2">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Chip</label>
-                                        <input id="editAnimalChip" class="w-full border p-2">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Especie</label>
-                                        <select id="editAnimalEspecie" class="w-full border p-2">
-                                            <option value="Felina">Felina</option>
-                                            <option value="Canina">Canina</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Raza</label>
-                                        <input id="editAnimalRaza" class="w-full border p-2">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Sexo</label>
-                                        <select id="editAnimalSexo" class="w-full border p-2">
-                                            <option value="Macho">Macho</option>
-                                            <option value="Hembra">Hembra</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Fecha de nacimiento</label>
-                                        <input id="editAnimalFecha" type="date" class="w-full border p-2">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Pelaje</label>
-                                        <input id="editAnimalPelaje" class="w-full border p-2">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Tamaño</label>
-                                        <select id="editAnimalTamano" class="w-full border p-2">
-                                            <option value="pequeño">Pequeño</option>
-                                            <option value="mediano">Mediano</option>
-                                            <option value="grande">Grande</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Nivel de energía</label>
-                                        <select id="editAnimalEnergia" class="w-full border p-2">
-                                            <option value="Bajo">Bajo</option>
-                                            <option value="Medio">Medio</option>
-                                            <option value="Alto">Alto</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Vacunas</label>
-                                        <input id="editAnimalVacunas" class="w-full border p-2"
-                                            placeholder="Ej: Parvovirus;Moquillo">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Esterilizado</label>
-                                        <select id="editAnimalEsterilizado" class="w-full border p-2">
-                                            <option value="false">No</option>
-                                            <option value="true">Sí</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Desparasitado</label>
-                                        <select id="editAnimalDesparasitado" class="w-full border p-2">
-                                            <option value="false">No</option>
-                                            <option value="true">Sí</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Disponible</label>
-                                        <select id="editAnimalDisponible" class="w-full border p-2">
-                                            <option value="false">No</option>
-                                            <option value="true">Sí</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <label class="block mb-2">Nombre</label>
+                            <input id="editUName" class="w-full border p-2 mb-3">
 
-                                <div class="flex justify-end gap-3 mt-4">
-                                    <button type="button" onclick="closeEditModal('editAnimalModal')"
-                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                    <button type="submit"
-                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
+                            <label class="block mb-2">Email</label>
+                            <input id="editUEmail" class="w-full border p-2 mb-3">
+
+                            <label class="block mb-2">Admin</label>
+                            <select id="editUAdmin" class="w-full border p-2 mb-3">
+                                <option value="false">No</option>
+                                <option value="true">Sí</option>
+                            </select>
+
+                            <label class="block mb-2">Fecha de registro</label>
+                            <input id="editUFecha" class="w-full border p-2 mb-3" disabled>
+
+                            <div class="flex justify-end gap-3 mt-4">
+                                <button type="button" onclick="closeEditModal('editUserModal')"
+                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                <button type="submit" class="px-4 py-2 bg-[#E5531C] text-white rounded">Guardar</button>
+                            </div>
+                        </form>
                     </div>
+                </div>
 
-                    <!-- -------------------------------MODAL PROTECTORAS--------------------------------------------- -->
-                    <!--MODAL PARA EDITAR PROTECTORAS-->
-                    <div id="editProtectoraModal"
-                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
-                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
-                            <h2 class="text-xl font-bold mb-4">Editar protectora</h2>
+                <!--Modal PARA AÑADIR USUARIOS-->
+                <div id="newUserModal"
+                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div class="bg-white p-6 rounded-xl shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                        <h2 class="text-xl font-bold mb-4">Añadir nuevo usuario</h2>
 
-                            <form id="editProtectoraForm">
-                                <input type="hidden" id="editProtectoraId">
+                        <form id="newForm">
+                            <input type="hidden" id="newId">
 
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div>
-                                        <label class="block mb-1">Nombre</label>
-                                        <input id="editProtectoraNombre" class="w-full border p-2 rounded">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Teléfono</label>
-                                        <input id="editProtectoraTelefono" class="w-full border p-2 rounded">
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label class="block mb-1">Dirección</label>
-                                        <input id="editProtectoraDireccion" class="w-full border p-2 rounded">
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label class="block mb-1">Descripción</label>
-                                        <textarea id="editProtectoraDescripcion" class="w-full border p-2 rounded"
-                                            rows="3"></textarea>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Email</label>
-                                        <input id="editProtectoraEmail" type="email" class="w-full border p-2 rounded">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Número de animales</label>
-                                        <input id="editProtectoraAnimales" type="number" min="0"
-                                            class="w-full border p-2 rounded">
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label class="block mb-1">Página Web</label>
-                                        <input id="editProtectoraWeb" class="w-full border p-2 rounded">
-                                    </div>
-                                </div>
+                            <label class="block mb-2">Nombre</label>
+                            <input id="newName" class="w-full border p-2 mb-3">
 
-                                <div class="flex justify-end gap-3 mt-4">
-                                    <button type="button" onclick="closeEditModal('editProtectoraModal')"
-                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                    <button type="submit"
-                                        class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
+                            <label class="block mb-2">Email</label>
+                            <input id="newEmail" class="w-full border p-2 mb-3">
+
+                            <label class="block mb-2">Contraseña</label>
+                            <input id="newPassword" type="password" class="w-full border p-2 mb-3">
+
+                            <label class="block mb-2">Admin</label>
+                            <select id="newAdmin" class="w-full border p-2 mb-3">
+                                <option value="false">No</option>
+                                <option value="true">Sí</option>
+                            </select>
+
+                            <label class="block mb-2">Fecha de registro</label>
+                            <input id="newFecha" class="w-full border p-2 mb-3" disabled>
+
+                            <div class="flex justify-end gap-3 mt-4">
+                                <button type="button" onclick="closeNewModal()"
+                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                <button type="submit" class="px-4 py-2 bg-[#E5531C] text-white rounded">Crear y
+                                    guardar</button>
+                            </div>
+                        </form>
                     </div>
-
-                    <!--MODAL PARA AÑADIR PROTECTORAS-->
-                    <div id="newProtectoraModal"
-                        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
-                        <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
-                            <h2 class="text-xl font-bold mb-4">Añadir protectora</h2>
-
-                            <form id="newProtectoraForm">
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div>
-                                        <label class="block mb-1">Nombre</label>
-                                        <input id="newProtectoraNombre" class="w-full border p-2 rounded">
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Teléfono</label>
-                                        <input id="newProtectoraTelefono" class="w-full border p-2 rounded">
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label class="block mb-1">Dirección</label>
-                                        <input id="newProtectoraDireccion" class="w-full border p-2 rounded">
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label class="block mb-1">Descripción</label>
-                                        <textarea id="newProtectoraDescripcion" class="w-full border p-2 rounded"
-                                            rows="3"></textarea>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-1">Email</label>
-                                        <input id="newProtectoraEmail" type="email" class="w-full border p-2 rounded">
-                                    </div>
-
-                                    <div class="col-span-2">
-                                        <label class="block mb-1">Página Web</label>
-                                        <input id="newProtectoraWeb" class="w-full border p-2 rounded">
-                                    </div>
+                </div>
+                <!-- -------------------------------MODAL ANIMALES--------------------------------------------- -->
+                <!--MODAL PARA AÑADIR ANIMALES-->
+                <div id="newAnimalModal"
+                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div class="bg-white p-6 rounded-xl shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                        <h2 class="text-xl font-bold mb-4">Nuevo animal</h2>
+                        <form id="newAnimalForm">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block mb-1">Nombre</label>
+                                    <input id="newAnimalNombre" class="w-full border p-2 rounded">
                                 </div>
-
-                                <div class="flex justify-end gap-3 mt-4">
-                                    <button type="button" onclick="closeNewProtectoraModal()"
-                                        class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
-                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Crear y
-                                        guardar</button>
+                                <div>
+                                    <label class="block mb-1">Chip</label>
+                                    <input id="newAnimalChip" class="w-full border p-2 rounded">
                                 </div>
-                            </form>
-                        </div>
+                                <div>
+                                    <label class="block mb-1">Especie</label>
+                                    <select id="newAnimalEspecie" class="w-full border p-2 rounded">
+                                        <option value="Felina">Felina</option>
+                                        <option value="Canina">Canina</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Raza</label>
+                                    <input id="newAnimalRaza" class="w-full border p-2 rounded">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Sexo</label>
+                                    <select id="newAnimalSexo" class="w-full border p-2 rounded">
+                                        <option value="Macho">Macho</option>
+                                        <option value="Hembra">Hembra</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Fecha de nacimiento</label>
+                                    <input id="newAnimalFecha" type="date" class="w-full border p-2 rounded">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Pelaje</label>
+                                    <input id="newAnimalPelaje" class="w-full border p-2 rounded">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Tamaño</label>
+                                    <select id="newAnimalTamano" class="w-full border p-2 rounded">
+                                        <option value="pequeño">Pequeño</option>
+                                        <option value="mediano">Mediano</option>
+                                        <option value="grande">Grande</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Nivel de energía</label>
+                                    <select id="newAnimalEnergia" class="w-full border p-2 rounded">
+                                        <option value="Bajo">Bajo</option>
+                                        <option value="Medio">Medio</option>
+                                        <option value="Alto">Alto</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Vacunas</label>
+                                    <input id="newAnimalVacunas" class="w-full border p-2 rounded"
+                                        placeholder="Ej: Parvovirus;Moquillo">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Esterilizado</label>
+                                    <select id="newAnimalEsterilizado" class="w-full border p-2 rounded">
+                                        <option value="false">No</option>
+                                        <option value="true">Sí</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Desparasitado</label>
+                                    <select id="newAnimalDesparasitado" class="w-full border p-2 rounded">
+                                        <option value="false">No</option>
+                                        <option value="true">Sí</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Disponible</label>
+                                    <select id="newAnimalDisponible" class="w-full border p-2 rounded">
+                                        <option value="true">Sí</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Protectora</label>
+                                    <select id="newAnimalProtectora" class="w-full border p-2 rounded">
+                                        <option value="">— Sin asignar —</option>
+                                        <% if (typeof protectoras !=='undefined' ) { protectoras.forEach(p=> { %>
+                                            <option value="<%= p.id %>">
+                                                <%= p.nombre %>
+                                            </option>
+                                            <% }); } %>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-3 mt-4">
+                                <button type="button" onclick="closeNewAnimalModal()"
+                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                <button type="submit"
+                                    class="px-4 py-2 bg-[#E5531C] text-white rounded hover:opacity-90">Crear</button>
+                            </div>
+                        </form>
                     </div>
+                </div>
 
-                    <script>
-                        // ------------- GESTION DE USUARIOS -------------
-                        //Borrar usuarios (DELETE)
-                        async function deleteUser(id) {
-                            if (!confirm("¿Seguro que quieres eliminar este usuario?")) {
-                                return;
-                            }
 
-                            const res = await fetch(`/adm/users/${id}`, {
-                                method: "DELETE"
-                            });
+                <!--MODAL PARA EDITAR ANIMALES-->
+                <div id="editAnimalModal"
+                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                        <h2 class="text-xl font-bold mb-4">Editar animal</h2>
 
-                            const data = await res.json();
+                        <form id="editAnimalForm">
+                            <input type="hidden" id="editAnimalId">
 
-                            //Si devuelve 200
-                            if (data.ok) {
-                                alert("Usuario eliminado correctamente");
-                                location.reload();
-                            } else {
-                                alert("Error al eliminar usuario");
-                            }
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block mb-1">Nombre</label>
+                                    <input id="editAnimalNombre" class="w-full border p-2">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Chip</label>
+                                    <input id="editAnimalChip" class="w-full border p-2">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Especie</label>
+                                    <select id="editAnimalEspecie" class="w-full border p-2">
+                                        <option value="Felina">Felina</option>
+                                        <option value="Canina">Canina</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Raza</label>
+                                    <input id="editAnimalRaza" class="w-full border p-2">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Sexo</label>
+                                    <select id="editAnimalSexo" class="w-full border p-2">
+                                        <option value="Macho">Macho</option>
+                                        <option value="Hembra">Hembra</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Fecha de nacimiento</label>
+                                    <input id="editAnimalFecha" type="date" class="w-full border p-2">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Pelaje</label>
+                                    <input id="editAnimalPelaje" class="w-full border p-2">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Tamaño</label>
+                                    <select id="editAnimalTamano" class="w-full border p-2">
+                                        <option value="pequeño">Pequeño</option>
+                                        <option value="mediano">Mediano</option>
+                                        <option value="grande">Grande</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Nivel de energía</label>
+                                    <select id="editAnimalEnergia" class="w-full border p-2">
+                                        <option value="Bajo">Bajo</option>
+                                        <option value="Medio">Medio</option>
+                                        <option value="Alto">Alto</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Vacunas</label>
+                                    <input id="editAnimalVacunas" class="w-full border p-2"
+                                        placeholder="Ej: Parvovirus;Moquillo">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Esterilizado</label>
+                                    <select id="editAnimalEsterilizado" class="w-full border p-2">
+                                        <option value="false">No</option>
+                                        <option value="true">Sí</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Desparasitado</label>
+                                    <select id="editAnimalDesparasitado" class="w-full border p-2">
+                                        <option value="false">No</option>
+                                        <option value="true">Sí</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Disponible</label>
+                                    <select id="editAnimalDisponible" class="w-full border p-2">
+                                        <option value="false">No</option>
+                                        <option value="true">Sí</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-3 mt-4">
+                                <button type="button" onclick="closeEditModal('editAnimalModal')"
+                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                <button type="submit" class="px-4 py-2 bg-[#E5531C] text-white rounded">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- -------------------------------MODAL PROTECTORAS--------------------------------------------- -->
+                <!--MODAL PARA EDITAR PROTECTORAS-->
+                <div id="editProtectoraModal"
+                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                        <h2 class="text-xl font-bold mb-4">Editar protectora</h2>
+
+                        <form id="editProtectoraForm">
+                            <input type="hidden" id="editProtectoraId">
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block mb-1">Nombre</label>
+                                    <input id="editProtectoraNombre" class="w-full border p-2 rounded">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Teléfono</label>
+                                    <input id="editProtectoraTelefono" class="w-full border p-2 rounded">
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block mb-1">Dirección</label>
+                                    <input id="editProtectoraDireccion" class="w-full border p-2 rounded">
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block mb-1">Descripción</label>
+                                    <textarea id="editProtectoraDescripcion" class="w-full border p-2 rounded"
+                                        rows="3"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Email</label>
+                                    <input id="editProtectoraEmail" type="email" class="w-full border p-2 rounded">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Número de animales</label>
+                                    <input id="editProtectoraAnimales" type="number" min="0"
+                                        class="w-full border p-2 rounded">
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block mb-1">Página Web</label>
+                                    <input id="editProtectoraWeb" class="w-full border p-2 rounded">
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-3 mt-4">
+                                <button type="button" onclick="closeEditModal('editProtectoraModal')"
+                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                <button type="submit" class="px-4 py-2 bg-[#E5531C] text-white rounded">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--MODAL PARA AÑADIR PROTECTORAS-->
+                <div id="newProtectoraModal"
+                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="bg-white p-6 rounded shadow-lg w-[600px] max-h-[90vh] overflow-y-auto">
+                        <h2 class="text-xl font-bold mb-4">Añadir protectora</h2>
+
+                        <form id="newProtectoraForm">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block mb-1">Nombre</label>
+                                    <input id="newProtectoraNombre" class="w-full border p-2 rounded">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Teléfono</label>
+                                    <input id="newProtectoraTelefono" class="w-full border p-2 rounded">
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block mb-1">Dirección</label>
+                                    <input id="newProtectoraDireccion" class="w-full border p-2 rounded">
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block mb-1">Descripción</label>
+                                    <textarea id="newProtectoraDescripcion" class="w-full border p-2 rounded"
+                                        rows="3"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Email</label>
+                                    <input id="newProtectoraEmail" type="email" class="w-full border p-2 rounded">
+                                </div>
+
+                                <div class="col-span-2">
+                                    <label class="block mb-1">Página Web</label>
+                                    <input id="newProtectoraWeb" class="w-full border p-2 rounded">
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-3 mt-4">
+                                <button type="button" onclick="closeNewProtectoraModal()"
+                                    class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                                <button type="submit" class="px-4 py-2 bg-[#E5531C] text-white rounded">Crear y
+                                    guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <script>
+                    // ------------- GESTION DE USUARIOS -------------
+                    //Borrar usuarios (DELETE)
+                    async function deleteUser(id) {
+                        if (!confirm("¿Seguro que quieres eliminar este usuario?")) {
+                            return;
                         }
 
-                        //Funcion para abrir modal de edicion de usuarios
-                        function openEditModal(id, name, email, admin, fecha) {
-                            document.getElementById("editId").value = id;
-                            document.getElementById("editUName").value = name;
-                            document.getElementById("editUEmail").value = email;
-                            document.getElementById("editUAdmin").value = admin;
-                            document.getElementById("editUFecha").value = fecha;
-
-                            document.getElementById("editUserModal").classList.remove("hidden");
-
-                        }
-
-                        function openNewModal() {
-                            // Establecer la fecha actual
-                            const now = new Date();
-                            const fechaFormato = now.toLocaleDateString("es-ES") + " " +
-                                now.toLocaleTimeString("es-ES", {
-                                    hour: "2-digit",
-                                    minute: "2-digit"
-                                });
-                            document.getElementById("newFecha").value = fechaFormato;
-                            document.getElementById("newUserModal").classList.remove("hidden");
-
-                        }
-
-                        function closeNewModal() {
-                            document.getElementById("newUserModal").classList.add("hidden");
-                            document.getElementById("newForm").reset();
-                        }
-
-                        //Cerrar modal de edicion
-                        function closeEditModal(modal) {
-                            document.getElementById(modal).classList.add("hidden");
-
-                            switch (modal) {
-                                case "editUserModal":
-                                    document.getElementById(modal).classList.add("hidden");
-                                    break;
-                                case "editAnimalModal":
-                                    document.getElementById(modal).classList.add("hidden");
-                                    break;
-                            }
-                        }
-
-                        //Actualizar datos (UPDATE)
-                        document.getElementById("editUForm").addEventListener("submit", async (e) => {
-                            e.preventDefault();
-
-                            const id = document.getElementById("editId").value;
-                            const name = document.getElementById("editUName").value;
-                            const email = document.getElementById("editUEmail").value;
-                            const admin = document.getElementById("editUAdmin").value;
-
-                            if (!name || !email) {
-                                alert("El nombre y email son obligatorios");
-                                return;
-                            }
-
-                            const res = await fetch(`/adm/users/${id}`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    name,
-                                    email,
-                                    admin
-                                })
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Usuario actualizado correctamente");
-                                location.reload();
-                            } else {
-                                alert("Error al actualizar usuario: " + (data.message || ""));
-                            }
+                        const res = await fetch(`/adm/users/${id}`, {
+                            method: "DELETE"
                         });
 
-                        //Crear nuevo usuario (CREATE )
-                        document.getElementById("newForm").addEventListener("submit", async (e) => {
-                            e.preventDefault();
+                        const data = await res.json();
 
-                            const name = document.getElementById("newName").value;
-                            const email = document.getElementById("newEmail").value;
-                            const password = document.getElementById("newPassword").value;
-                            const admin = document.getElementById("newAdmin").value;
+                        //Si devuelve 200
+                        if (data.ok) {
+                            alert("Usuario eliminado correctamente");
+                            location.reload();
+                        } else {
+                            alert("Error al eliminar usuario");
+                        }
+                    }
 
-                            if (!name || !email || !password) {
-                                alert("Por favor rellena todos los campos");
-                                return;
-                            }
+                    //Funcion para abrir modal de edicion de usuarios
+                    function openEditModal(id, name, email, admin, fecha) {
+                        document.getElementById("editId").value = id;
+                        document.getElementById("editUName").value = name;
+                        document.getElementById("editUEmail").value = email;
+                        document.getElementById("editUAdmin").value = admin;
+                        document.getElementById("editUFecha").value = fecha;
 
-                            const res = await fetch(`/adm/users`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    name,
-                                    email,
-                                    password,
-                                    admin
-                                })
+                        document.getElementById("editUserModal").classList.remove("hidden");
+
+                    }
+
+                    function openNewModal() {
+                        // Establecer la fecha actual
+                        const now = new Date();
+                        const fechaFormato = now.toLocaleDateString("es-ES") + " " +
+                            now.toLocaleTimeString("es-ES", {
+                                hour: "2-digit",
+                                minute: "2-digit"
                             });
+                        document.getElementById("newFecha").value = fechaFormato;
+                        document.getElementById("newUserModal").classList.remove("hidden");
 
-                            const data = await res.json();
+                    }
 
-                            if (data.ok) {
-                                alert("Usuario creado correctamente");
-                                closeNewModal();
-                                location.reload();
-                            } else {
-                                alert("Error al crear usuario: " + (data.message || ""));
-                            }
+                    function closeNewModal() {
+                        document.getElementById("newUserModal").classList.add("hidden");
+                        document.getElementById("newForm").reset();
+                    }
+
+                    //Cerrar modal de edicion
+                    function closeEditModal(modal) {
+                        document.getElementById(modal).classList.add("hidden");
+
+                        switch (modal) {
+                            case "editUserModal":
+                                document.getElementById(modal).classList.add("hidden");
+                                break;
+                            case "editAnimalModal":
+                                document.getElementById(modal).classList.add("hidden");
+                                break;
+                        }
+                    }
+
+                    //Actualizar datos (UPDATE)
+                    document.getElementById("editUForm").addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        const id = document.getElementById("editId").value;
+                        const name = document.getElementById("editUName").value;
+                        const email = document.getElementById("editUEmail").value;
+                        const admin = document.getElementById("editUAdmin").value;
+
+                        if (!name || !email) {
+                            alert("El nombre y email son obligatorios");
+                            return;
+                        }
+
+                        const res = await fetch(`/adm/users/${id}`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                name,
+                                email,
+                                admin
+                            })
                         });
-                        // ── PROCESOS ──
-                        async function toggleProceso(id, field, btn) {
-                            const res = await fetch(`/adm/procesos/${id}/toggle`, {
-                                method: "PATCH",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ field })
-                            });
-                            const data = await res.json();
-                            if (res.ok) {
-                                const isOn = data[field];
-                                btn.classList.toggle('bg-[#E5531C]', isOn);
-                                btn.classList.toggle('border-[#E5531C]', isOn);
-                                btn.classList.toggle('text-white', isOn);
-                                btn.classList.toggle('border-gray-300', !isOn);
-                                btn.classList.toggle('text-transparent', !isOn);
-                            } else {
-                                alert(data.error || "Error al actualizar el estado");
+
+                        const data = await res.json();
+
+                        if (data.ok) {
+                            alert("Usuario actualizado correctamente");
+                            location.reload();
+                        } else {
+                            alert("Error al actualizar usuario: " + (data.message || ""));
+                        }
+                    });
+
+                    //Crear nuevo usuario (CREATE )
+                    document.getElementById("newForm").addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        const name = document.getElementById("newName").value;
+                        const email = document.getElementById("newEmail").value;
+                        const password = document.getElementById("newPassword").value;
+                        const admin = document.getElementById("newAdmin").value;
+
+                        if (!name || !email || !password) {
+                            alert("Por favor rellena todos los campos");
+                            return;
+                        }
+
+                        const res = await fetch(`/adm/users`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                name,
+                                email,
+                                password,
+                                admin
+                            })
+                        });
+
+                        const data = await res.json();
+
+                        if (data.ok) {
+                            alert("Usuario creado correctamente");
+                            closeNewModal();
+                            location.reload();
+                        } else {
+                            alert("Error al crear usuario: " + (data.message || ""));
+                        }
+                    });
+                    // ── PROCESOS ──
+                    async function toggleProceso(id, field, btn) {
+                        const res = await fetch(`/adm/procesos/${id}/toggle`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ field })
+                        });
+                        const data = await res.json();
+                        if (res.ok) {
+                            const isOn = data[field];
+                            btn.classList.toggle('bg-[#E5531C]', isOn);
+                            btn.classList.toggle('border-[#E5531C]', isOn);
+                            btn.classList.toggle('text-white', isOn);
+                            btn.classList.toggle('border-gray-300', !isOn);
+                            btn.classList.toggle('text-transparent', !isOn);
+                        } else {
+                            alert(data.error || "Error al actualizar el estado");
+                        }
+                    }
+
+                    async function deleteProceso(id) {
+                        if (!confirm("¿Eliminar este proceso?")) return;
+                        const res = await fetch(`/adm/procesos/${id}`, { method: "DELETE" });
+                        if ((await res.json()).ok) location.reload();
+                        else alert("Error al eliminar");
+                    }
+
+                    function openNewProcesoModal() {
+                        document.getElementById("newProcesoModal").classList.remove("hidden");
+                    }
+                    function closeNewProcesoModal() {
+                        document.getElementById("newProcesoModal").classList.add("hidden");
+                        document.getElementById("newProcesoForm").reset();
+                    }
+
+                    document.getElementById("newProcesoForm").addEventListener("submit", async (e) => {
+                        e.preventDefault();
+                        const usuario_id = document.getElementById("newProcesoUsuario").value;
+                        const animal_id = document.getElementById("newProcesoAnimal").value;
+                        if (!usuario_id || !animal_id) { alert("Selecciona usuario y animal"); return; }
+                        const res = await fetch("/adm/procesos", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ usuario_id, animal_id })
+                        });
+                        if (res.ok) { closeNewProcesoModal(); location.reload(); }
+                        else alert("Error al crear proceso");
+                    });
+
+                    // ------------------------ ANIMALES ---------------------
+
+                    //Eliminar animal (DELETE)
+                    async function deleteAnimal(id) {
+                        if (!confirm("¿Seguro que quieres eliminar este animal?")) {
+                            return;
+                        }
+
+                        const res = await fetch(`/adm/animales/${id}`, {
+                            method: "DELETE"
+                        });
+
+                        const data = await res.json();
+
+                        if (data.ok) {
+                            alert("Animal eliminado correctamente");
+                            location.reload();
+                        } else {
+                            alert("Error al eliminar animal");
+                        }
+                    }
+
+                    //Abrir modal animales
+                    function openEditAnimalModal(id, nombre, chip, especie, raza, sexo, fecha, pelaje, vacunas, esterilizado, desparasitado, tamano, energia, disponible) {
+
+                        document.getElementById("editAnimalId").value = id;
+                        document.getElementById("editAnimalNombre").value = nombre;
+                        document.getElementById("editAnimalChip").value = chip;
+                        document.getElementById("editAnimalEspecie").value = especie;
+                        document.getElementById("editAnimalRaza").value = raza;
+                        document.getElementById("editAnimalSexo").value = sexo;
+                        document.getElementById("editAnimalFecha").value = new Date(fecha).toISOString().split("T")[0];
+                        document.getElementById("editAnimalPelaje").value = pelaje;
+                        document.getElementById("editAnimalEnergia").value = energia;
+                        document.getElementById("editAnimalVacunas").value = vacunas;
+                        document.getElementById("editAnimalEsterilizado").value = esterilizado === "true" ? "true" : "false";
+                        document.getElementById("editAnimalDesparasitado").value = desparasitado === "true" ? "true" : "false";
+                        document.getElementById("editAnimalDisponible").value = disponible === "true" ? "true" : "false";
+
+                        document.getElementById("editAnimalModal").classList.remove("hidden");
+                    }
+
+                    // Abrir modal de nuevo animal
+                    function openNewAnimalModal() {
+                        document.getElementById("newAnimalModal").classList.remove("hidden");
+                    }
+
+                    // Cerrar modal de nuevo animal
+                    function closeNewAnimalModal() {
+                        document.getElementById("newAnimalModal").classList.add("hidden");
+                        document.getElementById("newAnimalForm").reset();
+                    }
+
+
+                    //Actualizar animal (UPDATE)
+                    document.getElementById("editAnimalForm").addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        const id = document.getElementById("editAnimalId").value;
+
+                        const body = {
+                            nombre: document.getElementById("editAnimalNombre").value,
+                            chip: document.getElementById("editAnimalChip").value,
+                            especie: document.getElementById("editAnimalEspecie").value,
+                            raza: document.getElementById("editAnimalRaza").value,
+                            sexo: document.getElementById("editAnimalSexo").value,
+                            fecha_nacimiento: document.getElementById("editAnimalFecha").value,
+                            pelaje: document.getElementById("editAnimalPelaje").value,
+                            vacunas: document.getElementById("editAnimalVacunas").value,
+                            esterilizado: document.getElementById("editAnimalEsterilizado").value === "true",
+                            desparasitado: document.getElementById("editAnimalDesparasitado").value === "true",
+                            tamano: document.getElementById("editAnimalTamano").value,
+                            nivel_energia: document.getElementById("editAnimalEnergia").value,
+                            disponible: document.getElementById("editAnimalDisponible").value === "true"
+                        };
+
+                        const res = await fetch(`/adm/animales/${id}`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(body)
+                        });
+
+                        const data = await res.json();
+
+                        if (data.ok) {
+                            alert("Animal actualizado correctamente");
+                            closeEditModal("editAnimalModal");
+                            location.reload();
+                        } else {
+                            alert("Error al actualizar animal: " + (data.message || ""));
+                        }
+                    });
+
+
+                    //Crear nuevo animal (CREATE)
+                    document.getElementById("newAnimalForm").addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        const nombre = document.getElementById("newAnimalNombre").value.trim();
+                        const especie = document.getElementById("newAnimalEspecie").value;
+                        const raza = document.getElementById("newAnimalRaza").value.trim();
+                        const sexo = document.getElementById("newAnimalSexo").value;
+
+                        if (!nombre || !raza) {
+                            alert("Nombre y raza son obligatorios");
+                            return;
+                        }
+
+                        const body = {
+                            nombre,
+                            chip: document.getElementById("newAnimalChip").value.trim() || null,
+                            especie,
+                            raza,
+                            sexo,
+                            fecha_nacimiento: document.getElementById("newAnimalFecha").value || null,
+                            pelaje: document.getElementById("newAnimalPelaje").value.trim() || null,
+                            vacunas: document.getElementById("newAnimalVacunas").value.trim() || null,
+                            esterilizado: document.getElementById("newAnimalEsterilizado").value === "true",
+                            desparasitado: document.getElementById("newAnimalDesparasitado").value === "true",
+                            tamano: document.getElementById("newAnimalTamano").value,
+                            nivel_energia: document.getElementById("newAnimalEnergia").value,
+                            disponible: document.getElementById("newAnimalDisponible").value === "true",
+                            protectora_id: document.getElementById("newAnimalProtectora").value || null
+                        };
+
+                        const res = await fetch("/adm/animales", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(body)
+                        });
+
+                        const data = await res.json();
+
+                        if (data.ok) {
+                            alert("Animal creado correctamente");
+                            closeNewAnimalModal();
+                            location.reload();
+                        } else {
+                            alert("Error al crear animal: " + (data.message || ""));
+                        }
+                    });
+
+                    // -------------------- PROTECTORAS -----------------------------
+
+                    //Abrir modal de editar protectora
+                    document.addEventListener("click", (e) => {
+                        const btn = e.target.closest(".btn-edit-protectora");
+                        if (!btn) return;
+
+                        const d = btn.dataset;
+                        document.getElementById("editProtectoraId").value = d.id;
+                        document.getElementById("editProtectoraNombre").value = d.nombre;
+                        document.getElementById("editProtectoraDireccion").value = d.direccion;
+                        document.getElementById("editProtectoraTelefono").value = d.telefono;
+                        document.getElementById("editProtectoraDescripcion").value = d.descripcion;
+                        document.getElementById("editProtectoraEmail").value = d.email;
+                        document.getElementById("editProtectoraAnimales").value = d.animales || 0;
+                        document.getElementById("editProtectoraWeb").value = d.web;
+
+                        document.getElementById("editProtectoraModal").classList.remove("hidden");
+                    });
+
+                    //Guardar edicion de la protectora seleccionada (UPDATE)
+                    document.getElementById("editProtectoraForm").addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        const id = document.getElementById("editProtectoraId").value;
+
+                        const body = {
+                            nombre: document.getElementById("editProtectoraNombre").value,
+                            direccion: document.getElementById("editProtectoraDireccion").value,
+                            telefono: document.getElementById("editProtectoraTelefono").value,
+                            descripcion: document.getElementById("editProtectoraDescripcion").value,
+                            email: document.getElementById("editProtectoraEmail").value,
+                            numero_animales_web: document.getElementById("editProtectoraAnimales").value,
+                            pagina_web: document.getElementById("editProtectoraWeb").value
+                        };
+
+                        const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(body)
+                        });
+
+                        const data = await res.json();
+
+                        if (data.ok) {
+                            alert("Protectora actualizada correctamente");
+                            closeEditModal("editProtectoraModal");
+                            location.reload();
+                        } else {
+                            alert("Error al actualizar protectora: " + (data.message || ""));
+                        }
+                    });
+
+                    //Borrar protectora (DELETE)
+                    document.addEventListener("click", async (e) => {
+                        const btn = e.target.closest(".btn-delete-protectora");
+                        if (!btn) return;
+
+                        if (!confirm("¿Seguro que quieres eliminar esta protectora?")) return;
+
+                        const id = btn.dataset.id;
+
+                        const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
+                            method: "DELETE"
+                        });
+
+                        const data = await res.json();
+
+                        if (data.ok) {
+                            alert("Protectora eliminada correctamente");
+                            location.reload();
+                        } else {
+                            alert("Error al eliminar protectora: " + (data.message || ""));
+                        }
+                    });
+
+                    //Cerrar modal de nueva protectora
+                    function closeNewProtectoraModal() {
+                        document.getElementById("newProtectoraModal").classList.add("hidden");
+                        document.getElementById("newProtectoraForm").reset();
+                    }
+
+                    //Crear nueva protectora (CREATE)
+                    document.getElementById("newProtectoraForm").addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        const nombre = document.getElementById("newProtectoraNombre").value;
+                        const telefono = document.getElementById("newProtectoraTelefono").value;
+                        const direccion = document.getElementById("newProtectoraDireccion").value;
+                        const descripcion = document.getElementById("newProtectoraDescripcion").value;
+                        const email = document.getElementById("newProtectoraEmail").value;
+                        const web = document.getElementById("newProtectoraWeb").value;
+
+                        if (!nombre || !email) {
+                            alert("El nombre y el email son obligatorios");
+                            return;
+                        }
+
+                        const res = await fetch(`http://localhost:3001/api/protectoras`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ nombre, telefono, direccion, descripcion, email, pagina_web: web })
+                        });
+
+                        const data = await res.json();
+
+                        if (data.ok) {
+                            alert("Protectora creada correctamente");
+                            closeNewProtectoraModal();
+                        } else {
+                            alert("Error al crear protectora: " + (data.message || ""));
+                        }
+                    });
+                    //------------FUNCION PARA RENDERIZAR LAS TABLAS DE MANERA INDEPENDIENTE-------------
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // Inicializar la sección de usuarios y su indicador
+                        const primerTab = document.querySelector('nav a');
+                        mostrarSeccion("usuarios", primerTab);
+                    });
+
+                    function mostrarSeccion(seccion, linkEl) {
+                        const secciones = ["usuarios", "animales", "protectoras", "procesos"];
+
+                        secciones.forEach(s => {
+                            const el = document.getElementById("seccion-" + s);
+                            if (el) el.classList.add("hidden");
+                        });
+                        const activa = document.getElementById("seccion-" + seccion);
+                        if (activa) activa.classList.remove("hidden");
+
+                        // Marcamos el nav activo y movemos el indicador
+                        const indicator = document.getElementById("nav-indicator");
+
+                        document.querySelectorAll("nav a").forEach(a => {
+                            a.classList.remove("text-[#E5531C]");
+                            a.classList.add("text-gray-700");
+                        });
+
+                        if (linkEl && indicator) {
+                            linkEl.classList.remove("text-gray-700");
+                            linkEl.classList.add("text-[#E5531C]");
+
+                            // Calcular posición y ancho del enlace para el indicador
+                            indicator.style.width = `${linkEl.offsetWidth}px`;
+                            indicator.style.left = `${linkEl.offsetLeft}px`;
+                        }
+
+                        // Inicializar paginación de la sección activa
+                        if (paginacion[seccion]) {
+                            paginacion[seccion].paginaActual = 1;
+                            renderPagina(seccion);
+                        }
+                    }
+
+                    // ============================================================
+                    // SISTEMA DE PAGINACIÓN CLIENT-SIDE
+                    // ============================================================
+
+                    const FILAS_POR_PAGINA = 10;
+
+                    // Estado de paginación por tabla
+                    const paginacion = {
+                        usuarios: { paginaActual: 1, tbodyId: "tbody-usuarios", containerId: "pag-usuarios" },
+                        animales: { paginaActual: 1, tbodyId: "tbody-animales", containerId: "pag-animales" },
+                        protectoras: { paginaActual: 1, tbodyId: "tbody-protectoras", containerId: "pag-protectoras" },
+                        procesos: { paginaActual: 1, tbodyId: "tbody-procesos", containerId: "pag-procesos" },
+                    };
+
+                    function renderPagina(seccion) {
+                        const config = paginacion[seccion];
+                        const tbody = document.getElementById(config.tbodyId);
+                        if (!tbody) return;
+
+                        // Todas las filas de datos (excluir la fila del botón "Añadir")
+                        const todasLasFilas = Array.from(tbody.querySelectorAll("tr[data-fila]"));
+                        const totalFilas = todasLasFilas.length;
+                        const totalPaginas = Math.max(1, Math.ceil(totalFilas / FILAS_POR_PAGINA));
+
+                        // Clamp página
+                        config.paginaActual = Math.min(config.paginaActual, totalPaginas);
+                        const inicio = (config.paginaActual - 1) * FILAS_POR_PAGINA;
+                        const fin = inicio + FILAS_POR_PAGINA;
+
+                        // Mostrar/ocultar filas
+                        todasLasFilas.forEach((fila, i) => {
+                            fila.classList.toggle("hidden", i < inicio || i >= fin);
+                        });
+
+                        // Renderizar controles
+                        renderControlesPaginacion(seccion, config.paginaActual, totalPaginas, totalFilas);
+                    }
+
+                    function renderControlesPaginacion(seccion, paginaActual, totalPaginas, totalFilas) {
+                        const container = document.getElementById(paginacion[seccion].containerId);
+                        if (!container) return;
+
+                        const inicio = (paginaActual - 1) * FILAS_POR_PAGINA + 1;
+                        const fin = Math.min(paginaActual * FILAS_POR_PAGINA, totalFilas);
+
+                        // Botones de página: máximo 5 visibles
+                        let botonesHTML = "";
+                        const rango = 2;
+                        for (let i = 1; i <= totalPaginas; i++) {
+                            if (i === 1 || i === totalPaginas || (i >= paginaActual - rango && i <= paginaActual + rango)) {
+                                const activo = i === paginaActual
+                                    ? "bg-[#E5531C] text-white"
+                                    : "bg-white text-gray-700 hover:bg-gray-100";
+                                botonesHTML += `<button onclick="irAPagina('${seccion}', ${i})"
+                                        class="w-8 h-8 rounded-full text-sm font-medium border transition ${activo}">${i}</button>`;
+                            } else if (i === paginaActual - rango - 1 || i === paginaActual + rango + 1) {
+                                botonesHTML += `<span class="px-1 text-gray-400">…</span>`;
                             }
                         }
 
-                        async function deleteProceso(id) {
-                            if (!confirm("¿Eliminar este proceso?")) return;
-                            const res = await fetch(`/adm/procesos/${id}`, { method: "DELETE" });
-                            if ((await res.json()).ok) location.reload();
-                            else alert("Error al eliminar");
-                        }
+                        container.innerHTML = `
+                                <div class="flex items-center justify-between mt-3 px-1">
+                                    <span class="text-sm text-gray-500">
+                                        Mostrando <strong>${totalFilas > 0 ? inicio : 0}–${fin}</strong> de <strong>${totalFilas}</strong>
+                                    </span>
+                                    <div class="flex items-center gap-1">
+                                        <button onclick="irAPagina('${seccion}', ${paginaActual - 1})"
+                                            ${paginaActual === 1 ? "disabled" : ""}
+                                            class="w-8 h-8 rounded-full border bg-white text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition">
+                                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                                        </button>
+                                        ${botonesHTML}
+                                        <button onclick="irAPagina('${seccion}', ${paginaActual + 1})"
+                                            ${paginaActual === totalPaginas ? "disabled" : ""}
+                                            class="w-8 h-8 rounded-full border bg-white text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition">
+                                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                    }
 
-                        function openNewProcesoModal() {
-                            document.getElementById("newProcesoModal").classList.remove("hidden");
-                        }
-                        function closeNewProcesoModal() {
-                            document.getElementById("newProcesoModal").classList.add("hidden");
-                            document.getElementById("newProcesoForm").reset();
-                        }
+                    function irAPagina(seccion, pagina) {
+                        const config = paginacion[seccion];
+                        const tbody = document.getElementById(config.tbodyId);
+                        if (!tbody) return;
+                        const totalFilas = tbody.querySelectorAll("tr[data-fila]").length;
+                        const totalPaginas = Math.max(1, Math.ceil(totalFilas / FILAS_POR_PAGINA));
+                        config.paginaActual = Math.max(1, Math.min(pagina, totalPaginas));
+                        renderPagina(seccion);
+                    }
 
-                        document.getElementById("newProcesoForm").addEventListener("submit", async (e) => {
-                            e.preventDefault();
-                            const usuario_id = document.getElementById("newProcesoUsuario").value;
-                            const animal_id = document.getElementById("newProcesoAnimal").value;
-                            if (!usuario_id || !animal_id) { alert("Selecciona usuario y animal"); return; }
-                            const res = await fetch("/adm/procesos", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ usuario_id, animal_id })
-                            });
-                            if (res.ok) { closeNewProcesoModal(); location.reload(); }
-                            else alert("Error al crear proceso");
-                        });
-
-                        // ------------------------ ANIMALES ---------------------
-
-                        //Eliminar animal (DELETE)
-                        async function deleteAnimal(id) {
-                            if (!confirm("¿Seguro que quieres eliminar este animal?")) {
-                                return;
-                            }
-
-                            const res = await fetch(`/adm/animales/${id}`, {
-                                method: "DELETE"
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Animal eliminado correctamente");
-                                location.reload();
-                            } else {
-                                alert("Error al eliminar animal");
-                            }
-                        }
-
-                        //Abrir modal animales
-                        function openEditAnimalModal(id, nombre, chip, especie, raza, sexo, fecha, pelaje, vacunas, esterilizado, desparasitado, tamano, energia, disponible) {
-
-                            document.getElementById("editAnimalId").value = id;
-                            document.getElementById("editAnimalNombre").value = nombre;
-                            document.getElementById("editAnimalChip").value = chip;
-                            document.getElementById("editAnimalEspecie").value = especie;
-                            document.getElementById("editAnimalRaza").value = raza;
-                            document.getElementById("editAnimalSexo").value = sexo;
-                            document.getElementById("editAnimalFecha").value = new Date(fecha).toISOString().split("T")[0];
-                            document.getElementById("editAnimalPelaje").value = pelaje;
-                            document.getElementById("editAnimalEnergia").value = energia;
-                            document.getElementById("editAnimalVacunas").value = vacunas;
-                            document.getElementById("editAnimalEsterilizado").value = esterilizado === "true" ? "true" : "false";
-                            document.getElementById("editAnimalDesparasitado").value = desparasitado === "true" ? "true" : "false";
-                            document.getElementById("editAnimalDisponible").value = disponible === "true" ? "true" : "false";
-
-                            document.getElementById("editAnimalModal").classList.remove("hidden");
-                        }
-
-                        //Actualizar animal (UPDATE)
-                        document.getElementById("editAnimalForm").addEventListener("submit", async (e) => {
-                            e.preventDefault();
-
-                            const id = document.getElementById("editAnimalId").value;
-
-                            const body = {
-                                nombre: document.getElementById("editAnimalNombre").value,
-                                chip: document.getElementById("editAnimalChip").value,
-                                especie: document.getElementById("editAnimalEspecie").value,
-                                raza: document.getElementById("editAnimalRaza").value,
-                                sexo: document.getElementById("editAnimalSexo").value,
-                                fecha_nacimiento: document.getElementById("editAnimalFecha").value,
-                                pelaje: document.getElementById("editAnimalPelaje").value,
-                                vacunas: document.getElementById("editAnimalVacunas").value,
-                                esterilizado: document.getElementById("editAnimalEsterilizado").value === "true",
-                                desparasitado: document.getElementById("editAnimalDesparasitado").value === "true",
-                                tamano: document.getElementById("editAnimalTamano").value,
-                                nivel_energia: document.getElementById("editAnimalEnergia").value,
-                                disponible: document.getElementById("editAnimalDisponible").value === "true"
-                            };
-
-                            const res = await fetch(`/adm/animales/${id}`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify(body)
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Animal actualizado correctamente");
-                                closeEditModal("editAnimalModal");
-                                location.reload();
-                            } else {
-                                alert("Error al actualizar animal: " + (data.message || ""));
-                            }
-                        });
-
-
-                        //CREATE
-
-                        // -------------------- PROTECTORAS -----------------------------
-
-                        //Abrir modal de editar protectora
-                        document.addEventListener("click", (e) => {
-                            const btn = e.target.closest(".btn-edit-protectora");
-                            if (!btn) return;
-
-                            const d = btn.dataset;
-                            document.getElementById("editProtectoraId").value = d.id;
-                            document.getElementById("editProtectoraNombre").value = d.nombre;
-                            document.getElementById("editProtectoraDireccion").value = d.direccion;
-                            document.getElementById("editProtectoraTelefono").value = d.telefono;
-                            document.getElementById("editProtectoraDescripcion").value = d.descripcion;
-                            document.getElementById("editProtectoraEmail").value = d.email;
-                            document.getElementById("editProtectoraAnimales").value = d.animales || 0;
-                            document.getElementById("editProtectoraWeb").value = d.web;
-
-                            document.getElementById("editProtectoraModal").classList.remove("hidden");
-                        });
-
-                        //Guardar edicion de la protectora seleccionada (UPDATE)
-                        document.getElementById("editProtectoraForm").addEventListener("submit", async (e) => {
-                            e.preventDefault();
-
-                            const id = document.getElementById("editProtectoraId").value;
-
-                            const body = {
-                                nombre: document.getElementById("editProtectoraNombre").value,
-                                direccion: document.getElementById("editProtectoraDireccion").value,
-                                telefono: document.getElementById("editProtectoraTelefono").value,
-                                descripcion: document.getElementById("editProtectoraDescripcion").value,
-                                email: document.getElementById("editProtectoraEmail").value,
-                                numero_animales_web: document.getElementById("editProtectoraAnimales").value,
-                                pagina_web: document.getElementById("editProtectoraWeb").value
-                            };
-
-                            const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify(body)
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Protectora actualizada correctamente");
-                                closeEditModal("editProtectoraModal");
-                                location.reload();
-                            } else {
-                                alert("Error al actualizar protectora: " + (data.message || ""));
-                            }
-                        });
-
-                        //Borrar protectora (DELETE)
-                        document.addEventListener("click", async (e) => {
-                            const btn = e.target.closest(".btn-delete-protectora");
-                            if (!btn) return;
-
-                            if (!confirm("¿Seguro que quieres eliminar esta protectora?")) return;
-
-                            const id = btn.dataset.id;
-
-                            const res = await fetch(`http://localhost:3001/api/protectoras/${id}`, {
-                                method: "DELETE"
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Protectora eliminada correctamente");
-                                location.reload();
-                            } else {
-                                alert("Error al eliminar protectora: " + (data.message || ""));
-                            }
-                        });
-
-                        //Cerrar modal de nueva protectora
-                        function closeNewProtectoraModal() {
-                            document.getElementById("newProtectoraModal").classList.add("hidden");
-                            document.getElementById("newProtectoraForm").reset();
-                        }
-
-                        //Crear nueva protectora (CREATE)
-                        document.getElementById("newProtectoraForm").addEventListener("submit", async (e) => {
-                            e.preventDefault();
-
-                            const nombre = document.getElementById("newProtectoraNombre").value;
-                            const telefono = document.getElementById("newProtectoraTelefono").value;
-                            const direccion = document.getElementById("newProtectoraDireccion").value;
-                            const descripcion = document.getElementById("newProtectoraDescripcion").value;
-                            const email = document.getElementById("newProtectoraEmail").value;
-                            const web = document.getElementById("newProtectoraWeb").value;
-
-                            if (!nombre || !email) {
-                                alert("El nombre y el email son obligatorios");
-                                return;
-                            }
-
-                            const res = await fetch(`http://localhost:3001/api/protectoras`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ nombre, telefono, direccion, descripcion, email, pagina_web: web })
-                            });
-
-                            const data = await res.json();
-
-                            if (data.ok) {
-                                alert("Protectora creada correctamente");
-                                closeNewProtectoraModal();
-                            } else {
-                                alert("Error al crear protectora: " + (data.message || ""));
-                            }
-                        });
-                        //------------FUNCION PARA RENDERIZAR LAS TABLAS DE MANERA INDEPENDIENTE-------------
-                        document.addEventListener("DOMContentLoaded", () => {
-                            mostrarSeccion("usuarios"); //La seccion por defecto sera la de usuarios
-                        });
-
-                        function mostrarSeccion(seccion) {
-                            const secciones = ["usuarios", "animales", "protectoras", "procesos"];
-
-                            secciones.forEach(s => {
-                                const el = document.getElementById("seccion-" + s);
-                                if (el) el.classList.add("hidden");
-                            });
-                            const activa = document.getElementById("seccion-" + seccion);
-                            if (activa) activa.classList.remove("hidden");
-
-                            //Marcamos el nav activo
-                            document.querySelectorAll("nav a").forEach(a => {
-                                a.classList.remove("text-orange-500", "font-bold");
-                            });
-                            event.target.classList.add("text-orange-500", "font-bold");
-                        }
-                    </script>
+                </script>
 
 
 </body>
