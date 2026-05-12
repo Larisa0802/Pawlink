@@ -174,7 +174,7 @@ class UserController {
             animal: req.body.especie,
             avatar_url: data.user.avatar_url,
           },
-          { maxAge: 3600000 },
+          { maxAge: 3600000, httpOnly: true },
         );
 
         //Depuracion
@@ -334,7 +334,7 @@ class UserController {
       console.error("Error al consumir la API:", err.message);
 
       if (err.status === 400) {
-        res.render("completes/perfil", {
+       return res.render("completes/perfil", {
           active: "perfil",
           userData: req.cookies["datosUsuario"],
           openDeleteModal: true,

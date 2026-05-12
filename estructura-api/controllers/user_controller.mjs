@@ -78,7 +78,6 @@ export const getAllUsersControl = async (req, res) => {
   try {
     const users = await userRepository.getAllUsers();
     return res.status(200).json(users);
-    console.log(users)
   } catch (err) {
     console.error(
       "Error en el controlador de obtencion de usuarios: ",
@@ -171,24 +170,25 @@ export const updateUserAdmin = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     await userRepository.deleteUserById(req.body.id)
+    res.sendStatus(200);
   } catch (error) {
     console.log(error)
-    res.send(error).status(500)
+    res.status(500).json({message: "Error al eliminar usuario"})
   }
-  res.sendStatus(200)
 }
 
 //Obtener datos de usuario
 export const getUserData = async (req, res) => {
   let user = undefined;
   try {
-    user = await userRepo.selectUserById(req.params.id);
+    user = await userRepository.selectUserById(req.params.id);
   } catch (error) {
     console.log(error);
     res.send(error).status(500);
   }
   res.send(user).status(200);
 };
+
 export const checkEmail = async (req, res) => {
   const { email } = req.body;
   if (!email) {
