@@ -2,6 +2,7 @@ import user_repository, * as userRepository from "../repositories/user_repositor
 import { getAvailableAvatars } from "../repositories/user_repository.mjs";
 import { updateUserById, updateUserAvatar } from "../repositories/user_repository.mjs";
 import animalRepository from "../repositories/animal_repo.mjs";
+import admin from "../config/firebaseAdmin.mjs";
 
 //Registro
 export const register = async (req, res) => {
@@ -148,20 +149,44 @@ export const updateEmail = async (req, res) => {
 //Actualizar usuario como administrador
 export const updateUserAdmin = async (req, res) => {
   try {
-    const { id, name, email, admin } = req.body;
+    const { id, name, email, admin: isAdmin } = req.body;
 
+    //Obtener usuario actual para ver si el email cambio
+    const currentUser = await userRepository.selectUserById(id);
+    
+    if (!currentUser) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    //Si el email cambio actualizar tambien en Firebase
+    if (currentUser.email !== email) {
+      try {
+        await admin.auth().updateUser(id, {
+          email: email
+        });
+        console.log(`Email actualizado en Firebase para usuario ${id}: ${currentUser.email} -> ${email}`);
+      } catch (firebaseError) {
+        console.error(`Error al actualizar email en Firebase: ${firebaseError.message}`);
+        return res.status(400).json({ 
+          error: "Error al actualizar email en Firebase", 
+          details: firebaseError.message 
+        });
+      }
+    }
+
+    //Actualizar en la base de datos
     await updateUserById({
       id,
       name,
       email,
-      admin
+      admin: isAdmin
     });
 
     return res.json({ ok: true });
 
   } catch (err) {
     console.error("Error en updateUserAdmin:", err.message);
-    return res.status(500).json({ error: "Error al actualizar usuario" });
+    return res.status(500).json({ error: "Error al actualizar usuario", details: err.message });
   }
 };
 
