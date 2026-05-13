@@ -1,4 +1,4 @@
-<footer class="bg-[#000000] text-white py-10 ml-64 border-t border-gray-900">
+<footer class="bg-[#000000] text-white py-10 md:ml-64 border-t border-gray-900">
     <div class="container mx-auto px-4">
         <!-- Fila principal: 3 columnas en escritorio -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -48,13 +48,14 @@
                 <p class="text-gray-400 mb-4">Suscríbete para recibir historias de adopción y eventos.</p>
 
                 <div class="flex flex-col sm:flex-row justify-center gap-3 max-w-md mx-auto">
-                    <input type="email" placeholder="Tu correo electrónico"
+                    <input id="newsletterEmail" type="email" placeholder="Tu correo electrónico"
                         class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-[#E5531C] flex-1">
-                    <button
+                    <button id="newsletterBtn"
                         class="bg-[#E5531C] hover:bg-orange-700 text-white px-6 py-2 rounded-full transition font-semibold">
                         Suscribirme
                     </button>
                 </div>
+                <p id="newsletterMsg" class="mt-3 text-sm hidden"></p>
             </div>
         </div>
 
@@ -64,3 +65,47 @@
         </div>
     </div>
 </footer>
+
+<script>
+(function () {
+    const btn   = document.getElementById('newsletterBtn');
+    const input = document.getElementById('newsletterEmail');
+    const msg   = document.getElementById('newsletterMsg');
+    if (!btn) return;
+
+    btn.addEventListener('click', async () => {
+        const email = input.value.trim();
+        if (!email) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+
+        try {
+            const res = await fetch('http://localhost:3001/suscribir', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            if (res.ok) {
+                msg.textContent = '¡Gracias! Revisa tu bandeja de entrada 🐾';
+                msg.className = 'mt-3 text-sm text-green-400';
+                input.value = '';
+                btn.textContent = '¡Suscrito!';
+            } else {
+                msg.textContent = 'Algo salió mal. Inténtalo de nuevo.';
+                msg.className = 'mt-3 text-sm text-red-400';
+                btn.disabled = false;
+                btn.textContent = 'Suscribirme';
+            }
+        } catch {
+            msg.textContent = 'Error de conexión. Inténtalo más tarde.';
+            msg.className = 'mt-3 text-sm text-red-400';
+            btn.disabled = false;
+            btn.textContent = 'Suscribirme';
+        }
+
+        msg.classList.remove('hidden');
+    });
+})();
+</script>
