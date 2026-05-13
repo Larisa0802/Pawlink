@@ -4,10 +4,15 @@ import Animal from "../models/animal_model.mjs";
 //GET TODOS
 const getAllAnimales = async () => {
 const result = await pool.query(`
-  SELECT * FROM animales
+  SELECT * FROM animales 
   WHERE especie IN ('Canina', 'Felina')
-  ORDER BY CASE especie WHEN 'Canina' THEN 1 WHEN 'Felina' THEN 2 END, id ASC
-  LIMIT 200
+  ORDER BY 
+    CASE especie 
+      WHEN 'Canina' THEN 1 
+      WHEN 'Felina' THEN 2 
+    END,
+    id ASC 
+  LIMIT 200;
 `);
   return result.rows.map(a => new Animal(
     a.id,
@@ -23,9 +28,9 @@ const result = await pool.query(`
     a.esterilizado,
     a.desparasitado,
     a.foto,
+    a.disponible,
     a.nivel_energia,
     a.tamano,
-    a.disponible
   ));
 };
 
@@ -53,6 +58,10 @@ const getAnimalById = async (id) => {
     a.esterilizado,
     a.desparasitado,
     a.foto,
+    a.disponible,
+    a.nivel_energia,
+    a.tamano,
+
   );
 };
 
@@ -65,34 +74,8 @@ const getByEspecie = async (especie) => {
   return result.rows.map(a => new Animal(
     a.id, a.nombre, a.chip, a.especie, a.raza, a.sexo,
     a.fecha_nacimiento, a.color, a.pelaje, a.vacunas,
-    a.esterilizado, a.desparasitado, a.foto
-  ));
-};
-
-// Solo disponibles (para el catálogo público)
-const getAllDisponibles = async () => {
-  const result = await pool.query(
-    `SELECT * FROM animales
-     WHERE especie IN ('Canina','Felina') AND (disponible IS NULL OR disponible = true)
-     ORDER BY CASE especie WHEN 'Canina' THEN 1 WHEN 'Felina' THEN 2 END, id ASC
-     LIMIT 200`
-  );
-  return result.rows.map(a => new Animal(
-    a.id, a.nombre, a.chip, a.especie, a.raza, a.sexo,
-    a.fecha_nacimiento, a.color, a.pelaje, a.vacunas,
-    a.esterilizado, a.desparasitado, a.foto
-  ));
-};
-
-const getByEspecieDisponible = async (especie) => {
-  const result = await pool.query(
-    `SELECT * FROM animales WHERE especie = $1 AND (disponible IS NULL OR disponible = true)`,
-    [especie]
-  );
-  return result.rows.map(a => new Animal(
-    a.id, a.nombre, a.chip, a.especie, a.raza, a.sexo,
-    a.fecha_nacimiento, a.color, a.pelaje, a.vacunas,
-    a.esterilizado, a.desparasitado, a.foto
+    a.esterilizado, a.desparasitado, a.foto, a.disponible,
+    a.nivel_energia, a.tamano
   ));
 };
 
@@ -177,16 +160,26 @@ const deleteAnimal = async (id) => {
   return result.rows[0];
 };
 
-//CREAR 
+//CREAR
+const createAnimal = async (datos) => {
+  const { nombre, chip, especie, raza, sexo, fecha_nacimiento, pelaje, vacunas, esterilizado, desparasitado, tamano, nivel_energia, disponible, protectora_id } = datos;
+  const { rows: [{ next_id }] } = await pool.query(`SELECT COALESCE(MAX(id), 0) + 1 AS next_id FROM animales`);
+  const result = await pool.query(
+    `INSERT INTO animales (id, nombre, chip, especie, raza, sexo, fecha_nacimiento, pelaje, vacunas, esterilizado, desparasitado, tamano, nivel_energia, disponible, protectora_id)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING *`,
+    [next_id, nombre, chip || null, especie, raza, sexo, fecha_nacimiento || null, pelaje || null, vacunas || null, esterilizado, desparasitado, tamano, nivel_energia, disponible, protectora_id || null]
+  );
+  return result.rows[0];
+};
+
 
 export default {
   getAllAnimales,
-  getAllDisponibles,
   getAnimalById,
   getByEspecie,
-  getByEspecieDisponible,
   getByRaza,
   getMatches,
   updateAnimal,
   deleteAnimal,
+  createAnimal,
 };
