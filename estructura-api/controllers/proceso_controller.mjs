@@ -1,10 +1,9 @@
 import procesoRepo from "../repositories/proceso_repo.mjs";
 
-const getProcesoByUsuario = async (req, res) => {
+const getProcesosByUsuario = async (req, res) => {
   try {
-    const proceso = await procesoRepo.getProcesoByUsuario(req.params.usuario_id);
-    if (!proceso) return res.status(404).json({ error: "Sin proceso activo" });
-    res.json(proceso);
+    const procesos = await procesoRepo.getProcesosByUsuario(req.params.usuario_id);
+    res.json(procesos);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -26,7 +25,8 @@ const createProceso = async (req, res) => {
     const proceso = await procesoRepo.createProceso(usuario_id, animal_id);
     res.status(201).json(proceso);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    const status = error.message.includes('Ya tienes') ? 409 : 500;
+    res.status(status).json({ error: error.message });
   }
 };
 
@@ -50,4 +50,4 @@ const deleteProceso = async (req, res) => {
   }
 };
 
-export default { getProcesoByUsuario, getAllProcesos, createProceso, toggleField, deleteProceso };
+export default { getProcesosByUsuario, getAllProcesos, createProceso, toggleField, deleteProceso };
