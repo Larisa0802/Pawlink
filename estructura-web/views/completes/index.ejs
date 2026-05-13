@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -11,15 +11,20 @@
 
 <body class="flex flex-col min-h-screen bg-gray-50">
 
+    <!-- Skip Link para accesibilidad -->
+    <a href="#contenido-principal" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-[#E5531C] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold">
+        Saltar al contenido principal
+    </a>
+
 
     <% if (userData) { %>
         <%- include("../partials/sidebar") %>
 
 
-            <main class="ml-64 p-8 flex-grow bg-[#DDECF6] min-h-screen">
+            <main id="contenido-principal" class="ml-64 p-8 flex-grow bg-[#DDECF6] min-h-screen" role="main" aria-label="Contenido principal">
 
-                <nav class="text-sm font-semibold text-gray-400 mb-2">
-                    <span id="breadcrumb">Cargando ruta...</span>
+                <nav class="text-sm font-semibold text-gray-400 mb-2" aria-label="Navegación actual">
+                    <span id="breadcrumb" aria-live="polite" aria-atomic="true">Cargando ruta...</span>
                 </nav>
 
                 <!-- Tarjeta de Bienvenida -->
@@ -42,12 +47,12 @@
                 </div>
 
                 <!-- Carrousel -->
-                <div class="relative w-full mb-8 overflow-hidden rounded-2xl bg-gray-200">
-                    <div class="carousel-container flex transition-transform duration-500 ease-in-out" id="carousel">
+                <div class="relative w-full mb-8 overflow-hidden rounded-2xl bg-gray-200" role="region" aria-label="Galería de imágenes promocionales" aria-roledescription="carrusel">
+                    <div class="carousel-container flex transition-transform duration-500 ease-in-out" id="carousel" role="list">
 
                         <!-- Slider 1 - Video -->
-                        <div class="slider-item w-full flex-shrink-0 relative">
-                            <video class="w-full h-[400px] object-cover" controls>
+                        <div class="slider-item w-full flex-shrink-0 relative" role="group" aria-label="Diapositiva 1 de 4">
+                            <video class="w-full h-[400px] object-cover" aria-label="Video promocional de PawLink" controls>
                                 <source
                                     src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-video.mp4"
                                     type="video/mp4">
@@ -55,49 +60,49 @@
                         </div>
 
                         <!-- Slider 2 - Imagen -->
-                        <div class="slider-item w-full flex-shrink-0">
+                        <div class="slider-item w-full flex-shrink-0" role="group" aria-label="Diapositiva 2 de 4">
                             <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-1.jpg"
-                                alt="Imagen 1" class="w-full h-[400px] object-cover">
+                                alt="Animales esperando ser adoptados en un refugio" class="w-full h-[400px] object-cover">
                         </div>
 
                         <!-- Slider 3 - Imagen -->
-                        <div class="slider-item w-full flex-shrink-0">
+                        <div class="slider-item w-full flex-shrink-0" role="group" aria-label="Diapositiva 3 de 4">
                             <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dogs-and-cats-peeking-over-web-banner-free-photo.jpg"
-                                alt="Imagen 2" class="w-full h-[400px] object-cover">
+                                alt="Perro y gato juntos sonriendo" class="w-full h-[400px] object-cover">
                         </div>
 
                         <!-- Slider 4 - Imagen -->
-                        <div class="slider-item w-full flex-shrink-0">
+                        <div class="slider-item w-full flex-shrink-0" role="group" aria-label="Diapositiva 4 de 4">
                             <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/slide-3.jpg"
-                                alt="Imagen 3" class="w-full h-[400px] object-cover">
+                                alt="Voluntario acariciando a un perro" class="w-full h-[400px] object-cover">
                         </div>
 
                     </div>
 
                     <!-- Prev Button -->
-                    <button onclick="moveCarousel(-1)"
-                        class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition">
-                        <i class="fa-solid fa-chevron-left"></i>
+                    <button onclick="moveCarousel(-1)" aria-label="Anterior" aria-keyshortcuts="ArrowLeft"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black">
+                        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
                     </button>
 
                     <!-- Next Button -->
-                    <button onclick="moveCarousel(1)"
-                        class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition">
-                        <i class="fa-solid fa-chevron-right"></i>
+                    <button onclick="moveCarousel(1)" aria-label="Siguiente" aria-keyshortcuts="ArrowRight"
+                        class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black">
+                        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
                     </button>
 
                     <!-- Dots -->
-                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2" id="carouselDots"></div>
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2" id="carouselDots" role="tablist" aria-label="Control de diapositivas"></div>
                 </div>
 
                 <!-- Grid con las 3 secciones -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" role="region" aria-label="Información sobre PawLink">
 
                     <!-- Tarjeta 1 - Tema Naranja -->
-                    <div
-                        class="bg-[#E5531C] text-white rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                    <div role="article" aria-label="Quiénes somos"
+                        class="bg-[#E5531C] text-white rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl focus-within:ring-2 focus-within:ring-white">
                         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-users"></i> Quiénes somos
+                            <i class="fa-solid fa-users" aria-hidden="true"></i> Quiénes somos
                         </h2>
                         <p class="text-white leading-relaxed font-medium">
                             Somos un equipo apasionado por el bienestar animal. PawLink nace del amor por los peludos y
@@ -106,10 +111,10 @@
                     </div>
 
                     <!-- Tarjeta 2 - Tema Lila -->
-                    <div
-                        class="bg-[#EADDF0] text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                    <div role="article" aria-label="Qué hacemos"
+                        class="bg-[#EADDF0] text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl focus-within:ring-2 focus-within:ring-[#E5531C]">
                         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2 text-[#E5531C]">
-                            <i class="fa-solid fa-hand-holding-heart"></i> Qué hacemos
+                            <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i> Qué hacemos
                         </h2>
                         <p class="text-gray-900 leading-relaxed font-medium">
                             Hemos revolucionado el sistema tradicional con un "Match" inteligente. Analizamos tu estilo
@@ -118,58 +123,59 @@
                     </div>
 
                     <!-- Tarjeta 3 - Tema Blanco -->
-                    <div
-                        class="bg-white text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-[#DDECF6]">
+                    <div role="article" aria-label="Tu ecosistema"
+                        class="bg-white text-black rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl border-2 border-transparent hover:border-[#DDECF6] focus-within:ring-2 focus-within:ring-[#DDECF6]">
                         <h2 class="text-2xl font-bold mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-paw text-[#E5531C]"></i> Tu ecosistema
+                            <i class="fa-solid fa-paw text-[#E5531C]" aria-hidden="true"></i> Tu ecosistema
                         </h2>
                         <p class="text-gray-600 leading-relaxed">
                             Desde tu cuenta puedes hacer seguimiento de solicitudes y comunicarte fácilmente. Trabajamos
                             para que cada "match" sea el principio de una historia feliz.
                         </p>
-                        <button
-                            class="mt-5 w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-[#E5531C] transition-colors duration-300">
+                        <button aria-label="Saber más sobre PawLink"
+                            class="mt-5 w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-[#E5531C] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#E5531C] focus:ring-offset-2">
                             <a href="/politicaPrivacidad">Saber más de PawLink</a>
                         </button>
                     </div>
                 </div>
 
                 <!-- Sección Protectoras -->
-                <section id="protectoras" class="mt-12 bg-white rounded-2xl p-8 shadow-sm">
+                <section id="protectoras" class="mt-12 bg-white rounded-2xl p-8 shadow-sm" role="region" aria-label="Protectoras Asociadas">
                     <h2 class="text-3xl font-extrabold text-black border-b-2 border-[#EADDF0] pb-4 mb-6">
                         Protectoras Asociadas
                     </h2>
                     <div class="text-center text-gray-500 py-10 overflow-x-hidden overflow-y-auto ">
                         <% if (typeof protectoras !=='undefined' && protectoras.length> 0) { %>
 
-                            <table class="w-full mx-auto border-collapse bg-white rounded-xl overflow-hidden shadow-md">
+                            <table class="w-full mx-auto border-collapse bg-white rounded-xl overflow-hidden shadow-md" role="table" aria-label="Listado de protectoras asociadas">
+                                <caption class="sr-only">Tabla con las protectoras de animales asociadas a PawLink</caption>
                                 <thead class="bg-[#000000] text-white table w-full table-fixed">
-                                    <tr>
-                                        <th class="py-3 px-4 text-left font-semibold">Nombre</th>
-                                        <th class="py-3 px-4 text-left font-semibold">Dirección</th>
-                                        <th class="py-3 px-4 text-center font-semibold">Animales</th>
-                                        <th class="py-3 px-4 text-center font-semibold">Web</th>
+                                    <tr role="row">
+                                        <th class="py-3 px-4 text-left font-semibold" role="columnheader">Nombre</th>
+                                        <th class="py-3 px-4 text-left font-semibold" role="columnheader">Dirección</th>
+                                        <th class="py-3 px-4 text-center font-semibold" role="columnheader">Animales</th>
+                                        <th class="py-3 px-4 text-center font-semibold" role="columnheader">Web</th>
                                     </tr>
                                 </thead>
-                                <tbody class="block max-h-80 overflow-y-auto divide-y divide-gray-200">
+                                <tbody class="block max-h-80 overflow-y-auto divide-y divide-gray-200" role="rowgroup">
                                     <% protectoras.forEach(prote=> { %>
-                                        <tr class="table w-full table-fixed hover:bg-gray-50 transition">
-                                            <td class="py-3 px-4 text-left font-medium text-gray-800">
+                                        <tr class="table w-full table-fixed hover:bg-gray-50 transition" role="row">
+                                            <td class="py-3 px-4 text-left font-medium text-gray-800" role="cell">
                                                 <%= prote.nombre %>
                                             </td>
-                                            <td class="py-3 px-4 text-left text-gray-600">
+                                            <td class="py-3 px-4 text-left text-gray-600" role="cell">
                                                 <%= prote.direccion %>
                                             </td>
-                                            <td class="py-3 px-4 text-center">
+                                            <td class="py-3 px-4 text-center" role="cell">
                                                 <span
                                                     class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-semibold">
                                                     <%= prote.numero_animales_web || 0 %>
                                                 </span>
                                             </td>
-                                            <td class="py-3 px-4 text-center">
-                                                <a target="_blank" href="<%= prote.pagina_web %>"
-                                                    class="text-[#E5531C] hover:text-amber-600 transition">
-                                                    <i class="fa-solid fa-globe text-xl"></i>
+                                            <td class="py-3 px-4 text-center" role="cell">
+                                                <a target="_blank" rel="noopener noreferrer" href="<%= prote.pagina_web %>"
+                                                    class="text-[#E5531C] hover:text-amber-600 transition focus:outline-none focus:ring-2 focus:ring-[#E5531C]">
+                                                    <i class="fa-solid fa-globe text-xl" aria-hidden="true"></i>
                                                 </a>
                                             </td>
                                         </tr>
