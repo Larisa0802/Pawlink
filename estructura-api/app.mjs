@@ -4,6 +4,7 @@ import userRoutes from "./routes/user_routes.mjs";
 import animalesRoutes from "./routes/animal_routes.mjs";
 import protectorasRoutes from "./routes/protectoras_routes.mjs";
 import procesoRoutes from "./routes/proceso_routes.mjs";
+import newsletterRoutes from "./routes/newsletter_routes.mjs";
 
 const PORT = 3001
 const app = express();
@@ -20,5 +21,6 @@ app.use(userRoutes);
 app.use(animalesRoutes);
 app.use("/api/protectoras", protectorasRoutes);
 app.use(procesoRoutes);
+app.use(newsletterRoutes);
 
 app.listen(PORT, () => console.log("API ESCUCHANDO EN", PORT))

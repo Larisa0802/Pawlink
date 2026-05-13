@@ -67,7 +67,7 @@ class AnimalController {
         userData,
         active: "adopciones",
         tipo,
-        error: null,
+        error: req.query.error || null,
       });
     } catch (error) {
       console.error("Error al obtener catálogo:", error.message);

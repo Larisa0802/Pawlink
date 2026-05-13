@@ -1,8 +1,19 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 
-<aside
-    class="w-64 h-screen fixed left-0 top-0 bg-[#000000] text-white flex flex-col p-4 shadow-xl border-r border-gray-900">
+<!-- Botón hamburger (solo móvil) -->
+<button id="sidebarToggle"
+    class="md:hidden fixed top-4 left-4 z-[60] bg-black text-white p-2 rounded-lg shadow-lg">
+    <i class="fa-solid fa-bars text-xl"></i>
+</button>
+
+<!-- Overlay oscuro (solo móvil, visible cuando sidebar abierto) -->
+<div id="sidebarOverlay"
+    class="md:hidden fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+<aside id="sidebar"
+    class="w-64 h-screen fixed left-0 top-0 bg-[#000000] text-white flex flex-col p-4 shadow-xl border-r border-gray-900
+           -translate-x-full md:translate-x-0 transition-transform duration-300 z-50">
     <a href="/index"><img class="size-20 ml-16"
             src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/logo.png"
             alt="logo"></a>
@@ -102,7 +113,7 @@
     </div>
 </aside>
 <!-- BANNER CON PICTURE -->
-<header id="banner" class="fixed top-0 left-64 right-0 h-40 z-40 overflow-hidden shadow-lg border-b">
+<header id="banner" class="fixed top-0 left-0 md:left-64 right-0 h-40 z-40 overflow-hidden shadow-lg border-b">
 
     <picture class="w-full h-full">
         <source media="(min-width: 1200px)"
@@ -124,7 +135,6 @@
     -->
 </header>
 <div id="bloqueFantasma" class="h-40 w-full pointer-events-none"></div><!--bloque fantasma temporal-->
-
 <!--MODAL CERRAR SESIÓN-->
 <div id="modalLogout" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 hidden">
     <div class="bg-white p-6 rounded-xl shadow-xl w-96">
@@ -182,4 +192,27 @@
 
         }
     }
+</script>
+
+<script>
+(function () {
+    const toggle  = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (!toggle) return;
+
+    function openSidebar() {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+    }
+    function closeSidebar() {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    }
+
+    toggle.addEventListener('click', () => {
+        sidebar.classList.contains('-translate-x-full') ? openSidebar() : closeSidebar();
+    });
+    overlay.addEventListener('click', closeSidebar);
+})();
 </script>
