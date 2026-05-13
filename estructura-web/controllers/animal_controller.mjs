@@ -54,10 +54,10 @@ class AnimalController {
       /*console.log("Tipo:", tipo);*/
 
       if (tipo === "ambos") {
-        response = await this.client.get("/animales?disponible=true");
+        response = await this.client.get("/animales");
       } else {
         const especie = mapaEspecie[tipo];
-        response = await this.client.get(`/animales/especie/${especie}?disponible=true`);
+        response = await this.client.get(`/animales/especie/${especie}`);
       }
 
       console.log("Datos recibidos:", response.data);

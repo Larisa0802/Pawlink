@@ -141,6 +141,11 @@
 
 <body class="min-h-screen flex items-center justify-center overflow-hidden relative">
 
+  <!-- Skip Link para accesibilidad -->
+  <a href="#contenido-principal" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-[#E5531C] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold">
+    Saltar al contenido principal
+  </a>
+
   <!-- Burbujas decorativas -->
   <div class="absolute top-5 left-5 w-48 h-48 bg-[#E5531C]/60 rounded-full blur-2xl bubble"
     style="animation-duration:5s"></div>
@@ -211,24 +216,26 @@
           Crear cuenta
         </button>
 
-       <a href="/"> <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/logo.png" style="width:70px;" class="ml-[100px]"></a>
+        <a href="/"> <img
+            src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/logo.png"
+            style="width:70px;" class="ml-[100px]"></a>
       </div>
 
       <!--Tarjeta de login-->
       <div id="viewLogin" class="space-y-5 slide-in">
-        <form action="/login" method="POST" class="space-y-4">
+        <form action="/login" method="POST" class="space-y-4" id="contenido-principal">
 
           <div>
-            <label class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
+            <label for="emailLogin" class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
               style="color:#9CA3AF">Email</label>
-            <input type="email" name="email" placeholder="hola@pawzone.com" required
+            <input type="email" name="email" id="emailLogin" placeholder="hola@pawzone.com" required autocomplete="email"
               class="w-full rounded-xl px-4 py-3 text-sm transition"
-              style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
+              style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" aria-describedby="emailHelpLogin" />
           </div>
 
           <div>
             <div class="flex justify-between items-center mb-2">
-              <label class="block text-[10px] font-semibold tracking-[0.2em] uppercase"
+              <label for="passwordLogin" class="block text-[10px] font-semibold tracking-[0.2em] uppercase"
                 style="color:#9CA3AF">Contraseña</label>
               <a href="/forgot-password" class="text-[10px] transition" style="color:#9CA3AF"
                 onmouseover="this.style.color='#E5531C'" onmouseout="this.style.color='#9CA3AF'">
@@ -236,21 +243,22 @@
               </a>
             </div>
             <div class="relative">
-              <input type="password" name="password" id="passwordLogin" placeholder="••••••••" required
+              <input type="password" name="password" id="passwordLogin" placeholder="••••••••" required autocomplete="current-password"
                 class="w-full rounded-xl px-4 py-3 text-sm transition pr-12"
                 style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
 
               <!--Boton de ver o no contraseña-->
               <button type="button" onclick="togglePassword('passwordLogin','eyeOpenL','eyeClosedL')"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-[#E5531C] rounded"
+                aria-label="Mostrar contraseña">
                 <svg id="eyeOpenL" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
                 <svg id="eyeClosedL" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  style="display:none">
+                  style="display:none" aria-hidden="true">
                   <path
                     d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
                   <line x1="1" y1="1" x2="23" y2="23" />
@@ -260,14 +268,22 @@
           </div>
 
           <!-- Errores / mensajes (EJS) -->
-          <% if(errorL){ %><h3 style="color:red" id="error"><%= errorL.mensaje %></h3><% } %>
-          <%if(mensaje){%><h3 style="color:green" id="mensaje"><%= mensaje %></h3><% } %>
+          <% if(errorL){ %>
+            <h3 style="color:red" id="errorLogin" role="alert">
+              <%= errorL.mensaje %>
+            </h3>
+            <% } %>
+              <%if(mensaje){%>
+                <h3 style="color:green" id="mensajeLogin" role="status">
+                  <%= mensaje %>
+                </h3>
+                <% } %>
 
-          <button type="submit"
-            class="btn-main w-full text-white text-sm font-semibold py-3.5 rounded-xl tracking-wide mt-1">
-            Entrar →
-          </button>
-                <input type="hidden" name="especie" id="especieInput" value="cat">
+                  <button type="submit"
+                    class="btn-main w-full text-white text-sm font-semibold py-3.5 rounded-xl tracking-wide mt-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#E5531C]">
+                    Entrar →
+                  </button>
+                  <input type="hidden" name="especie" id="especieInput" value="cat">
 
         </form>
 
@@ -290,60 +306,65 @@
 
         <form action="/register" method="POST" class="space-y-4">
 
-          <div>
-            <label class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
-              style="color:#9CA3AF">Nombre</label>
-            <input type="text" name="nombre" placeholder="Luna" required
-              class="w-full rounded-xl px-4 py-3 text-sm transition"
-              style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
-          </div>
-
-          <div>
-            <label class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
-              style="color:#9CA3AF">Email</label>
-            <input type="email" name="email" placeholder="hola@pawzone.com" required
-              class="w-full rounded-xl px-4 py-3 text-sm transition"
-              style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
-          </div>
-
-          <div>
-            <label class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
-              style="color:#9CA3AF">Contraseña</label>
-            <div class="relative">
-              <input type="password" name="password" id="passwordRegister" placeholder="••••••••" required
-                class="w-full rounded-xl px-4 py-3 text-sm transition pr-12"
+            <div>
+              <label for="nombreRegister" class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
+                style="color:#9CA3AF">Nombre</label>
+              <input type="text" name="nombre" id="nombreRegister" placeholder="Luna" required autocomplete="name"
+                class="w-full rounded-xl px-4 py-3 text-sm transition"
                 style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
-              <button type="button" onclick="togglePassword('passwordRegister','eyeOpenR','eyeClosedR')"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
-                <svg id="eyeOpenR" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-                <svg id="eyeClosedR" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  style="display:none">
-                  <path
-                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                  <line x1="1" y1="1" x2="23" y2="23" />
-                </svg>
-              </button>
             </div>
-          </div>
 
-          <!-- Errores (EJS) -->
-           <% if(errorR){ %><h3 style="color:red" id="error"><%= errorR.mensaje %></h3><% } %> 
+            <div>
+              <label for="emailRegister" class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
+                style="color:#9CA3AF">Email</label>
+              <input type="email" name="email" id="emailRegister" placeholder="hola@pawzone.com" required autocomplete="email"
+                class="w-full rounded-xl px-4 py-3 text-sm transition"
+                style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
+            </div>
 
-          <button type="submit"
-            class="btn-main w-full text-white text-sm font-semibold py-3.5 rounded-xl tracking-wide">
-            Crear cuenta →
-          </button>
+            <div>
+              <label for="passwordRegister" class="block text-[10px] font-semibold tracking-[0.2em] uppercase mb-2"
+                style="color:#9CA3AF">Contraseña</label>
+              <div class="relative">
+                <input type="password" name="password" id="passwordRegister" placeholder="••••••••" required autocomplete="new-password"
+                  class="w-full rounded-xl px-4 py-3 text-sm transition pr-12"
+                  style="border:1px solid #DDCCE6;background:#CCE2ED22;color:#000" />
+                <button type="button" onclick="togglePassword('passwordRegister','eyeOpenR','eyeClosedR')"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-[#E5531C] rounded"
+                  aria-label="Mostrar contraseña">
+                  <svg id="eyeOpenR" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  <svg id="eyeClosedR" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="display:none" aria-hidden="true">
+                    <path
+                      d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                </button>
+              </div>
+            </div>
 
-          <p class="text-[11px] text-center leading-relaxed" style="color:#9CA3AF">
-            Al registrarte aceptas nuestros
-            <a href="#" class="underline" style="color:#E5531C">Términos</a> y
-            <a href="#" class="underline" style="color:#E5531C">Privacidad</a>.
-          </p>
+            <!-- Errores (EJS) -->
+            <% if(errorR){ %>
+              <h3 style="color:red" id="errorRegister" role="alert">
+                <%= errorR.mensaje %>
+              </h3>
+              <% } %>
+
+                <button type="submit"
+                  class="btn-main w-full text-white text-sm font-semibold py-3.5 rounded-xl tracking-wide focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#E5531C]">
+                  Crear cuenta →
+                </button>
+
+              <p class="text-[11px] text-center leading-relaxed" style="color:#9CA3AF">
+                Al registrarte aceptas nuestros
+                <a onclick="openModal('modalBothPolitics')" class="underline cursor-pointer" style="color:#E5531C">Términos y
+                  Privacidad</a>.
+              </p>
         </form>
 
         <p class="text-[11px] text-center" style="color:#9CA3AF">
@@ -353,6 +374,264 @@
         </p>
       </div>
 
+    </div>
+  </div>
+
+  <!-- MODAL PARA POLÍTICAS-->
+  <div id="modalBothPolitics"
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 hidden">
+    <div class="bg-white p-6 rounded-xl shadow-xl w-96 relative">
+      <button onclick="closeModal('modalBothPolitics')"
+        class="absolute top-4 right-4 text-gray-400 hover:text-black transition-colors text-2xl">
+        &times;
+      </button>
+      <h2 class="text-xl font-bold mt-2 mb-4">Políticas de Privacidad y Cookies.</h2>
+
+      <nav class="bg-white px-6 py-4 flex gap-12 text-gray-700 text-lg justify-center font-bold relative">
+
+        <a onclick="showPolicy('privacidad')" class="relative group py-2 hover:text-[#E5531C] cursor-pointer transition-colors">
+          <span>Privacidad</span>
+          <!-- Subrayado hover con el azul de las tablas -->
+          <span
+            class="absolute bottom-0 left-0 w-full h-1 bg-[#DDECF6]/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full"></span>
+        </a>
+        <a onclick="showPolicy('cookies')" class="relative group py-2 hover:text-[#E5531C] cursor-pointer transition-colors">
+          <span>Cookies</span>
+          <span
+            class="absolute bottom-0 left-0 w-full h-1 bg-[#DDECF6]/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-full"></span>
+        </a>
+      </nav>
+
+      <!-- Contenedor con scroll vertical para el contenido legal -->
+      <div class="max-h-[450px] overflow-y-auto pr-4 mb-6 custom-scroll">
+        
+        <!-- Sección Privacidad -->
+        <section id="privacidad" class="max-w-3xl mx-auto">
+          <h2 class="text-2xl font-bold text-red-500 mb-3">Última actualización: Mayo 2026</h2>
+          <p class="text-black mt-2 text-lg">
+            En PawLink nos comprometemos a proteger la privacidad de nuestros usuarios. Esta política
+            describe cómo recopilamos, usamos y protegemos tu información personal.Nuestra plataforma
+            funciona como un puente entre personas que buscan adoptar una mascota y protectoras que tienen
+            animales disponibles. Para ofrecer este servicio, necesitamos recopilar cierta información que
+            trataremos con la máxima confidencialidad.
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">1. Información que recopilamos</h2>
+          <p class="text-black mt-2 text-lg">Recopilamos diferentes tipos de información para mejorar nuestro
+            servicio:</p>
+          <p class="text-black mt-2 text-lg">
+            - <strong class="text-red-500">Datos del registro</strong>: Al crear una cuenta en PawLink,
+            recogemos tu nombre, email y una contraseña. Estos datos son necesarios para poder ponerte en
+            contacto contigo cuando encontremos una
+            mascota que coincida con tus preferencias.<br>
+            - <strong class="text-red-500">Preferencias del adopción</strong>: Cuando realizas nuestra
+            encuesta de preferencias, almacenamos información sobre el tipo de mascota que buscas, tu
+            situación de vivienda, experiencia previa con animales y otros factores que nos ayudan a hacer
+            mejores filtrados.<br>
+            - <strong class="text-red-500">Historial de navegación</strong>: Registramos cómo interactúas
+            con nuestra plataforma, las páginas que visitas, el tiempo que pasas en cada sección y los
+            animales que consultas con más detalle. Esta información nos permite mejorar la experiencia de
+            usuario.<br>
+            - <strong class="text-red-500">Cookies técnicas</strong>: Utilizamos cookies esenciales para
+            mantener tu sesión activa, recordar tu idioma preferido y guardar tus ajustes de navegación.<br>
+            - <strong class="text-red-500">Datos de mascotas</strong>: Si agregas información sobre mascotas
+            que ya tienes en tu perfil, almacenamos datos básicos como nombre, especie, raza y fecha de
+            nacimiento.<br>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">2. Cómo usamos tu información.</h2>
+          <p class="text-black mt-2 text-lg">Tu información se utiliza para los siguientes propósitos:</p>
+          <p class="text-black mt-2 text-lg">
+            - <strong class="text-red-500">Búsqueda de mascotas</strong>: Utilizamos tus preferencias y
+            datos para mostrarte animales que se ajusten a tu perfil y estilo de vida. Nuestro sistema de
+            matching te muestra opciones relevantes basándose en la compatibilidad.<br>
+            - <strong class="text-red-500">Comunicación</strong>: Te contactamos para informarte sobre el
+            proceso de adopción, responder a tus consultas y notificarte cuando haya nuevos animales que
+            puedan interesarte.<br>
+            - <strong class="text-red-500">Personalización</strong>: Adaptamos la experiencia de PawLink a
+            tus gustos, mostrando contenido relacionado con tus intereses y guardando tus búsquedas
+            anteriores.<br>
+            - <strong class="text-red-500">Mejora del servicio</strong>: Analizamos los datos de uso para
+            identificar áreas de mejora, corregir errores y desarrollar nuevas funcionalidades que
+            beneficien a toda la comunidad.<br>
+            - <strong class="text-red-500">Soporte técnico</strong>: Cuando Contactas con nuestro equipo de
+            soporte, usamos tus datos para resolver incidencias y prestar ayuda personalizada.<br>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">3. Protección de datos</h2>
+          <p class="text-black mt-2 text-lg">La seguridad de tus datos es nuestra prioridad absoluta:</p>
+          <p class="text-black mt-2 text-lg">
+            - Almacenamos tu información en servidores seguros ubicados en la Unión Europea, protegidos con
+            protocolos de encriptación de última generación.<br>
+            - Limitamos el acceso a tus datos personales únicamente al personal autorizado que necesita
+            tratarlos para prestar nuestros servicios.<br>
+            - No compartimos tu información con terceros para fines comerciales sin tu consentimiento
+            expreso.<br>
+            - Implementamos medidas técnicas y organizativas para prevenir el acceso no autorizado, la
+            pérdida o la manipulación de datos.<br>
+            - Realizamos auditorías periódicas de seguridad para garantizar la integridad de nuestro
+            sistema.<br>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">4. Retención de datos</h2>
+          <p class="text-black mt-2 text-lg">Mantendremos tu información personal mientras tengas una cuenta
+            activa en PawLink. Puedes solicitar la eliminación de tus datos en cualquier momento, y
+            procesaremos tu solicitud en un plazo máximo de 30 días. Los datos anonimizados y agregados
+            podrán conservarse indefinidamente con fines analyticos.</p><br>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">5. Tus derechos</h2>
+          <p class="text-black mt-2 text-lg">Como usuario de PawLink, tienes los siguientes derechos:</p>
+          <p class="text-black mt-2 text-lg">
+            - <strong class="text-red-500">Acceso</strong>: Puedes solicitar una copia de todos los datos
+            personales que tenemos sobre ti.<br>
+            - <strong class="text-red-500">Rectificación</strong>: Si detectas que algún dato es incorrecto
+            o está incompleto, puedes solicitar que lo corrijamos.<br>
+            - <strong class="text-red-500">Supresión</strong>: Tienes derecho a solicitar la eliminación
+            completa de tus datos de nuestro sistema.<br>
+            - <strong class="text-red-500">Oposición</strong>: Puedes oponerte al tratamiento de tus datos
+            para ciertos fines.<br>
+            - <strong class="text-red-500"> Portabilidad</strong>: Te proporcionamos tus datos en un formato
+            estructurado y legible para que puedas transferirlos a otro servicio.<br>
+            - <strong class="text-red-500">Limitación</strong>: Puedes solicitar que limitemos el
+            tratamiento de tus datos en determinadas circunstancias.<br>
+          <p>Para ejercer cualquiera de estos derechos, puedes contactar con nosotros enviando un correo a
+            privacidad@pawlink.es oa través de la sección de configuración de tu perfil. Respondemos
+            consultas en un plazo máximo de 15 días hábiles.</p>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">6. Menor de edad</h2>
+          <p class="text-black mt-2 text-lg">PawLink está diseñado para usuarios mayores de edad. Si
+            detectamos que un menor ha proporcionado datos personales sin autorización, eliminaremos dicha
+            información de nuestros servidores de inmediato.</p><br>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">7. Cambios en la política</h2>
+          <p class="text-black mt-2 text-lg">Esta política de privacidad puede actualizarse periódicamente
+            para reflejar cambios en nuestras prácticas. Notificaremos cualquier cambio significativo a
+            través de un aviso en nuestra web o por correo electrónico. La fecha de última modificación
+            aparece siempre al inicio de este documento.</p><br>
+        </section>
+
+        <!-- Sección Cookies -->
+        <section id="cookies" class="max-w-3xl mx-auto" style="display:none">
+          <h2 class="text-2xl font-bold text-red-500 mb-3">Última actualización: Mayo 2026</h2>
+          <p class="text-black mt-2 text-lg">
+            Esta política explica qué son las cookies y cómo las utilizamos en PawLink para mejorar tu
+            experiencia de navegación y personalizar nuestro servicio.
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">1. ¿Qué son las cookies?</h2>
+          <p class="text-black mt-2 text-lg">Las cookies son pequeños archivos de texto que se almacenan en tu
+            dispositivo (ordenador, tablet o móvil) cuando visitas nuestra web. Estos archivos contienen
+            información que se envía entre tu navegador y nuestros servidores, permitiendo que la página
+            funcione correctamente y que recordemos tus preferencias entre visitas.
+            Las cookies no son programas executable y no pueden dañar tu dispositivo. Cada cookie es única y
+            contiene un identificador anónimo que permite a nuestros servidores reconocer tu navegador.</p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">2. Por qué usamos cookies</h2>
+          <p class="text-black mt-2 text-lg">En PawLink utilizamos cookies para:</p>
+          <p class="text-black mt-2 text-lg">
+            - Mantener tu sesión iniciada mientras navegas por la web<br>
+            - Recordar tus preferencias de idioma y región<br>
+            - Guardar los animales que has marcado como favoritos<br>
+            - Analizar cómo los usuarios interactúan con nuestra plataforma<br>
+            - Mostrarte contenido personalizado basado en tus intereses<br>
+            - Prevenir actividades fraudulentas y garantizar la seguridad<br>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">3. Tipos de cookies que usamos</h2>
+          <p lass="text-black mt-2 text-lg">
+          <table class="border border-solid border-black border-collapse">
+            <thead class="text-center text-blue-300 font-bold">
+              <th class="border border-black px-2 py-1">Categoría</th>
+              <th class="border border-black px-2 py-1">Descripción</th>
+              <th class="border border-black px-2 py-1">Duración</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold border border-black px-2 py-1">Cookies técnicas</td>
+                <td class="border border-black px-2 py-1">Necesarias para el funcionamiento básico de la web. Permiten
+                  navegar, acceder a áreas seguras y usar funciones esenciales como el carrito de favoritos.</td>
+                <td class="font-bold border border-black px-2 py-1">Sesión</td>
+              </tr>
+              <tr>
+                <td class="font-bold border border-black px-2 py-1">Cookies de análisis</td>
+                <td class="border border-black px-2 py-1">Nos ayudan a entender cómo usas la web, qué páginas son más
+                  visitadas y cuánto tiempo pasas en cada sección. Esto nos permite mejorar la experiencia.</td>
+                <td class="font-bold border border-black px-2 py-1">1 año</td>
+              </tr>
+              <tr>
+                <td class="font-bold border border-black px-2 py-1">Cookies de preferencias</td>
+                <td class="border border-black px-2 py-1">Guardan tus ajustes como idioma preferido, tipo de mascota
+                  favorita y filtros de búsqueda.</td>
+                <td class="font-bold border border-black px-2 py-1">6 meses</td>
+              </tr>
+              <tr>
+                <td class="font-bold border border-black px-2 py-1">Cookies de marketing</td>
+                <td class="border border-black px-2 py-1">Utilizadas para mostrarte anuncios relevantes y medir la
+                  efectividad de nuestras campañas publicitarias.</td>
+                <td class="font-bold border border-black px-2 py-1">3 meses</td>
+              </tr>
+              <tr>
+                <td class="font-bold border border-black px-2 py-1">Cookies de seguridad</td>
+                <td class="border border-black px-2 py-1">Detectan intentos de acceso no autorizado y protegen contra
+                  ataques maliciosos.</td>
+                <td class="font-bold border border-black px-2 py-1">Sesión</td>
+              </tr>
+            </tbody>
+          </table>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">4. Cookies de terceros</h2>
+          <p class="text-black mt-2 text-lg">Colaboramos con terceros que también establecen cookies en tu dispositivo:
+          </p>
+          <p class="text-black mt-2 text-lg">
+            - <strong class="text-red-500">Google Analytics</strong>: Nos proporciona estadísticas anónimas sobre el uso
+            de la web. Estas cookies recopilan información como páginas visitadas, tiempo de navegación y ubicación
+            aproximada.<br>
+            - <strong class="text-red-500">Firebase</strong>: Utilizado para la autenticación de usuarios y el
+            almacenamiento de datos en tiempo real.<br>
+            - <strong class="text-red-500">Firebase Authentication</strong>: Gestiona el inicio de sesión y la
+            verificación de usuarios.<br>
+            - <strong class="text-red-500">Supabase</strong>: Nuestra base de datos y almacenamiento de archivos. Utiliza
+            cookies técnicas para funcionar correctamente.<br>
+            - <strong class="text-red-500">YouTube y Vimeo</strong>: Si visualizas vídeos en nuestra plataforma, estos
+            servicios pueden establecer cookies.<br>
+            - <strong class="text-red-500">Redes sociales</strong>: Los botones de compartir en redes sociales pueden
+            establecer cookies para rastrear tu actividad.<br>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">5. Cómo gestionar las cookies</h2>
+          <p class="text-black mt-2 text-lg">Tienes varias opciones para controlar qué cookies se almacenan en tu
+            dispositivo:</p>
+          <p class="text-black mt-2 text-lg">
+            - <strong class="text-red-500">Banner de cookies</strong>: Al acceder a PawLink por primera vez, aparece un
+            banner donde puedes aceptar o rechazar todas las cookies, o configurar tus preferencias específicas.<br>
+            - <strong class="text-red-500">Configuración del navegador</strong>: Todos los navegadores modernos permiten
+            ver, eliminar y bloquear cookies. Encontrarás esta opción en "Configuración" o "Privacidad" de tu
+            navegador.<br>
+            - <strong class="text-red-500">Herramienta de preferencias</strong>: Puedes modificar tus preferencias de
+            cookies en cualquier momento accediendo a la sección "Cookies" de tu perfil de usuario.<br>
+          <p>Ten en cuenta que si bloqueas ciertas cookies, algunas funciones de PawLink podrían no funcionar
+            correctamente.</p>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">6. Cookies específicas que utilizamos</h2>
+          <p class="text-black mt-2 text-lg">A continuación detallamos las cookies principales que usamos:</p>
+          <p class="text-black mt-2 text-lg">
+            - <strong class="text-green-600">pawlink_session</strong>: Cookie de sesión que te mantiene conectado.
+            Duración: hasta que cierres el navegador.<br>
+            - <strong class="text-green-600">pawlink_preferences</strong>: Guarda tus preferencias de idioma y región.
+            Duración: 6 meses.<br>
+            - <strong class="text-green-600">_ga</strong>: Cookie de Google Analytics para sesiones. Duración: 2 años.<br>
+            - <strong class="text-green-600">_gid</strong>: Cookie de Google Analytics para identificación de usuarios.
+            Duración: 24 horas.<br>
+            - <strong class="text-green-600">fbp</strong>: Cookie de Facebook para remarketing. Duración: 3 meses.<br>
+          <p>Ten en cuenta que si bloqueas ciertas cookies, algunas funciones de PawLink podrían no funcionar
+            correctamente.</p>
+          </p>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">7. Actualizaciones de la política</h2>
+          <p class="text-black mt-2 text-lg">Esta política de cookies puede actualizarse para reflejar cambios en los
+            servicios que usamos o en la legislación vigente. Cuando realicemos cambios significativos, te lo
+            notificaremos mediante un aviso destacado en la web. <br>
+            Te recomendamos revisar esta política periódicamente para estar al día de cualquier modificación.</p><br>
+          <h2 class="text-2xl font-bold text-red-500 mt-3 mb-3">8. Contacto</h2>
+          <p class="text-black mt-2 text-lg">Si tienes alguna pregunta sobre nuestra política de cookies o quieres ejercer
+            tus derechos relacionados con ellas, puedes contactar con nosotros en:</p><br>
+          <p class="text-black mt-2 text-lg">
+            - Correo electrónico: cookies@pawlink.es<br>
+            - Sección de ayuda en la web<br>
+            - Nuestro formulario de contacto<br>
+          </p><br>
+          <p class="text-black mt-2 text-lg">Responderemos a tu consulta en un plazo máximo de 10 días hábiles.</p>
+        </section>
+      </div>
     </div>
   </div>
 
@@ -428,12 +707,36 @@
 
     //Mostrar el tab correcto al cargar si hay error en registro
     document.addEventListener('DOMContentLoaded', () => {
-     
+
       const activeTab = '<%= activeTab || "login" %>';
       if (activeTab === 'register') {
         switchTab('register');
       }
     });
+
+    //Logica para modal de políticas
+    function showPolicy(type) {
+      const isPrivacidad = (type === 'privacidad');
+
+      document.getElementById('privacidad').style.display = isPrivacidad ? 'block' : 'none';
+      document.getElementById('cookies').style.display = isPrivacidad ? 'none' : 'block';
+    }
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.remove('hidden');
+        showPolicy('privacidad');
+      }
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
   </script>
 </body>
 
