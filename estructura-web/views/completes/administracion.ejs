@@ -16,7 +16,7 @@
 
                 <main class="md:ml-64 pt-16 md:pt-6 p-6">
 
-                    <nav class="bg-white px-6 py-4 flex gap-12 text-gray-700 text-lg justify-center font-bold relative">
+                    <nav id="administracionNav" class="bg-white px-6 py-4 flex gap-12 text-gray-700 text-lg justify-center font-bold relative">
                         <!-- Indicador deslizante (Activo) con el azul de las tablas -->
                         <div id="nav-indicator"
                             class="absolute bottom-0 h-1 bg-[#DDECF6] transition-all duration-300 rounded-full"></div>
@@ -1369,7 +1369,7 @@
                     //------------FUNCION PARA RENDERIZAR LAS TABLAS DE MANERA INDEPENDIENTE-------------
                     document.addEventListener("DOMContentLoaded", () => {
                         // Inicializar la sección de usuarios y su indicador
-                        const primerTab = document.querySelector('nav a');
+                        const primerTab = document.querySelector('#administracionNav a');
                         mostrarSeccion("usuarios", primerTab);
                     });
 
@@ -1386,7 +1386,7 @@
                         // Marcamos el nav activo y movemos el indicador
                         const indicator = document.getElementById("nav-indicator");
 
-                        document.querySelectorAll("nav a").forEach(a => {
+                        document.querySelectorAll("#administracionNav a").forEach(a => {
                             a.classList.remove("text-[#E5531C]");
                             a.classList.add("text-gray-700");
                         });
