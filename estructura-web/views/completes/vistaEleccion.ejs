@@ -37,22 +37,25 @@
                 </div>
 
                 <!-- Botones de elección -->
-                <div class="flex gap-8 mb-1 mt-4 justify-center mx-auto w-[1084px] h-[492px]">
+                <div class="flex flex-wrap gap-3 md:flex-nowrap md:gap-8 mb-1 mt-4 w-full">
                     <button onclick="handleEleccion('perros')" title="Perros"
-                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-[80px] h-[420px] rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl"><img
-                            class="ml-12 size-50"
+                        class="order-1 w-[calc(50%-6px)] md:flex-1 flex items-center justify-center border-2 bg-white rounded-[40px] md:rounded-[80px] h-40 md:h-[420px] p-4 md:p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                        <img class="w-28 md:w-48 mx-auto"
                             src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/avatar/dog4.png"
-                            alt="imgPerro"></button>
-                    <button onclick="handleEleccion('ambos')" title="Ambos"
-                        class="flex px-6 py-3 w-[1200px] border-2 bg-white rounded-[80px] h-[392px] mt-24 rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl"><img
-                            src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png"
-                            class="size-36 mt-24" alt="imgBoth"><img
-                            src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/avatar/dog4.png"
-                            class="size-36 mt-24 pr-4" alt="imgBoth"></button>
+                            alt="imgPerro">
+                    </button>
                     <button onclick="handleEleccion('gatos')" title="Gatos"
-                        class="px-6 py-3 w-[1200px] border-2 bg-white rounded-[80px] h-[420px] rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl"><img
-                            src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png"
-                            class="ml-12 size-50" alt="imgGato"></button>
+                        class="order-2 w-[calc(50%-6px)] md:flex-1 md:order-3 flex items-center justify-center border-2 bg-white rounded-[40px] md:rounded-[80px] h-40 md:h-[420px] p-4 md:p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                        <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png"
+                            class="w-28 md:w-48 mx-auto" alt="imgGato">
+                    </button>
+                    <button onclick="handleEleccion('ambos')" title="Ambos"
+                        class="order-3 w-full md:flex-1 md:order-2 flex items-center justify-center border-2 bg-white rounded-[40px] md:rounded-[80px] h-40 md:h-[392px] md:mt-24 p-4 md:p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
+                        <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png"
+                            class="w-16 md:w-36" alt="imgBoth">
+                        <img src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/avatar/dog4.png"
+                            class="w-16 md:w-36" alt="imgBoth">
+                    </button>
                 </div>
 
                 <!-- MODAL ENCUESTA -->
