@@ -23,4 +23,14 @@ app.use("/api/protectoras", protectorasRoutes);
 app.use(procesoRoutes);
 app.use(newsletterRoutes);
 
+app.use((req, res) => {
+  res.status(404).json({ error: 'Endpoint no encontrado' });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: 'Error interno del servidor' });
+});
+
+
 app.listen(PORT, () => console.log("API ESCUCHANDO EN", PORT))
