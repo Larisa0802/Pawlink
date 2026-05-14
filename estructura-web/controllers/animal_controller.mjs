@@ -10,7 +10,7 @@ class AnimalController {
   getAllAnimales = async (req, res) => {
     try {
       const response = await this.client.get("/animales");
-      res.render("completes/catalogoAdopciones", { animales: response.data });
+      res.render("completes/catalogoAdopciones", { animales: response.data, active:"vistaEleccion" });
     } catch (error) {
       console.error("Error al obtener animales:", error.message);
       res.render("completes/catalogoAdopciones", { animales: [], error: "No se pudieron cargar los animales" });
@@ -65,16 +65,16 @@ class AnimalController {
       res.render("completes/catalogoAdopciones", {
         animales: response.data,
         userData,
-        active: "adopciones",
+        active: "vistaEleccion",
         tipo,
-        error: null,
+        error: req.query.error || null,
       });
     } catch (error) {
       console.error("Error al obtener catálogo:", error.message);
       res.render("completes/catalogoAdopciones", {
         animales: [],
         userData,
-        active: "adopciones",
+        active: "vistaEleccion",
         tipo,
         error: "No se pudieron cargar los animales",
       });

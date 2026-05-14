@@ -5,28 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Proceso de adopción</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Proceso de adopción - PawLink</title>
     <style>
-        #banner, #bloqueFantasma { display: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+        body { font-family: 'Nunito', sans-serif; }
 
-        /* ── LÍNEA DE PROGRESO ── */
-        .timeline-track {
-            position: relative;
-            height: 6px;
-            background: #D1D5DB;
-            border-radius: 9999px;
-            margin: 0 2rem;
-        }
-        .timeline-fill {
-            position: absolute;
-            left: 0; top: 0; height: 100%;
-            background: linear-gradient(90deg, #E5531C, #f97316);
-            border-radius: 9999px;
-            width: 0%;
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* ── CÍRCULOS DE PASOS ── */
         .step-circle {
             width: 44px; height: 44px;
             border-radius: 50%;
@@ -47,51 +31,46 @@
             border-color: #E5531C;
             background: white;
             color: #E5531C;
-            box-shadow: 0 0 0 5px rgba(229,83,28,0.18);
             animation: pulse-ring 1.8s ease-in-out infinite;
         }
-
         @keyframes pulse-ring {
             0%   { box-shadow: 0 0 0 0px rgba(229,83,28,0.35); }
             70%  { box-shadow: 0 0 0 10px rgba(229,83,28,0); }
             100% { box-shadow: 0 0 0 0px rgba(229,83,28,0); }
         }
 
-        /* ── AVATAR DESLIZANTE ── */
-        .avatar-wrapper {
-            position: absolute;
-            top: -28px;
-            transform: translateX(-50%);
-            transition: left 1.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
-        }
-        .avatar-wrapper img {
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            border: 3px solid #E5531C;
-            background: white;
-            object-fit: cover;
-            box-shadow: 0 4px 12px rgba(229,83,28,0.35);
-        }
-
-        /* ── AVATAR ── */
-        #avatarDot {
+        .avatar-dot {
             opacity: 0;
             transition: left 1.3s cubic-bezier(0.4,0,0.2,1), opacity 0.6s ease;
         }
 
-        /* ── TARJETA ANIMAL (final) ── */
-        .animal-card {
-            animation: fadeInUp 0.7s ease both;
+        .animal-card, .step-info-card {
+            animation: fadeInUp 0.6s ease both;
         }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── INFO DE PASO ACTUAL ── */
-        .step-info-card {
-            animation: fadeInUp 0.5s ease both;
+        .tab-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: white;
+            color: #6B7280;
+        }
+        .tab-btn.active {
+            background: #E5531C;
+            color: white;
+            border-color: #E5531C;
+        }
+        .tab-btn:not(.active):hover {
+            border-color: #E5531C;
+            color: #E5531C;
         }
     </style>
 </head>
@@ -101,19 +80,23 @@
 <% if (userData) { %>
     <%- include("../partials/sidebar") %>
 
-    <main class="ml-64 p-8 flex-grow">
+    <main class="md:ml-64 pt-16 md:pt-8 p-8 flex-grow">
 
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Proceso de adopción</h1>
-        <p class="text-gray-500 mb-10">Seguimiento en tiempo real de tu adopción</p>
+        <nav class="text-sm font-semibold text-gray-400 mb-2">Mis adopciones</nav>
 
-        <% if (!proceso) { %>
-            <!-- ══ SIN PROCESO ACTIVO ══ -->
+        <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-[#E5531C] mb-6">
+            <h1 class="text-3xl font-extrabold text-black">📋 Proceso de adopción</h1>
+            <p class="text-gray-500 mt-1">Seguimiento en tiempo real de tus adopciones</p>
+        </div>
+
+        <% if (!procesos || procesos.length === 0) { %>
+            <!-- SIN PROCESOS -->
             <div class="bg-white rounded-2xl shadow p-12 flex flex-col items-center text-center max-w-lg mx-auto">
                 <div class="text-6xl mb-4">🐾</div>
                 <h2 class="text-xl font-bold text-gray-800 mb-2">Aún no tienes ninguna adopción en curso</h2>
                 <p class="text-gray-500 mb-6">Explora nuestros animales disponibles y da el primer paso.</p>
                 <a href="/vistaEleccion"
-                   class="px-6 py-2 bg-[#E5531C] text-white rounded-full font-semibold hover:opacity-90 transition">
+                   class="px-6 py-3 bg-[#E5531C] text-white rounded-full font-semibold hover:opacity-90 transition">
                     Ver animales
                 </a>
             </div>
@@ -121,188 +104,274 @@
         <% } else { %>
             <%
               const steps = [
-                { key: 'confirmacion', label: 'Confirmación de la adopción',    icon: '✅' },
-                { key: 'revision',     label: 'Revisión final veterinaria',      icon: '🩺' },
-                { key: 'preparacion',  label: 'Preparación documentación',       icon: '📄' },
-                { key: 'preparativo',  label: 'Preparativos del viaje',          icon: '🧳' },
-                { key: 'firma',        label: 'Firma del contrato',              icon: '✍️'  },
+                { key: 'confirmacion', label: 'Confirmación',   icon: '✅' },
+                { key: 'revision',     label: 'Revisión vet.',  icon: '🩺' },
+                { key: 'preparacion',  label: 'Documentación',  icon: '📄' },
+                { key: 'preparativo',  label: 'Preparativos',   icon: '🧳' },
+                { key: 'firma',        label: 'Firma',          icon: '✍️'  },
               ];
-              const pasoActual = proceso.pasoActual; // 0-5
-              const totalSteps = steps.length;
+              const stepDescriptions = [
+                { title: 'Confirmación de la adopción',  desc: 'La protectora ha recibido tu solicitud y está revisando tu perfil. Pronto recibirás noticias.', color: 'bg-orange-50 border-orange-200', icon: 'fa-file-signature' },
+                { title: 'Revisión final veterinaria',   desc: 'El animal está siendo revisado por el veterinario para asegurarse de que está en perfectas condiciones.', color: 'bg-blue-50 border-blue-200', icon: 'fa-stethoscope' },
+                { title: 'Preparación de documentación', desc: 'Se están preparando los documentos necesarios: cartilla sanitaria, microchip y certificados.', color: 'bg-purple-50 border-purple-200', icon: 'fa-folder-open' },
+                { title: 'Preparativos del viaje',       desc: 'Estamos coordinando la logística del traslado para que tu nuevo compañero llegue sano y salvo.', color: 'bg-amber-50 border-amber-200', icon: 'fa-truck' },
+                { title: 'Firma del contrato',           desc: 'Último paso: revisión y firma del contrato de adopción. ¡Casi lo tenéis!', color: 'bg-green-50 border-green-200', icon: 'fa-pen-to-square' },
+              ];
+
+              let avatarSrc = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/default.png";
+              if (userData.animal === "cat")
+                avatarSrc = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png";
+              else if (userData.animal === "dog")
+                avatarSrc = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dog.png";
+              if (userData.avatar_url) avatarSrc = userData.avatar_url;
             %>
 
-            <!-- ══ TIMELINE ══ -->
-            <div class="bg-white rounded-2xl shadow p-8 mb-6">
-                <%
-                  let avatarSrc = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/default.png";
-                  if (userData.animal === "cat")
-                    avatarSrc = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/cat.png";
-                  else if (userData.animal === "dog")
-                    avatarSrc = "https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dog.png";
-                  if (userData.avatar_url) avatarSrc = userData.avatar_url;
-                %>
-
-                <!-- timelineArea: flex con 5 columnas iguales.
-                     Círculos en flujo normal → centros en 10%, 30%, 50%, 70%, 90%.
-                     Track, fill y avatar en absolute con esos mismos porcentajes. -->
-                <div class="relative" id="timelineArea" style="padding: 12px 0 48px 0;">
-
-                    <!-- Track gris: de 10% a 90% (entre centros de primer y último círculo) -->
-                    <div class="absolute rounded-full bg-gray-200"
-                         style="left:10%; right:10%; top:34px; height:6px; z-index:1;"></div>
-
-                    <!-- Fill naranja animado -->
-                    <div id="timelineFill" class="absolute rounded-full"
-                         style="left:10%; top:34px; height:6px; width:0%; z-index:2;
-                                background:linear-gradient(90deg,#E5531C,#f97316);
-                                transition:width 1.2s cubic-bezier(0.4,0,0.2,1);"></div>
-
-                    <!-- Avatar: oculto hasta pasoActual>0, luego viaja entre círculos -->
-                    <div id="avatarDot" class="absolute"
-                         style="top:10px; left:10%; transform:translateX(-50%); z-index:20;">
-                        <img src="<%= avatarSrc %>" alt="Tu avatar"
-                             style="width:44px;height:44px;border-radius:50%;border:3px solid #E5531C;
-                                    object-fit:cover;box-shadow:0 4px 12px rgba(229,83,28,0.35);background:white;">
-                    </div>
-
-                    <!-- 5 columnas flex: círculos + etiquetas en el mismo flujo -->
-                    <div class="flex" style="position:relative; z-index:10;">
-                        <% steps.forEach((step, i) => {
-                             const done    = i < pasoActual;
-                             const current = i === pasoActual && pasoActual < totalSteps;
-                        %>
-                        <div class="flex-1 flex flex-col items-center" style="gap:10px;">
-                            <div class="step-circle <%= done ? 'done' : (current ? 'current' : '') %>">
-                                <% if (done) { %><i class="fa-solid fa-check text-sm"></i>
-                                <% } else { %><span><%= step.icon %></span><% } %>
-                            </div>
-                            <span class="text-xs font-semibold text-center leading-tight px-1
-                                <%= done ? 'text-[#E5531C]' : (current ? 'text-gray-800' : 'text-gray-400') %>"
-                                  style="max-width:90px;">
-                                <%= step.label %>
-                            </span>
-                        </div>
-                        <% }); %>
-                    </div>
-
-                </div>
-
+            <!-- TAB BAR -->
+            <% if (procesos.length > 1) { %>
+            <div class="flex flex-wrap gap-2 mb-5" id="tabBar">
+                <% procesos.forEach((p, i) => { %>
+                <button class="tab-btn <%= i === 0 ? 'active' : '' %>" data-tab="<%= i %>">
+                    <%= p.animal ? p.animal.nombre : ('Adopción #' + (i + 1)) %>
+                </button>
+                <% }) %>
             </div>
-
-            <!-- ══ SECCIÓN INFERIOR ══ -->
-            <% if (pasoActual >= totalSteps) { %>
-                <!-- PROCESO COMPLETADO -->
-                <div class="bg-white rounded-2xl shadow p-8 animal-card">
-                    <div class="flex flex-col md:flex-row items-center gap-8">
-                        <% if (proceso.animal && proceso.animal.foto) { %>
-                        <img src="<%= proceso.animal.foto %>"
-                             class="w-40 h-40 rounded-2xl object-cover border-4 border-[#E5531C] shadow-lg flex-shrink-0"
-                             alt="<%= proceso.animal.nombre %>">
-                        <% } else { %>
-                        <div class="w-40 h-40 rounded-2xl bg-[#EADDF0] flex items-center justify-center text-6xl flex-shrink-0">🐾</div>
-                        <% } %>
-
-                        <div>
-                            <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 text-sm font-semibold px-3 py-1 rounded-full mb-3">
-                                <i class="fa-solid fa-circle-check"></i> Adopción completada
-                            </div>
-                            <h2 class="text-2xl font-bold text-gray-900 mb-1">
-                                ¡Felicidades por adoptar a
-                                <span class="text-[#E5531C]"><%= proceso.animal ? proceso.animal.nombre : 'tu nuevo compañero' %></span>!
-                            </h2>
-                            <% if (proceso.animal) { %>
-                            <p class="text-gray-500 text-sm mb-4">
-                                <%= proceso.animal.especie === 'Canina' ? '🐶 Perro' : '🐱 Gato' %> ·
-                                <%= proceso.animal.raza %> ·
-                                <%= proceso.animal.sexo === 'Macho' ? '♂️' : '♀️' %> <%= proceso.animal.sexo %>
-                                <% if (proceso.animal.fecha_nacimiento) { %>
-                                  · Nacido el <%= proceso.animal.fecha_nacimiento %>
-                                <% } %>
-                            </p>
-                            <% } %>
-                            <% if (proceso.fecha) { %>
-                            <p class="text-gray-400 text-xs">
-                                <i class="fa-regular fa-calendar mr-1"></i>
-                                Proceso iniciado el <%= new Date(proceso.fecha).toLocaleDateString("es-ES") %>
-                            </p>
-                            <% } %>
-                        </div>
-                    </div>
-                </div>
-
-            <% } else { %>
-                <!-- PROCESO EN CURSO: info del paso actual -->
-                <%
-                  const stepDescriptions = [
-                    { title: 'Confirmación de la adopción',  desc: 'La protectora ha recibido tu solicitud y está revisando tu perfil. Pronto recibirás noticias.', color: 'bg-orange-50 border-orange-200', icon: 'fa-file-signature' },
-                    { title: 'Revisión final veterinaria',    desc: 'El animal está siendo revisado por el veterinario para asegurarse de que está en perfectas condiciones para el viaje.', color: 'bg-blue-50 border-blue-200', icon: 'fa-stethoscope' },
-                    { title: 'Preparación de documentación',  desc: 'Se están preparando los documentos necesarios: cartilla sanitaria, microchip y certificados.', color: 'bg-purple-50 border-purple-200', icon: 'fa-folder-open' },
-                    { title: 'Preparativos del viaje',        desc: 'Estamos coordinando la logística del traslado para que tu nuevo compañero llegue sano y salvo.', color: 'bg-amber-50 border-amber-200', icon: 'fa-truck' },
-                    { title: 'Firma del contrato',            desc: 'Último paso: revisión y firma del contrato de adopción. ¡Casi lo tenéis!', color: 'bg-green-50 border-green-200', icon: 'fa-pen-to-square' },
-                  ];
-                  const currentInfo = stepDescriptions[pasoActual] || stepDescriptions[0];
-                %>
-                <div class="step-info-card border-2 rounded-2xl p-6 flex items-start gap-4 <%= currentInfo.color %>">
-                    <div class="text-[#E5531C] text-3xl w-10 flex-shrink-0 mt-1">
-                        <i class="fa-solid <%= currentInfo.icon %>"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Paso actual</p>
-                        <h3 class="text-lg font-bold text-gray-900 mb-1"><%= currentInfo.title %></h3>
-                        <p class="text-gray-600 text-sm"><%= currentInfo.desc %></p>
-                        <% if (proceso.animal) { %>
-                        <div class="mt-3 flex items-center gap-3">
-                            <% if (proceso.animal.foto) { %>
-                            <img src="<%= proceso.animal.foto %>"
-                                 class="w-10 h-10 rounded-full object-cover border-2 border-[#E5531C]"
-                                 alt="<%= proceso.animal.nombre %>">
-                            <% } %>
-                            <span class="text-sm font-medium text-gray-700">
-                                Animal: <span class="text-[#E5531C] font-bold"><%= proceso.animal.nombre %></span>
-                                · <%= proceso.animal.raza %>
-                            </span>
-                        </div>
-                        <% } %>
-                    </div>
-                </div>
             <% } %>
+
+            <!-- PANELS: one per proceso -->
+            <% procesos.forEach((proceso, idx) => {
+                 const pasoActual = proceso.pasoActual || 0;
+                 const totalSteps = steps.length;
+                 const completado  = pasoActual >= totalSteps;
+                 const currentInfo = stepDescriptions[pasoActual] || stepDescriptions[0];
+            %>
+            <div class="tab-panel" id="panel-<%= idx %>" style="display: <%= idx === 0 ? 'block' : 'none' %>">
+
+                <!-- TIMELINE -->
+                <div class="bg-white rounded-2xl shadow p-8 mb-6">
+                    <div class="relative" style="padding: 12px 0 52px 0;">
+
+                        <!-- Track gris -->
+                        <div class="absolute rounded-full bg-gray-200"
+                             style="left:10%; right:10%; top:34px; height:6px; z-index:1;"></div>
+
+                        <!-- Fill naranja animado -->
+                        <div id="fill-<%= idx %>" class="absolute rounded-full"
+                             style="left:10%; top:34px; height:6px; width:0%; z-index:2;
+                                    background:linear-gradient(90deg,#E5531C,#f97316);
+                                    transition:width 1.2s cubic-bezier(0.4,0,0.2,1);"></div>
+
+                        <!-- Avatar deslizante -->
+                        <div id="avatar-<%= idx %>" class="avatar-dot absolute"
+                             style="top:10px; left:10%; transform:translateX(-50%); z-index:20;">
+                            <img src="<%= avatarSrc %>" alt="Tu avatar"
+                                 style="width:44px;height:44px;border-radius:50%;border:3px solid #E5531C;
+                                        object-fit:cover;box-shadow:0 4px 12px rgba(229,83,28,0.35);background:white;">
+                        </div>
+
+                        <!-- 5 columnas flex -->
+                        <div class="flex" style="position:relative; z-index:10;">
+                            <% steps.forEach((step, i) => {
+                                 const done    = i < pasoActual;
+                                 const current = i === pasoActual && !completado;
+                            %>
+                            <div class="flex-1 flex flex-col items-center" style="gap:10px;">
+                                <div class="step-circle <%= done ? 'done' : (current ? 'current' : '') %>">
+                                    <% if (done) { %><i class="fa-solid fa-check text-sm"></i>
+                                    <% } else { %><span><%= step.icon %></span><% } %>
+                                </div>
+                                <span class="text-xs font-semibold text-center leading-tight px-1
+                                    <%= done ? 'text-[#E5531C]' : (current ? 'text-gray-800' : 'text-gray-400') %>"
+                                      style="max-width:90px;">
+                                    <%= step.label %>
+                                </span>
+                            </div>
+                            <% }) %>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- INFO SECTION -->
+                <% if (completado) { %>
+                    <!-- PROCESO COMPLETADO + PROTECTORA -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <!-- Tarjeta animal -->
+                        <div class="bg-white rounded-2xl shadow p-6 animal-card flex flex-col md:flex-row items-center gap-6">
+                            <% if (proceso.animal && proceso.animal.foto) { %>
+                            <img src="<%= proceso.animal.foto %>"
+                                 class="w-32 h-32 rounded-2xl object-cover border-4 border-[#E5531C] shadow flex-shrink-0"
+                                 alt="<%= proceso.animal.nombre %>">
+                            <% } else { %>
+                            <div class="w-32 h-32 rounded-2xl bg-orange-50 flex items-center justify-center text-5xl flex-shrink-0">🐾</div>
+                            <% } %>
+                            <div>
+                                <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-2">
+                                    <i class="fa-solid fa-circle-check"></i> Adopción completada
+                                </div>
+                                <h2 class="text-xl font-extrabold text-gray-900 mb-1">
+                                    ¡Felicidades por adoptar a
+                                    <span class="text-[#E5531C]"><%= proceso.animal ? proceso.animal.nombre : 'tu nuevo compañero' %></span>!
+                                </h2>
+                                <% if (proceso.animal) { %>
+                                <p class="text-gray-500 text-sm">
+                                    <%= proceso.animal.especie === 'Canina' ? '🐶 Perro' : '🐱 Gato' %> ·
+                                    <%= proceso.animal.raza %> ·
+                                    <%= proceso.animal.sexo === 'Macho' ? '♂️' : '♀️' %> <%= proceso.animal.sexo %>
+                                </p>
+                                <% } %>
+                                <% if (proceso.fecha) { %>
+                                <p class="text-gray-400 text-xs mt-2">
+                                    <i class="fa-regular fa-calendar mr-1"></i>
+                                    Proceso iniciado el <%= new Date(proceso.fecha).toLocaleDateString("es-ES") %>
+                                </p>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta protectora -->
+                        <% if (proceso.protectora) { %>
+                        <div class="bg-white rounded-2xl shadow p-6 animal-card">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-[#E5531C]">
+                                    <i class="fa-solid fa-house-chimney-heart text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wide">Protectora</p>
+                                    <h3 class="text-lg font-extrabold text-gray-900"><%= proceso.protectora.nombre %></h3>
+                                </div>
+                            </div>
+                            <% if (proceso.protectora.descripcion) { %>
+                            <p class="text-gray-500 text-sm mb-4"><%= proceso.protectora.descripcion %></p>
+                            <% } %>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <% if (proceso.protectora.direccion) { %>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-location-dot text-[#E5531C] w-4 text-center"></i>
+                                    <span><%= proceso.protectora.direccion %></span>
+                                </div>
+                                <% } %>
+                                <% if (proceso.protectora.telefono) { %>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-phone text-[#E5531C] w-4 text-center"></i>
+                                    <span><%= proceso.protectora.telefono %></span>
+                                </div>
+                                <% } %>
+                                <% if (proceso.protectora.email) { %>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-envelope text-[#E5531C] w-4 text-center"></i>
+                                    <a href="mailto:<%= proceso.protectora.email %>" class="hover:text-[#E5531C] transition"><%= proceso.protectora.email %></a>
+                                </div>
+                                <% } %>
+                                <% if (proceso.protectora.pagina_web) { %>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-globe text-[#E5531C] w-4 text-center"></i>
+                                    <a href="<%= proceso.protectora.pagina_web %>" target="_blank" rel="noopener noreferrer"
+                                       class="hover:text-[#E5531C] transition truncate"><%= proceso.protectora.pagina_web %></a>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <% } else { %>
+                        <!-- Sin datos de protectora -->
+                        <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center justify-center text-gray-400">
+                            <i class="fa-solid fa-house-chimney-heart text-4xl mb-3 text-gray-200"></i>
+                            <p class="text-sm font-semibold">Información de la protectora no disponible</p>
+                        </div>
+                        <% } %>
+                    </div>
+
+                <% } else { %>
+                    <!-- EN CURSO: info del paso actual + mini tarjeta animal -->
+                    <div class="step-info-card border-2 rounded-2xl p-6 flex items-start gap-4 <%= currentInfo.color %>">
+                        <div class="text-[#E5531C] text-3xl w-10 flex-shrink-0 mt-1">
+                            <i class="fa-solid <%= currentInfo.icon %>"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Paso actual</p>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1"><%= currentInfo.title %></h3>
+                            <p class="text-gray-600 text-sm"><%= currentInfo.desc %></p>
+                            <% if (proceso.animal) { %>
+                            <div class="mt-4 flex items-center gap-3">
+                                <% if (proceso.animal.foto) { %>
+                                <img src="<%= proceso.animal.foto %>"
+                                     class="w-10 h-10 rounded-full object-cover border-2 border-[#E5531C]"
+                                     alt="<%= proceso.animal.nombre %>">
+                                <% } %>
+                                <span class="text-sm font-medium text-gray-700">
+                                    <span class="text-[#E5531C] font-bold"><%= proceso.animal.nombre %></span>
+                                    · <%= proceso.animal.raza %>
+                                </span>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+
+            </div><!-- end panel -->
+            <% }) %>
 
         <% } %>
     </main>
-
+<%- include("../partials/footer") %>
 <% } %>
 
-<%- include("../partials/footer") %>
-
-<div id="procesoData" data-paso="<%= proceso ? proceso.pasoActual : 0 %>" hidden></div>
+<!-- Paso actual de cada proceso para el JS -->
+<script type="application/json" id="procesosData">
+<%- JSON.stringify((procesos || []).map(p => ({ pasoActual: p.pasoActual || 0 }))) %>
+</script>
 
 <script>
 (function () {
-    const pasoActual = parseInt(document.getElementById('procesoData').dataset.paso, 10);
-    // Centros de círculos: 10, 30, 50, 70, 90 (5 columnas flex de 20% cada una)
-    // Avatar viaja entre círculos: se sitúa en el PUNTO MEDIO entre el último completado y el siguiente.
-    // pasoActual=0 → oculto  |  pasoActual=5 → al final (90%)
-    const avatarPositions = [null, 20, 40, 60, 80, 90]; // null = no mostrar
+    const data = JSON.parse(document.getElementById('procesosData').textContent);
+    // Midpoints between circles: pasoActual=0→hidden, 1→20%, 2→40%, 3→60%, 4→80%, 5→90%
+    const avatarPositions = [null, 20, 40, 60, 80, 90];
 
-    const fill   = document.getElementById('timelineFill');
-    const avatar = document.getElementById('avatarDot');
-    if (!fill || !avatar) return;
+    function animatePanel(idx) {
+        const fill   = document.getElementById('fill-'   + idx);
+        const avatar = document.getElementById('avatar-' + idx);
+        if (!fill || !avatar) return;
 
-    if (pasoActual === 0) {
-        avatar.style.opacity = '0';
-        avatar.style.pointerEvents = 'none';
-        return;
+        const pasoActual = data[idx] ? data[idx].pasoActual : 0;
+
+        if (pasoActual === 0) {
+            avatar.style.opacity = '0';
+            avatar.style.pointerEvents = 'none';
+            return;
+        }
+
+        const avatarPos = avatarPositions[Math.min(pasoActual, 5)];
+        const fillWidth = avatarPos - 10;
+
+        avatar.style.opacity = '1';
+        requestAnimationFrame(() => setTimeout(() => {
+            fill.style.width  = fillWidth + '%';
+            avatar.style.left = avatarPos + '%';
+        }, 200));
     }
 
-    const avatarPos = avatarPositions[Math.min(pasoActual, 5)];
-    // Fill arranca en left:10% (primer círculo) y llega hasta donde está el avatar
-    const fillWidth = avatarPos - 10;
+    // Animate initial panel
+    animatePanel(0);
 
-    avatar.style.opacity = '1';
-    requestAnimationFrame(() => setTimeout(() => {
-        fill.style.width  = fillWidth + '%';
-        avatar.style.left = avatarPos + '%';
-    }, 200));
+    // Tab switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const idx = parseInt(btn.dataset.tab, 10);
+
+            // Update active tab style
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Show/hide panels
+            document.querySelectorAll('.tab-panel').forEach((panel, i) => {
+                panel.style.display = i === idx ? 'block' : 'none';
+            });
+
+            // Animate newly visible panel
+            animatePanel(idx);
+        });
+    });
 })();
 </script>
 

@@ -57,6 +57,15 @@ app.use("/", userRoutes);
 app.use("/", animalRoutes);
 app.use("/", procesosRoutes);
 
+app.use((req, res) => {
+  res.status(404).render('completes/error/404');
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).render('completes/error/500');
+});
+
 
 app.listen(PORT, ()=>{
     console.log(`El servidor esta escuchando en ${PORT}`)

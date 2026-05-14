@@ -1,8 +1,19 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 
-<aside
-    class="w-64 h-screen fixed left-0 top-0 bg-[#000000] text-white flex flex-col p-4 shadow-xl border-r border-gray-900">
+<!-- Botón hamburger (solo móvil) -->
+<button id="sidebarToggle"
+    class="md:hidden fixed top-4 left-4 z-[60] bg-black text-white p-2 rounded-lg shadow-lg">
+    <i class="fa-solid fa-bars text-xl"></i>
+</button>
+
+<!-- Overlay oscuro (solo móvil, visible cuando sidebar abierto) -->
+<div id="sidebarOverlay"
+    class="md:hidden fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+<aside id="sidebar"
+    class="w-64 h-screen fixed left-0 top-0 bg-[#000000] text-white flex flex-col p-4 shadow-xl border-r border-gray-900
+           -translate-x-full md:translate-x-0 transition-transform duration-300 z-50">
     <a href="/index"><img class="size-20 ml-16"
             src="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/logo.png"
             alt="logo"></a>
@@ -83,7 +94,7 @@
                 img="https://olasrerbelvymhwpknsu.supabase.co/storage/v1/object/public/animalesPAWLINK/imagenesGeneral/dog.png"
                 ; } %>
 
-                <img src="<%= img %>"
+                <img  src="<%= userData.avatar_url || img %>"
                     class="w-12 h-12 rounded-full object-cover border-4 border-[#E5531C] shadow mb-4 mt-4">
         </a>
         <p class="text-white font-bold text-sm ml-3 truncate flex-grow">
@@ -94,7 +105,7 @@
                 <i class="fa-solid fa-gear text-gray-400 hover:text-gray-600 text-lg transition"></i>
             </a>
 
-            <a href="/logout" title="Cerrar sesión" onclick="sessionStorage.removeItem('userPath');">
+            <a title="Cerrar sesión" onclick="openModal('modalLogout'); sessionStorage.removeItem('userPath');">
                 <i class="fa-solid fa-right-from-bracket text-red-500 hover:text-red-400 text-lg transition"></i>
             </a>
         </div>
@@ -102,7 +113,7 @@
     </div>
 </aside>
 <!-- BANNER CON PICTURE -->
-<header id="banner" class="fixed top-0 left-64 right-0 h-40 z-40 overflow-hidden shadow-lg border-b">
+<header id="banner" class="fixed top-0 left-0 md:left-64 right-0 h-40 z-40 overflow-hidden shadow-lg border-b">
 
     <picture class="w-full h-full">
         <source media="(min-width: 1200px)"
@@ -124,3 +135,84 @@
     -->
 </header>
 <div id="bloqueFantasma" class="h-40 w-full pointer-events-none"></div><!--bloque fantasma temporal-->
+<!--MODAL CERRAR SESIÓN-->
+<div id="modalLogout" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 hidden">
+    <div class="bg-white p-6 rounded-xl shadow-xl w-96">
+        <h2 class="text-xl font-bold mb-4">¿Deseas cerrar sesión?</h2>
+
+        <div class="flex gap-3">
+            <form action="/signOutUser" method="post">
+
+                <button type="submit"
+                    class="px-4 py-2 bg-[#E5531C] text-white rounded-lg hover:bg-[#E5531C] transition">Cerrar
+                    sesión</button>
+                <button type="button" onclick="closeModal('modalLogout')"
+                    class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition">
+                    Cancelar
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--JS PARA MODAL CERRAR SESIÓN-->
+<script>
+    function openModal(modal) {
+        document.getElementById(modal).classList.remove("hidden");
+        sessionStorage.setItem("modalAbierto", modal);
+
+        switch (modal) {
+            case "modalDelete": document.getElementById(modal).classList.remove("hidden"); break;
+            case "modalPass": document.getElementById(modal).classList.remove("hidden"); break;
+            case "modalEmail": document.getElementById(modal).classList.remove("hidden"); break;
+            case "modalNombre": document.getElementById(modal).classList.remove("hidden"); break;
+            case "modalLogout": document.getElementById(modal).classList.remove("hidden"); break;
+            case "modalAvatar": document.getElementById("modalAvatar").classList.remove("hidden");
+                loadAvatars(); break;
+        }
+
+    }
+
+    function closeModal(modal) {
+        document.getElementById(modal).classList.add("hidden");
+        // limpiar mensajes previos
+        const msg = document.getElementById("mensaje");
+        const err = document.getElementById("error");
+
+        if (msg) msg.remove();
+        if (err) err.remove();
+        sessionStorage.removeItem("modalAbierto");
+        switch (modal) {
+            case "modalDelete": document.getElementById(modal).classList.add("hidden"); break;
+            case "modalPass": document.getElementById(modal).classList.add("hidden"); break;
+            case "modalEmail": document.getElementById(modal).classList.add("hidden"); break;
+            case "modalNombre": document.getElementById(modal).classList.add("hidden"); break;
+            case "modalLogout": document.getElementById(modal).classList.add("hidden"); break;
+            case "modalAvatar": document.getElementById("modalAvatar").classList.add("hidden"); break;
+
+        }
+    }
+</script>
+
+<script>
+(function () {
+    const toggle  = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (!toggle) return;
+
+    function openSidebar() {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+    }
+    function closeSidebar() {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    }
+
+    toggle.addEventListener('click', () => {
+        sidebar.classList.contains('-translate-x-full') ? openSidebar() : closeSidebar();
+    });
+    overlay.addEventListener('click', closeSidebar);
+})();
+</script>
