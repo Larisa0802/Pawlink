@@ -1,4 +1,4 @@
-import { sendSubscriptionEmail } from "../services/emailService.mjs";
+import { sendSubscriptionEmail, sendContactEmail } from "../services/emailService.mjs";
 
 const suscribir = async (req, res) => {
   const { email } = req.body;
@@ -12,4 +12,17 @@ const suscribir = async (req, res) => {
   }
 };
 
-export default { suscribir };
+const contacto = async (req, res) => {
+  const { nombre, email, motivo, comentario } = req.body;
+  if (!nombre?.trim() || !email?.includes("@") || !motivo)
+    return res.status(400).json({ error: "Faltan campos obligatorios" });
+
+  try {
+    await sendContactEmail({ nombre: nombre.trim(), email, motivo, comentario: comentario?.trim() });
+    res.json({ ok: true });
+  } catch {
+    res.status(500).json({ error: "No se pudo enviar el mensaje" });
+  }
+};
+
+export default { suscribir, contacto };

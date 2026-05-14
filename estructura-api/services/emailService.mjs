@@ -76,6 +76,37 @@ const buildHtml = (title, bodyHtml) => `
 </body>
 </html>`;
 
+export const sendContactEmail = async ({ nombre, email, motivo, comentario }) => {
+  const motivoLabel = {
+    adopciones: 'Adopciones',
+    donaciones: 'Donaciones',
+    problemas:  'Problemas con la plataforma',
+    otros:      'Otros',
+  }[motivo] || motivo;
+
+  const bodyHtml = `
+    <table style="width:100%;border-collapse:collapse;font-size:15px;color:#374151;">
+      <tr><td style="padding:8px 0;font-weight:700;color:#6B7280;width:140px;">Nombre</td><td>${nombre}</td></tr>
+      <tr><td style="padding:8px 0;font-weight:700;color:#6B7280;">Email</td><td><a href="mailto:${email}" style="color:#E5531C;">${email}</a></td></tr>
+      <tr><td style="padding:8px 0;font-weight:700;color:#6B7280;">Motivo</td><td>${motivoLabel}</td></tr>
+      ${comentario ? `<tr><td style="padding:8px 0;font-weight:700;color:#6B7280;vertical-align:top;">Comentario</td><td>${comentario}</td></tr>` : ''}
+    </table>`;
+
+  try {
+    await transporter.sendMail({
+      from:     `"PawLink Contacto" <${process.env.GMAIL_USER}>`,
+      to:       process.env.GMAIL_USER,
+      replyTo:  email,
+      subject:  `📬 Nuevo mensaje de contacto: ${motivoLabel} — ${nombre}`,
+      html:     buildHtml('Nuevo mensaje de contacto', bodyHtml),
+    });
+    console.log(`Email de contacto recibido de ${email}`);
+  } catch (err) {
+    console.error('Error al enviar email de contacto:', err.message);
+    throw err;
+  }
+};
+
 export const sendSubscriptionEmail = async (email) => {
   const html = buildHtml(
     "¡Bienvenido/a a la familia PawLink! 🐾",
