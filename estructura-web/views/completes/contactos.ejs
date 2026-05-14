@@ -54,7 +54,7 @@
 
                         <div class="flex flex-col gap-1">
                             <label for="email" class="font-semibold text-gray-700">Email</label>
-                            <input id="email" type="email"
+                            <input id="email" type="email" value="<%= userData.email || '' %>"
                                 class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
 
@@ -73,10 +73,17 @@
                                 placeholder="Escribe aquí"></textarea>
 
                         </div>
+                        <div class="flex flex-col gap-1">
+                            <label for="mensaje" class="font-semibold text-gray-700">Mensaje</label>
+                            <textarea id="mensaje" rows="5"
+                                class="resize-none border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Cuéntanos tu consulta con detalle..."></textarea>
+                        </div>
+
                         <button type="submit" id="enviar"
                             class="mt-5 w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-[#E5531C] transition-colors duration-300">
                             Enviar formulario </button>
-                        <h3 style="color:green" class="hidden" id="mensaje"> ¡Se ha enviado tu formulario con éxito!
+                        <h3 style="color:green" class="hidden" id="mensaje-ok"> ¡Se ha enviado tu formulario con éxito!
                         </h3>
                         <h3 style="color:red" class="hidden" id="error"> Debes rellenar los campos</h3>
 
@@ -188,22 +195,58 @@
                         }
                     })
 
-                    const form = document.getElementById("formulario")
-                    const n = document.getElementById("nombre")
-                    const e = document.getElementById("email")
-                    const m = document.getElementById("motivoC")
-                    const er = document.getElementById("error")
-                    const msg = document.getElementById("mensaje")
-                    const btn = document.getElementById("enviar")
+                    const form    = document.getElementById("formulario")
+                    const n       = document.getElementById("nombre")
+                    const e       = document.getElementById("email")
+                    const m       = document.getElementById("motivoC")
+                    const mens    = document.getElementById("mensaje")
+                    const er      = document.getElementById("error")
+                    const msgOk   = document.getElementById("mensaje-ok")
+                    const btn     = document.getElementById("enviar")
 
-                    form.addEventListener("submit", () => {
+                    form.addEventListener("submit", async (event) => {
                         event.preventDefault()
-                        if (n.value.trim() === "" || e.value.trim() === "" || m.value.trim() === "") {
+                        if (n.value.trim() === "" || e.value.trim() === "" || m.value.trim() === "" || mens.value.trim() === "") {
+                            er.textContent = "Debes rellenar todos los campos"
                             er.classList.remove("hidden")
-                            msg.classList.add("hidden")
-                        } else {
-                            msg.classList.remove("hidden")
-                            er.classList.add("hidden")
+                            msgOk.classList.add("hidden")
+                            return
+                        }
+
+                        btn.disabled = true
+                        btn.textContent = "Enviando..."
+
+                        try {
+                            const res = await fetch("http://localhost:3001/contacto", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    nombre:     n.value.trim(),
+                                    email:      e.value.trim(),
+                                    motivo:     m.value,
+                                    comentario: mens.value.trim()
+                                })
+                            })
+
+                            if (res.ok) {
+                                msgOk.classList.remove("hidden")
+                                er.classList.add("hidden")
+                                form.querySelector("form").reset()
+                                e.value = "<%= userData.email || '' %>"
+                                btn.textContent = "¡Enviado!"
+                            } else {
+                                er.textContent = "Error al enviar. Inténtalo de nuevo."
+                                er.classList.remove("hidden")
+                                msgOk.classList.add("hidden")
+                                btn.disabled = false
+                                btn.textContent = "Enviar formulario"
+                            }
+                        } catch {
+                            er.textContent = "Error de conexión. Inténtalo más tarde."
+                            er.classList.remove("hidden")
+                            msgOk.classList.add("hidden")
+                            btn.disabled = false
+                            btn.textContent = "Enviar formulario"
                         }
                     })
 
