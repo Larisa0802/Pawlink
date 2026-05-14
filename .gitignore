@@ -5,6 +5,7 @@
 **/*.webp
 **/supabaseClient.mjs
 **/keys.mjs
+**/mailer.mjs
 **/node_modules
 **/serviceAccountKey.json
 **/firebaseAdmin.mjs

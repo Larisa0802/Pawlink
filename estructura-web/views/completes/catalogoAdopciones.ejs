@@ -139,7 +139,8 @@
                     data-pelaje="<%= animal._pelaje || '—' %>" data-vacunas="<%= animal._vacunas || '—' %>"
                     data-esterilizado="<%= animal._esterilizado ? 'Sí' : 'No' %>"
                     data-desparasitado="<%= animal._desparasitado ? 'Sí' : 'No' %>"
-                    data-foto="<%= animal._foto || '' %>">
+                    data-foto="<%= animal._foto || '' %>"
+                    data-disponible="<%= animal._disponible === false ? 'false' : 'true' %>">
                     Más información
                   </button>
               </div>
@@ -260,6 +261,14 @@
                 } else {
                   fotoWrap.classList.add('hidden');
                 }
+
+                // Bloquear botón Adoptar si no está disponible
+                const btnAdoptar = document.getElementById('btnAdoptar');
+                const disponible = d.disponible !== 'false';
+                btnAdoptar.disabled = !disponible;
+                btnAdoptar.textContent = disponible ? 'Adoptar' : 'No disponible';
+                btnAdoptar.classList.toggle('opacity-50', !disponible);
+                btnAdoptar.classList.toggle('cursor-not-allowed', !disponible);
 
             modal.style.display = 'flex';
           });
