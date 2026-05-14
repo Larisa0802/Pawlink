@@ -3,7 +3,7 @@ import Animal from "../models/animal_model.mjs";
 
 //GET TODOS
 const getAllAnimales = async () => {
-const result = await pool.query(`
+  const result = await pool.query(`
   SELECT * FROM animales 
   WHERE especie IN ('Canina', 'Felina')
   ORDER BY 
@@ -92,7 +92,7 @@ const getByRaza = async (raza) => {
 //FILTRO POR PREFERENCIAS
 const getMatches = async (preferencias, tipoElegido) => {
   let queryArgs = [];
-  let queryConditions = [];
+  let queryConditions = ["disponible = true"];
   let query = `SELECT animales.*, protectoras.nombre AS protectora_nombre 
     FROM animales 
     LEFT JOIN protectoras ON animales.protectora_id = protectoras.id 
