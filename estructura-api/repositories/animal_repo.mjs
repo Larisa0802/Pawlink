@@ -12,7 +12,6 @@ const getAllAnimales = async () => {
       WHEN 'Felina' THEN 2 
     END,
     id ASC 
-  LIMIT 200;
 `);
   return result.rows.map(a => new Animal(
     a.id,

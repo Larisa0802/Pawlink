@@ -23,9 +23,9 @@
 
             <main id="contenido-principal" class="md:ml-64 pt-16 md:pt-8 p-8 flex-grow bg-[#DDECF6] min-h-screen">
 
-                <nav class="text-sm font-semibold text-gray-400 mb-2" aria-label="Navegación actual">
+                <!-- <nav class="text-sm font-semibold text-gray-400 mb-2" aria-label="Navegación actual">
                     <span id="breadcrumb" aria-live="polite" aria-atomic="true">Cargando ruta...</span>
-                </nav>
+                </nav> -->
 
                 <!-- Tarjeta de Bienvenida -->
                 <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-[#E5531C] mb-8">
@@ -247,7 +247,7 @@
 
                             updateCarousel();
 
-                            let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];
+                            /* let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];
                             const rutaActual = window.location.pathname + window.location.search;
                             if (pathHistory.length === 0 || pathHistory[pathHistory.length - 1] !== rutaActual) {
                                 pathHistory.push(rutaActual);
@@ -259,7 +259,7 @@
                                 if (ruta.includes('adopciones')) return 'Catálogo';
                                 return ruta.replace('/', '');
                             }).join('  /  ');
-                            document.getElementById('breadcrumb').innerText = displayPath;
+                            document.getElementById('breadcrumb').innerText = displayPath; */
                         </script>
 
 </body>
