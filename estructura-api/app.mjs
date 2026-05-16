@@ -33,4 +33,4 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen(PORT, () => console.log("API ESCUCHANDO EN", PORT))
+app.listen(process.env.PORT)
