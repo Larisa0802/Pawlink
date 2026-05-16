@@ -15,9 +15,9 @@
 
 
             <main class="md:ml-64 pt-16 md:pt-6 p-6">
-                <nav class="text-sm font-semibold text-gray-400 mb-2">
+                <!-- <nav class="text-sm font-semibold text-gray-400 mb-2">
                     <span id="breadcrumb">Cargando ruta...</span>
-                </nav>
+                </nav> -->
 
                 <div
                     class="bg-[#E5531C] text-white rounded-2xl p-6 shadow-md transform transition hover:-translate-y-2 hover:shadow-xl">
@@ -279,7 +279,7 @@
                 <%}%>
 
     <script>
-        let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];
+        /* let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];
         const rutaActual = window.location.pathname + window.location.search;
         if (pathHistory.length === 0 || pathHistory[pathHistory.length - 1] !== rutaActual) {
             pathHistory.push(rutaActual);
@@ -291,7 +291,7 @@
             if (ruta.includes('adopciones')) return 'Catálogo';
             return ruta.replace('/', '');
         }).join('  /  ');
-        document.getElementById('breadcrumb').innerText = displayPath;
+        document.getElementById('breadcrumb').innerText = displayPath; */
     </script>
 </body>
 

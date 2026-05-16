@@ -49,9 +49,9 @@
   <%- include("../partials/sidebar") %>
 
     <main class="md:ml-64 pt-16 md:pt-8 p-8 flex-grow bg-[#DDECF6] min-h-screen">
-      <nav class="text-sm font-semibold text-gray-400 mb-2">
+      <!-- <nav class="text-sm font-semibold text-gray-400 mb-2">
         <span id="breadcrumb">Cargando ruta...</span>
-      </nav>
+      </nav> -->
 
       <div class="bg-white rounded-2xl shadow-sm p-8 border-l-8 border-[#E5531C] mb-8">
         <h1 class="text-3xl font-extrabold text-black">🐾 Animales en adopción</h1>
@@ -290,7 +290,7 @@
               if (e.target === modal) modal.style.display = 'none';
             });
 
-            //conseguir el historial guardado o crear uno nuevo
+            /* //conseguir el historial guardado o crear uno nuevo
             let pathHistory = JSON.parse(sessionStorage.getItem('userPath')) || [];
 
             const rutaActual = window.location.pathname + window.location.search;
@@ -309,7 +309,7 @@
             }).join('  /  ');
 
             //meterlo en la vista
-            document.getElementById('breadcrumb').innerText = displayPath;
+            document.getElementById('breadcrumb').innerText = displayPath; */
 
             //filtro de búsqueda y radio
             function aplicarFiltros() {
